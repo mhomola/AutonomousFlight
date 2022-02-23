@@ -18,12 +18,18 @@ Maybe more complex but definitely useful for when the OD works.
 - [x] Determine Optical Flow on real drone-camera images (front camera used)
 - [ ] Analyze Pyramid Lucas-Kanade algorithm
 - [ ] Understand robust estimation (RANSAC part)
-- [ ] Get useful details out of OF: FoE, Div, time-to-contact (should be more!)
+- [ ] Get useful details out of OF: FoE, Div, time-to-contact (TTC)
+  
+  For more robust TTC: https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.49.7076 (if it worked in 1995, maybe it is simple enough for our MAV)
+  
+  
+   
 
 
 
 ### **Interface between OF + OD = Vision** :
 - [ ] Distance to obstacle from time-to-contact and IMU velocity
+- [ ] Check interestingly simple half-plane control law from: https://journals.sagepub.com/doi/full/10.5772/5715 (just Equation 4 is enough!!)
 - [ ] Nice integration code in C++
 
 

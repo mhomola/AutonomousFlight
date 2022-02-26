@@ -33,14 +33,18 @@ def main():
 
     lk_params = dict(winSize=(21, 21), maxLevel=2,\
          criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))
-    
-    time_analysis_winSize(img_list, lk_params, num_imgs = 5)
+    id = 270 # picture id in the ordered list 
+
+    utils.show_flow(img_list[id], img_list[id+1],\
+                image_folder,'', image_type = '', dense = True,\
+                    graphics = True, params = lk_params)
+    # time_analysis_winSize(img_list, lk_params, num_imgs = 5)
     # time_analysis_maxLevel(img_list, lk_params, num_imgs=5)
 
 
 
 def time_analysis_winSize(img_list, lk_params,num_imgs : int = 10):
-    """ Time versus varying Window Size 
+    """ Time versus varying Window Size.
     """
     time_lst = []
     win_size_lst = range(5,100,10)

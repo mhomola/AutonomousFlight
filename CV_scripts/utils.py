@@ -6,7 +6,7 @@ import re
 import time
 import sys
 import pandas as pd
-
+import time
 
 #                       Data  Loading
 def load_data(path_image_folder):
@@ -24,20 +24,21 @@ def get_time_stamps(data_folder, filename):
 
     return nav_data
 
-def get_single_image(image_nr, image_dir_name, image_prefix, image_type):
+def get_single_image(image_nr, image_dir_name, image_prefix, image_type, graphics = True):
 
     image_name = image_dir_name + image_prefix + str(image_nr) + '.' + image_type
     _bgr = cv2.imread(image_name)
     bgr = cv2.rotate(_bgr, cv2.cv2.ROTATE_90_COUNTERCLOCKWISE)
     
-    plt.figure()
-    plt.imshow(bgr)
-    plt.title('First image, nr ' + str(image_nr))
+    if graphics:
+        plt.figure()
+        plt.imshow(bgr)
+        plt.title('Image, nr ' + str(image_nr))
 
     return bgr
 
 
-def show_flow(image_nr_1, image_nr_2, image_dir_name = '', image_prefix='', image_type = 'jpg'):
+def show_flow(image_nr_1, image_nr_2, image_dir_name = '', image_prefix='', image_type = 'jpg', dense : float = False, graphics = False, params = []):
     """     Loads the iamges from files AND calls the optical flow functions.
 
     Args:
@@ -50,23 +51,82 @@ def show_flow(image_nr_1, image_nr_2, image_dir_name = '', image_prefix='', imag
     Returns:
         tuple: Old image, 
     """   
-    prev_bgr = get_single_image(image_nr_1, image_dir_name, image_prefix, image_type)
+    prev_bgr = get_single_image(image_nr_1, image_dir_name, image_prefix, image_type, graphics = False)
     
-    bgr = get_single_image(image_nr_2, image_dir_name, image_prefix, image_type)
+    bgr = get_single_image(image_nr_2, image_dir_name, image_prefix, image_type, graphics = False)
     
     # print('name1: {}\nname2: {}'.format(image_name_1, image_name_2));
-    points_old, points_new, flow_vectors = determine_optical_flow(prev_bgr, bgr, graphics=True)
 
+    if not dense:
+        points_old, points_new, flow_vectors = determine_optical_flow(prev_bgr, bgr, graphics=graphics, params = params)
+    else:
+        points_old, points_new, flow_vectors = determine_dense_OF(prev_bgr, bgr, graphics = graphics, params = params)
     
     return points_old, points_new, flow_vectors
 
 
 
-
 #                          Optical Flow 
 
-def determine_optical_flow(prev_bgr, bgr, graphics= True):
+def determine_dense_OF(prev_bgr, bgr, graphics = True, params = []):
+    height, width = prev_bgr.shape[:2]
+
+    # convert the images to grayscale:
+    prev_gray = cv2.cvtColor(prev_bgr, cv2.COLOR_BGR2GRAY)
+    cur_gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
     
+    # Create the old matrix to feed to LK, instead of goodFeaturesToTrack
+    points_old = np.nonzero(prev_gray)[::-1]
+    points_old = tuple(zip(*points_old))
+    points_old = np.vstack(points_old).reshape(-1, 1, 2).astype("float32")
+
+
+    # Parameters for lucas kanade optical flow
+    if params is []:
+        params = dict(winSize=(100, 100), maxLevel=2, criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))
+
+    # Calculate Optical Flow
+    points_new, status, err = cv2.calcOpticalFlowPyrLK(prev_gray, cur_gray, points_old, None, **params)
+    points_old = points_old.reshape(height, width, 2)
+    points_new = points_new.reshape(height, width, 2)
+    status = status.reshape(height, width)
+
+    # Flow vector calculated by subtracting new pixels by old pixels
+    flow_vectors = points_new - points_old
+
+
+    # calc total flow:
+    total_flow_l = np.sum(np.linalg.norm(flow_vectors[:,:width//2]))
+    total_flow_r = np.sum(np.linalg.norm(flow_vectors[:,width//2:]))
+    heading_command = (total_flow_l - total_flow_r)/(total_flow_l + total_flow_r)   
+    left = 'left'
+    right = 'right'
+    print(f'Turn towards: { left if heading_command<0 else right } by {abs(heading_command)} ')
+    # + = go Right
+
+    # filter the points by their status:
+    points_old = points_old[status == 1]
+    points_new = points_new[status == 1]
+    
+    if graphics :
+        step =8
+        y, x = np.mgrid[step / 2:height:step, step / 2:width:step].reshape(2, -1).astype(int)
+        fx, fy = 0.1*flow_vectors[y, x].T
+        lines = np.vstack([x, y, x + fx, y + fy]).T.reshape(-1, 2, 2)
+        lines = np.int32(lines + 0.5)
+        vis = cv2.cvtColor(prev_gray, cv2.COLOR_GRAY2BGR)
+        cv2.polylines(vis, lines, 0, (0, 255, 0))
+        for (x1, y1), (_, _) in lines:
+            cv2.circle(vis, (x1, y1), 1, (0, 255, 0), -1)
+
+        plt.figure()
+        plt.imshow(vis)
+        plt.title('Optical flow')
+
+    return points_old, points_new, flow_vectors
+    
+
+def determine_optical_flow(prev_bgr, bgr, graphics= True):
     # *******************************************************************
     # TODO: In the !second! lecture on optical flow, study this function
     # and change the parameters below to investigate the trade-off between
@@ -74,8 +134,8 @@ def determine_optical_flow(prev_bgr, bgr, graphics= True):
     # *******************************************************************
     
     # convert the images to grayscale:
-    prev_gray = cv2.cvtColor(prev_bgr, cv2.COLOR_BGR2GRAY);
-    gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY);
+    prev_gray = cv2.cvtColor(prev_bgr, cv2.COLOR_BGR2GRAY)
+    cur_gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
     
     # params for ShiTomasi corner detection
     feature_params = dict( maxCorners = 100,
@@ -90,11 +150,12 @@ def determine_optical_flow(prev_bgr, bgr, graphics= True):
     
     # detect features:
     points_old = cv2.goodFeaturesToTrack(prev_gray, mask = None, **feature_params);
+    # points_old = prev_gray
     # NOTE: goodFeaturesToTrack() should be repalced with OUR obstalce_detector()
 
     # calculate optical flow
-    points_new, status, error_match = cv2.calcOpticalFlowPyrLK(prev_gray, gray, points_old, None, **lk_params)
-    # NOTE: calcOpticalFlowPyrLK provides the Pyramid Lucas-Kanade algorithm 
+    points_new, status, error_match = cv2.calcOpticalFlowPyrLK(prev_gray, cur_gray, points_old, None, **lk_params)
+    # NOTE: calcOpticalFlowPyrLK provides the (efficient) Pyramid Lucas-Kanade algorithm 
     # NOTE NOTE maybe this was already obvious from its long name but not for me
     
     # filter the points by their status:
@@ -120,7 +181,7 @@ def determine_optical_flow(prev_bgr, bgr, graphics= True):
         #cv2.waitKey(100);
         #cv2.destroyAllWindows()
     
-    return points_old, points_new, flow_vectors;
+    return points_old, points_new, flow_vectors
 
 def estimate_linear_flow_field(points_old, flow_vectors, RANSAC=False, n_iterations=100, error_threshold=10.0):
     
@@ -198,59 +259,38 @@ def estimate_linear_flow_field(points_old, flow_vectors, RANSAC=False, n_iterati
         pv = np.asarray([0.0]*3);
         err = error_threshold;
         
-    return pu, pv, err;
+    return pu, pv, err
 
-# these functions are to get a nice directory listing
-def get_number_file_name(name):
-    inds1 = [m.start() for m in re.finditer('_', name)]
-    if(inds1 == []):
-        return 0;
-    ind1 = inds1[-1];
-    inds2 = [m.start() for m in re.finditer('\.', name)]
-    if(inds2 == []):
-        return 0;
-    ind2 = inds2[-1];
-    number = name[ind1+1:ind2];
-    return int(number);
-
-def compare_file_names(name1, name2):
-    number1 = get_number_file_name(name1);
-    number2 = get_number_file_name(name2);
-    return number1 - number2;
-    
-
-    
 
 def extract_flow_information(image_dir_name = '', image_type = 'jpg', verbose=True, graphics = True, flow_graphics = False):
-    
     # get the image names from the directory:
-    image_names = [];
+    image_names = []
     for file in os.listdir(image_dir_name):
         if file.endswith(image_type):
-            image_names.append(image_dir_name + file);
+            image_names.append(image_dir_name + '\\'+ file)
 
-    image_names.sort(key=get_number_file_name);
     
     # iterate over the images:
-    n_images = len(image_names);
-    FoE_over_time = np.zeros([n_images, 2]);
-    horizontal_motion_over_time = np.zeros([n_images, 1]);
-    vertical_motion_over_time = np.zeros([n_images, 1]);
-    divergence_over_time = np.zeros([n_images, 1]);
-    errors_over_time = np.zeros([n_images, 1]);
-    elapsed_times = np.zeros([n_images,1]);
-    FoE = np.asarray([0.0]*2);
+    n_images = len(image_names)
+    FoE_over_time = np.zeros([n_images, 2])
+    horizontal_motion_over_time = np.zeros([n_images, 1])
+    vertical_motion_over_time = np.zeros([n_images, 1])
+    divergence_over_time = np.zeros([n_images, 1])
+    errors_over_time = np.zeros([n_images, 1])
+    elapsed_times = np.zeros([n_images,1])
+    FoE = np.asarray([0.0]*2)
+
     for im in np.arange(0, n_images, 1):
-        
         bgr = cv2.imread(image_names[im]);
         
         if(im > 0):
-            
             t_before = time.time()
             # determine optical flow:
-            points_old, points_new, flow_vectors = determine_optical_flow(prev_bgr, bgr, graphics=flow_graphics);
+            points_old, points_new, flow_vectors = determine_optical_flow(prev_bgr, bgr, graphics=flow_graphics)
+
             # do stuff
-            elapsed = time.time() - t_before;
+            elapsed = time.time() - t_before
+
             if(verbose):
                 print('Elapsed time = {}'.format(elapsed));
             elapsed_times[im] = elapsed;
@@ -290,7 +330,6 @@ def extract_flow_information(image_dir_name = '', image_type = 'jpg', verbose=Tr
     print('*** average elapsed time = {} ***'.format(np.mean(elapsed_times[1:,0])));
     
     if graphics:
-        
         # ********************************************************************
         # TODO:
         # What is the unit of the divergence?
@@ -320,3 +359,53 @@ def extract_flow_information(image_dir_name = '', image_type = 'jpg', verbose=Tr
         plt.plot(range(n_images), vertical_motion_over_time, label='Vertical motion');
         plt.xlabel('Image')
         plt.ylabel('Motion U/Z')        
+
+
+def get_flow_fit(n_points:int, points_old_slice : np.ndarray, flow_vectors_slice : np.ndarray) -> tuple:
+    """ Uses Linear regression to estiamte the Optical Flow along a desired image axis.
+
+    Args:
+        n_points (int): Number of tracked points.
+        points_old_slice (np.ndarray): Image coordinates of the tracked points along the desired axis (n_points x 1)
+        flow_vectors (np.ndarray): Estimate flow vectors at each tracked point (n_points x 1)
+
+    Returns:
+        tuple: Linear regression coeffficients, Regression error
+    """
+    # make a matrix A with elements [x,1] 
+    A_slice = np.concatenate((points_old_slice.reshape(n_points,1)\
+        ,np.ones([points_old_slice.shape[0], 1])), axis=1)
+    
+    # Moore-Penrose pseudo-inverse:
+    # https://en.wikipedia.org/wiki/Moore%E2%80%93Penrose_inverse
+    pseudo_inverse_A_slice = np.linalg.pinv(A_slice)
+    # target = horizontal flow:
+    u_vector = flow_vectors_slice
+
+    # solve the linear system:
+    pu = np.dot(pseudo_inverse_A_slice, u_vector)
+    # calculate how good the fit is:
+    errs_u = np.abs(np.dot(A_slice, pu) - u_vector)
+    
+    return pu,errs_u
+    
+#                               Other Stuff
+
+# these functions are to get a nice directory listing
+def get_number_file_name(name):
+    inds1 = [m.start() for m in re.finditer('_', name)]
+    if(inds1 == []):
+        return 0;
+    ind1 = inds1[-1];
+    inds2 = [m.start() for m in re.finditer('\.', name)]
+    if(inds2 == []):
+        return 0;
+    ind2 = inds2[-1];
+    number = name[ind1+1:ind2];
+    return int(number);
+
+def compare_file_names(name1, name2):
+    number1 = get_number_file_name(name1);
+    number2 = get_number_file_name(name2);
+    return number1 - number2;
+    

@@ -12,35 +12,54 @@ nav_file = r'\20190121-135121.csv'
 
 
 def main():
-    
+    id = 50 # picture id in the ordered list 
+
     # Change the numbers utils the images for answering the questions:
+    img_list     = utils.load_data(image_folder)
     
-    img_list = utils.load_data(image_folder)
-    nav_data = utils.get_time_stamps(data_folder, nav_file)
+    # Load & Interpoalte drone-state data:
+    nav_data_raw = utils.get_nav_data(data_folder, nav_file)
+    time_lst = utils.get_time_stamps(img_list)
+    nav_data = utils.interpolate_state(time_lst, nav_data_raw)
+    print('Drone state: \n',nav_data.iloc[[id]])
 
-    id1 = 100
-    id2 = 105
-    delta_t = nav_data['time'][id2] - nav_data['time'][id1]
-    freq = (nav_data['time'][1:] - nav_data['time'][:-1])
+    # Load images:
+    prev_bgr = utils.get_single_image(img_list[id], image_dir_name = image_folder, graphics = False)
+    bgr = utils.get_single_image(img_list[id+1], image_dir_name = image_folder, graphics = False)
     
 
-    print(f'Time between shots: {delta_t:0.2f} s')
+    # Split image horizontally in 2 hemishperes:
+    height, width = prev_bgr.shape[:2]
+    prev_bgr_l = prev_bgr[:,:width//2]
+    prev_bgr_r= prev_bgr[:,width//2:]
+    bgr_l = bgr[:,:width//2]
+    bgr_r = bgr[:,width//2:]
 
-    # points_old, flow_vectors, pu, pv = simple_OF_fit(img_list, id1, id2)
-    # for id in range(len(img_list)-1):
-    #     utils.show_flow(img_list[id], img_list[id+1],\
-    #     image_folder,'', image_type = '', dense = True, graphics = False)
-
+    # Calaucalte OF for both hemishperes:
     lk_params = dict(winSize=(21, 21), maxLevel=2,\
          criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))
-    id = 270 # picture id in the ordered list 
+    # # keep graphics= False ssince half-iamges are not very interesting but still slow
+    t0 = time.time()   #start timer
+    _,_,flow_vectors_l = utils.show_flow(prev_bgr_l, bgr_l,\
+         dense = True, graphics = False, params = lk_params)
+    _,_,flow_vectors_r = utils.show_flow(prev_bgr_r, bgr_r,\
+         dense = True, graphics = False, params = lk_params)
 
-    utils.show_flow(img_list[id], img_list[id+1],\
-                image_folder,'', image_type = '', dense = True,\
-                    graphics = True, params = lk_params)
+    # Get heading change command:
+    utils.calc_heading_com(flow_vectors_l, flow_vectors_r)
+
+    # Check for time improvements:
+    print(f'Time ellapsed: {time.time() - t0} s')
+
+    # Show full OF on image:
+    _,_,flow_vectors_l = utils.show_flow(prev_bgr, bgr,\
+         dense = True, graphics = True, params = lk_params)
+
+
+    # Time Analysis part:
     # time_analysis_winSize(img_list, lk_params, num_imgs = 5)
-    # time_analysis_maxLevel(img_list, lk_params, num_imgs=5)
-
+    # time_analysis_maxLevel(img_list, lk_params, num_imgs = 5)
+    # points_old, flow_vectors, pu, pv = simple_OF_fit(prev_bgr, bgr)
 
 
 def time_analysis_winSize(img_list, lk_params,num_imgs : int = 10):
@@ -91,11 +110,10 @@ def time_analysis_maxLevel(img_list, lk_params, num_imgs = 10):
 
 
 
-def simple_OF_fit(img_list, id1, id2, plotting = True):
+def simple_OF_fit(prev_bgr, bgr, plotting = True):
 
     # LS fit of OF for 2 iamges
-    points_old, points_new, flow_vectors = utils.show_flow(img_list[id1], img_list[id2],\
-    image_folder,'', image_type = '')
+    points_old, points_new, flow_vectors = utils.show_flow(prev_bgr,bgr)
 
     n_points   = points_old.shape[0]
     pu, errs_u = utils.get_flow_fit(n_points, points_old[:,0], flow_vectors[:,0])
@@ -135,9 +153,6 @@ def simple_OF_fit(img_list, id1, id2, plotting = True):
 
 
 
-
-
-    
 
 if __name__ == '__main__':
     main()

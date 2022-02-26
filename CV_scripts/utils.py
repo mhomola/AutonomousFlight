@@ -17,17 +17,40 @@ def load_data(path_image_folder):
 
     return dir_list
 
-def get_time_stamps(data_folder, filename):
+def get_nav_data(data_folder, filename):
 
-    file = data_folder+  filename 
+    file = data_folder + filename 
     nav_data = pd.read_csv(file)
 
     return nav_data
 
-def get_single_image(image_nr, image_dir_name, image_prefix, image_type, graphics = True):
+def get_time_stamps(img_list):
+    time_lst = []
+    for img in img_list:
+        time_lst.append(float(img.strip('\\.jpg'))/10**6)
+    time_lst = np.sort(time_lst)
 
-    image_name = image_dir_name + image_prefix + str(image_nr) + '.' + image_type
+    return time_lst
+
+def interpolate_state(new_time, data : pd.DataFrame):
+
+    new_data = pd.DataFrame()
+    new_data['time'] = new_time[:]
+    old_time = data['time']
+
+    for col in data.columns[1:]:
+        new_data[col] = np.interp(new_time, old_time, data[col])
+
+    return new_data
+
+
+def get_single_image(image_nr, image_dir_name, image_prefix='', image_type='.jpg', graphics = True):
+
+    image_name = image_dir_name + image_prefix + str(image_nr) 
     _bgr = cv2.imread(image_name)
+    
+    if type(_bgr) != np.ndarray:
+        raise TypeError('Wrong parsing of the iamge file! Check its name: ', image_name)   
     bgr = cv2.rotate(_bgr, cv2.cv2.ROTATE_90_COUNTERCLOCKWISE)
     
     if graphics:
@@ -38,8 +61,8 @@ def get_single_image(image_nr, image_dir_name, image_prefix, image_type, graphic
     return bgr
 
 
-def show_flow(image_nr_1, image_nr_2, image_dir_name = '', image_prefix='', image_type = 'jpg', dense : float = False, graphics = False, params = []):
-    """     Loads the iamges from files AND calls the optical flow functions.
+def show_flow(prev_bgr : np.ndarray, bgr : np.ndarray, dense : float = False, graphics = False, params = []):
+    """     Calls the optical flow functions.
 
     Args:
         image_nr_1 (int): File index for iamge 1
@@ -51,24 +74,20 @@ def show_flow(image_nr_1, image_nr_2, image_dir_name = '', image_prefix='', imag
     Returns:
         tuple: Old image, 
     """   
-    prev_bgr = get_single_image(image_nr_1, image_dir_name, image_prefix, image_type, graphics = False)
-    
-    bgr = get_single_image(image_nr_2, image_dir_name, image_prefix, image_type, graphics = False)
-    
-    # print('name1: {}\nname2: {}'.format(image_name_1, image_name_2));
 
     if not dense:
         points_old, points_new, flow_vectors = determine_optical_flow(prev_bgr, bgr, graphics=graphics, params = params)
     else:
         points_old, points_new, flow_vectors = determine_dense_OF(prev_bgr, bgr, graphics = graphics, params = params)
     
+
     return points_old, points_new, flow_vectors
 
 
 
 #                          Optical Flow 
 
-def determine_dense_OF(prev_bgr, bgr, graphics = True, params = []):
+def determine_dense_OF(prev_bgr : np.ndarray, bgr : np.ndarray, graphics : bool = True, params : dict = {}):
     height, width = prev_bgr.shape[:2]
 
     # convert the images to grayscale:
@@ -82,8 +101,8 @@ def determine_dense_OF(prev_bgr, bgr, graphics = True, params = []):
 
 
     # Parameters for lucas kanade optical flow
-    if params is []:
-        params = dict(winSize=(100, 100), maxLevel=2, criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))
+    if params is {}:
+        params = dict(winSize=(21, 21), maxLevel=2, criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))
 
     # Calculate Optical Flow
     points_new, status, err = cv2.calcOpticalFlowPyrLK(prev_gray, cur_gray, points_old, None, **params)
@@ -93,16 +112,6 @@ def determine_dense_OF(prev_bgr, bgr, graphics = True, params = []):
 
     # Flow vector calculated by subtracting new pixels by old pixels
     flow_vectors = points_new - points_old
-
-
-    # calc total flow:
-    total_flow_l = np.sum(np.linalg.norm(flow_vectors[:,:width//2]))
-    total_flow_r = np.sum(np.linalg.norm(flow_vectors[:,width//2:]))
-    heading_command = (total_flow_l - total_flow_r)/(total_flow_l + total_flow_r)   
-    left = 'left'
-    right = 'right'
-    print(f'Turn towards: { left if heading_command<0 else right } by {abs(heading_command)} ')
-    # + = go Right
 
     # filter the points by their status:
     points_old = points_old[status == 1]
@@ -124,6 +133,21 @@ def determine_dense_OF(prev_bgr, bgr, graphics = True, params = []):
         plt.title('Optical flow')
 
     return points_old, points_new, flow_vectors
+
+def calc_heading_com(flow_vectors_l :np.ndarray, flow_vectors_r : np.ndarray):
+
+    # calc total flow:
+    total_flow_l = np.sum(np.linalg.norm(flow_vectors_l))
+    total_flow_r = np.sum(np.linalg.norm(flow_vectors_r))
+    heading_command = (total_flow_l - total_flow_r)/(total_flow_l + total_flow_r)  
+
+    left  = 'left'
+    right = 'right'
+    print(f'Turn towards: { left if heading_command<0 else right } by {abs(heading_command)} [unit]')
+    # + = go Right
+
+    return None
+    
     
 
 def determine_optical_flow(prev_bgr, bgr, graphics= True):

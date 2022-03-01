@@ -10,6 +10,14 @@ data_folder = r'Data\cyberzoo_poles'
 image_folder = str(data_folder + r'\20190121-135009' )
 nav_file = r'\20190121-135121.csv'
 
+def calc_rot_flow(x ,y , A = 0. ,B = 0.,C = 0.):
+
+    u_r = A * x * y - B*x**2 - B + C*y
+    v_r = -C * x + A + A * y**2 - B*x*y
+
+    return u_r, v_r
+
+
 
 def main():
     id = 50 # picture id in the ordered list 
@@ -38,15 +46,22 @@ def main():
     # Calaucalte OF for both hemishperes:
     lk_params = dict(winSize=(21, 21), maxLevel=2,\
          criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))
-    # # keep graphics= False ssince half-iamges are not very interesting but still slow
+    # NOTE keep graphics= False since half-iamges are not very interesting but still slow
     t0 = time.time()   #start timer
     _,_,flow_vectors_l = utils.show_flow(prev_bgr_l, bgr_l,\
          dense = True, graphics = False, params = lk_params)
     _,_,flow_vectors_r = utils.show_flow(prev_bgr_r, bgr_r,\
          dense = True, graphics = False, params = lk_params)
 
+    # flow_vectors_l, flow_vectors_r = correct_rot(id, nav_data, height, width, flow_vectors_l, flow_vectors_r)
+
     # Get heading change command:
     utils.calc_heading_com(flow_vectors_l, flow_vectors_r)
+
+    # Time Analysis part:
+    # time_analysis_winSize(img_list, lk_params, num_imgs = 5)
+    # time_analysis_maxLevel(img_list, lk_params, num_imgs = 5)
+    # points_old, flow_vectors, pu, pv = simple_OF_fit(prev_bgr, bgr)
 
     # Check for time improvements:
     print(f'Time ellapsed: {time.time() - t0} s')
@@ -56,10 +71,30 @@ def main():
          dense = True, graphics = True, params = lk_params)
 
 
-    # Time Analysis part:
-    # time_analysis_winSize(img_list, lk_params, num_imgs = 5)
-    # time_analysis_maxLevel(img_list, lk_params, num_imgs = 5)
-    # points_old, flow_vectors, pu, pv = simple_OF_fit(prev_bgr, bgr)
+
+def correct_rot(id, nav_data, height, width, flow_vectors_l, flow_vectors_r):
+
+    # Calcualte rotational flow:
+    x_ar = np.arange(0,width)
+    y_ar = np.arange(0,height)
+    u_r = np.zeros((width,height))
+    v_r = np.zeros((width,height))
+    p = nav_data['rate_p'][id]
+    q = nav_data['rate_q'][id]
+    r = nav_data['rate_r'][id]
+    
+    for x in x_ar:
+        for y in y_ar:
+            u_r[x,y], v_r[x,y] = calc_rot_flow(x,y,p,q,r)
+    rot_flow = np.concatenate((u_r,v_r)).reshape(height, width, 2)
+
+    # Corect for rotation:
+    flow_vectors_l = flow_vectors_l - rot_flow[:,:width//2,:]
+    flow_vectors_r = flow_vectors_r - rot_flow[:,width//2:,:]
+    return flow_vectors_l,flow_vectors_r
+
+
+
 
 
 def time_analysis_winSize(img_list, lk_params,num_imgs : int = 10):

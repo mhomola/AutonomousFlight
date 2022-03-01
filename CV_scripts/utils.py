@@ -152,8 +152,7 @@ def calc_heading_com(flow_vectors_l :np.ndarray, flow_vectors_r : np.ndarray):
 
 def determine_optical_flow(prev_bgr, bgr, graphics= True):
     # *******************************************************************
-    # TODO: In the !second! lecture on optical flow, study this function
-    # and change the parameters below to investigate the trade-off between
+    # TODO:  investigate the trade-off between
     # accuracy and computational efficiency
     # *******************************************************************
     
@@ -162,10 +161,10 @@ def determine_optical_flow(prev_bgr, bgr, graphics= True):
     cur_gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
     
     # params for ShiTomasi corner detection
-    feature_params = dict( maxCorners = 100,
+    feature_params = dict( maxCorners   = 100,
                            qualityLevel = 0.3,
-                           minDistance = 7,
-                           blockSize = 7 )
+                           minDistance  = 7,
+                           blockSize    = 7 )
     
     # Parameters for lucas kanade optical flow
     lk_params = dict( winSize  = (15,15),
@@ -176,19 +175,19 @@ def determine_optical_flow(prev_bgr, bgr, graphics= True):
     points_old = cv2.goodFeaturesToTrack(prev_gray, mask = None, **feature_params);
     # points_old = prev_gray
     # NOTE: goodFeaturesToTrack() should be repalced with OUR obstalce_detector()
-
+    
     # calculate optical flow
     points_new, status, error_match = cv2.calcOpticalFlowPyrLK(prev_gray, cur_gray, points_old, None, **lk_params)
     # NOTE: calcOpticalFlowPyrLK provides the (efficient) Pyramid Lucas-Kanade algorithm 
     # NOTE NOTE maybe this was already obvious from its long name but not for me
     
     # filter the points by their status:
-    points_old = points_old[status == 1];
-    points_new = points_new[status == 1];
+    points_old = points_old[status == 1]
+    points_new = points_new[status == 1]
     
-    flow_vectors = points_new - points_old;
+    flow_vectors = points_new - points_old
     
-    if(graphics):
+    if graphics:
         im = (0.5 * prev_bgr.copy().astype(float) + 0.5 * bgr.copy().astype(float)) / 255.0;
         n_points = len(points_old)
         color = (0.0,1.0,0.0)

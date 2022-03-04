@@ -42,7 +42,7 @@ def filter_color(im, y_low=50, y_high=200, u_low=120, u_high=130, v_low=120, v_h
     plt.show()
 
 def main():
-    id = 190
+    id = 75
     img_list = utils.load_data(image_folder)
     print(len(img_list))
     print("got here 2")

@@ -10,9 +10,10 @@ import pandas as pd
 import utils
 
 
-data_folder = r'Data\cyberzoo_poles'
-image_folder = str(data_folder + r'\20190121-135009' )
-print(image_folder)
+#data_folder = r'Data\cyberzoo_poles'
+#image_folder = str(data_folder + r'\20190121-135009' )
+image_folder = r'C:\Users\mhomo\OneDrive\Dokumenty\University\GitHub\AutonomousFlight\CV_scripts\Data\cyberzoo_poles\20190121-135009'
+#print('folder',image_folder)
 
 
 def filter_color(im, y_low=50, y_high=200, u_low=120, u_high=130, v_low=120, v_high=130, resize_factor=1):
@@ -41,11 +42,12 @@ def filter_color(im, y_low=50, y_high=200, u_low=120, u_high=130, v_low=120, v_h
     plt.show()
 
 def main():
-    id = 110
+    id = 190
     img_list = utils.load_data(image_folder)
+    print(len(img_list))
     print("got here 2")
-    image = utils.get_single_image(img_list[id], image_dir_name=image_folder, graphics=False)
-    filter_color(im = image, y_low=50, y_high=200, u_low=60, u_high=160, v_low=60, v_high=160)
+    image = utils.get_single_image(img_list[id], image_dir_name = image_folder, graphics=False)
+    filter_color(im = image, y_low=70, y_high=90, u_low=100, u_high=130, v_low=100, v_high=135)
     print("Done")
 
 if __name__ == '__main__':

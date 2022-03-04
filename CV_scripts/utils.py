@@ -8,7 +8,8 @@ import sys
 import pandas as pd
 import time
 
-#                       Data  Loading
+# Data  Loading
+
 def load_data(path_image_folder):
     dir_list = os.listdir(path_image_folder)
 

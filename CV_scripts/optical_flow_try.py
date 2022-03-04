@@ -187,8 +187,6 @@ def simple_OF_fit(prev_bgr, bgr, plotting = True):
     return points_old,flow_vectors,pu,pv
 
 
-
-
 if __name__ == '__main__':
     main()
     plt.show()

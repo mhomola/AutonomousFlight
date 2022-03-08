@@ -1,7 +1,18 @@
+#include <iostream>
+#include <tuple>
 
-
-def dwa_control(x, config, goal, ob):
+tuple<vect, vect> dwa_control(vect x, Config config, vect goal, objectlist ob){
+    //Top level control function
+    //call Calculate dynamic window
+    //call Calculate control and trajectory
+    //return control and traject.
     //TODO Nathaniel
+    //TODO ensure proper variable types.
+    //TODO ensure pointers are used etc.
+    
+    auto dw = calc_dynamic_window(x, config);
+    auto [u, trajectory] = calc_control_and_trajectory(x, dw, config, goal, ob);
+    return  {u, trajectory};
 }
 
 auto class Config:

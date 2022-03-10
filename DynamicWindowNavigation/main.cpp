@@ -82,8 +82,33 @@ def motion(x, u, dt):
     //TODO thijs will figure it out
 }
 
-def calc_dynamic_window(x, config):
-//TODO Georg
+uint8_t calc_dynamic_window(x, config){				// add datatype? uint8_t?
+		//TODO Georg
+		// calculation dynamic window based on current state x
+
+		// Dynamic window from robot specification
+		float Vs[] = {
+				config.min_speed, config.max_speed,
+				-config.max_yaw_rate, config.max_yaw_rate
+		};
+
+		// Dynamic window from motion model
+		float Vd[] = {
+				x[3] - config.max_accel * config.dt,
+				x[3] + config.max_accel * config.dt,
+				x[4] - config.max_delta_yaw_rate * config.dt,
+				x[4] + config.max_delta_yaw_rate * config.dt
+		};
+
+		// [v_min, v_max, yaw_rate_min, yaw_rate_max]
+		float dw[] = {
+				max(Vs[0], Vd[0]), min(Vs[1], Vd[1]),
+				max(Vs[2], Vd[2]), min(Vs[3], Vd[3])
+		};
+
+		return dw;
+}
+
 
 def predict_trajectory(x_init, v, y, config):
 //TODO Georg

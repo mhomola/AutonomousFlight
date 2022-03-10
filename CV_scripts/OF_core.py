@@ -6,6 +6,8 @@ import re
 import time
 import time
 
+from pytest import param
+
 
 
 def show_flow(prev_bgr : np.ndarray, bgr : np.ndarray, dense : float = False, graphics = False, params = []):
@@ -34,25 +36,28 @@ def show_flow(prev_bgr : np.ndarray, bgr : np.ndarray, dense : float = False, gr
 
 #                          Optical Flow 
 
-def determine_dense_OF(prev_bgr : np.ndarray, bgr : np.ndarray, graphics : bool = True, params : dict = {}):
-    height, width = prev_bgr.shape[:2]
+def determine_dense_OF(prev_bgr : np.ndarray, bgr : np.ndarray, subsampling_factor : int =1, graphics : bool = True, params : dict = {}):
+    subsampling = params['subsampling']
 
     # convert the images to grayscale:
     prev_gray = cv2.cvtColor(prev_bgr, cv2.COLOR_BGR2GRAY)
     cur_gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
-    
+    height, width = prev_bgr.shape[:2]
+
+    height = height// subsampling
+    width = width// subsampling
     # Create the old matrix to feed to LK, instead of goodFeaturesToTrack
-    points_old = np.nonzero(prev_gray)[::-1]
+    points_old = np.nonzero(prev_gray[::subsampling,::subsampling])[::-1]
     points_old = tuple(zip(*points_old))
     points_old = np.vstack(points_old).reshape(-1, 1, 2).astype("float32")
-
+    
 
     # Parameters for lucas kanade optical flow
     if params is {}:
         params = dict(winSize=(21, 21), maxLevel=2, criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))
-
+    lk_params = params['lk_params']
     # Calculate Optical Flow
-    points_new, status, err = cv2.calcOpticalFlowPyrLK(prev_gray, cur_gray, points_old, None, **params)
+    points_new, status, err = cv2.calcOpticalFlowPyrLK(prev_gray, cur_gray, points_old, None, **lk_params)
     points_old = points_old.reshape(height, width, 2)
     points_new = points_new.reshape(height, width, 2)
     status = status.reshape(height, width)
@@ -66,9 +71,9 @@ def determine_dense_OF(prev_bgr : np.ndarray, bgr : np.ndarray, graphics : bool 
     
     if graphics :
         step =8
-        y, x = np.mgrid[step / 2:height:step, step / 2:width:step].reshape(2, -1).astype(int)
+        y, x =  np.mgrid[step / 2:height:step, step / 2:width:step].reshape(2, -1).astype(int)
         fx, fy = 0.1*flow_vectors[y, x].T
-        lines = np.vstack([x, y, x + fx, y + fy]).T.reshape(-1, 2, 2)
+        lines = np.vstack([x*subsampling, subsampling*y, subsampling*(x + fx), subsampling* y + subsampling*fy]).T.reshape(-1, 2, 2)
         lines = np.int32(lines + 0.5)
         vis = cv2.cvtColor(prev_gray, cv2.COLOR_GRAY2BGR)
         cv2.polylines(vis, lines, 0, (0, 255, 0))

@@ -10,7 +10,7 @@ import OF_core
 data_folder  = Path('Data') / Path('cyberzoo_poles')
 image_folder = Path(data_folder/'20190121-135009' )
 nav_file     = Path('20190121-135121.csv')
-
+vizualize_flow = False
 
 def main():
     id = 50     # picture id in the ordered list 
@@ -37,13 +37,16 @@ def main():
 
     # Calaucalte OF for both hemishperes:
     lk_params = dict(winSize=(21, 21), maxLevel=2,\
-         criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))
+         criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT,\
+         10, 0.03))
+    params = dict(lk_params = lk_params, subsampling = 2)
+
     # NOTE keep graphics= False since half-iamges are not very interesting but still slow
     t0 = time.time()   #start timer
     _,_,flow_vectors_l = OF_core.show_flow(prev_bgr_l, bgr_l,\
-         dense = True, graphics = False, params = lk_params)
+         dense = True, graphics = True, params = params)
     _,_,flow_vectors_r = OF_core.show_flow(prev_bgr_r, bgr_r,\
-         dense = True, graphics = False, params = lk_params)
+         dense = True, graphics = True, params = params)
 
     # flow_vectors_l, flow_vectors_r = correct_rot(id, nav_data, height, width, flow_vectors_l, flow_vectors_r)
 
@@ -59,8 +62,9 @@ def main():
     print(f'Time ellapsed: {time.time() - t0} s')
 
     # Show full OF on image:
-    _,_,flow_vectors_l = OF_core.show_flow(prev_bgr, bgr,\
-         dense = True, graphics = True, params = lk_params)
+    if vizualize_flow:
+        _,_,flow_vectors_l = OF_core.show_flow(prev_bgr, bgr,\
+            dense = True, graphics = True, params = lk_params)
 
 
 

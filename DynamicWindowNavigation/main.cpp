@@ -1,5 +1,4 @@
-
-
+#include <cmath>
 def dwa_control(x, config, goal, ob):
     //TODO Nathaniel
 }
@@ -29,6 +28,33 @@ def calc_obstacle_cost(trajectory, ob, config):
 def calc_to_goal_cost(trajectory, goal):
 //TODO Thijs
 
-def main(gx=10.0, gy=10.0, robot_type=RobotType.circle):
-//DODO just call the functions in the right order (just implement the while loop)
-//TODO Thijs
+int main(){
+	float gx=10.0;
+	float gy=10.0;
+	RobotType robot_type = circle;
+	// initial state [x(m), y(m), yaw(rad), v(m/s), omega(rad/s)]
+	float x[5] = {0.0,0.0,M_PI/8.0,0.0,0.0};
+	auto goal[2] = {gx,gy};
+
+	config.robot_type = robot_type;
+	auto trajectory = x;
+	ob = config.ob;
+
+	while (true){
+		auto [u, predicted_trajectory] = dwa_control(x,config,goal,ob);
+		auto x = motion(x,u,config.dt);
+
+		// trajectory = np.vstack((trajectory, x))  NOT SURE HOW TO IMPLEMENT THIS
+
+		//auto trajectory = ;
+
+		auto dist_to_goal = sqrt(square((x[0]-goal[0]),2) + square((x[1]-goal[1]),2));
+
+		if (dist_to_goal <= config.robot_radius){
+			break;
+		}
+
+	}
+	return 0;
+}
+

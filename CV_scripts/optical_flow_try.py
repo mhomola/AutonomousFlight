@@ -3,32 +3,24 @@ import cv2
 import matplotlib.pyplot as plt
 import utils
 import time
-
+from pathlib import Path
+import OF_core
 
 '''                        Globals                                     '''
-data_folder = r'Data\cyberzoo_poles'
-image_folder = str(data_folder + r'\20190121-135009' )
-nav_file = r'\20190121-135121.csv'
-
-def calc_rot_flow(x ,y , A = 0. ,B = 0.,C = 0.):
-
-    u_r = A * x * y - B*x**2 - B + C*y
-    v_r = -C * x + A + A * y**2 - B*x*y
-
-    return u_r, v_r
-
+data_folder  = Path('Data') / Path('cyberzoo_poles')
+image_folder = Path(data_folder/'20190121-135009' )
+nav_file     = Path('20190121-135121.csv')
 
 
 def main():
-    id = 50 # picture id in the ordered list 
-
+    id = 50     # picture id in the ordered list 
     # Change the numbers utils the images for answering the questions:
     img_list     = utils.load_data(image_folder)
     
     # Load & Interpoalte drone-state data:
     nav_data_raw = utils.get_nav_data(data_folder, nav_file)
-    time_lst = utils.get_time_stamps(img_list)
-    nav_data = utils.interpolate_state(time_lst, nav_data_raw)
+    time_lst     = utils.get_time_stamps(img_list)
+    nav_data     = utils.interpolate_state(time_lst, nav_data_raw)
     print('Drone state: \n',nav_data.iloc[[id]])
 
     # Load images:
@@ -39,7 +31,7 @@ def main():
     # Split image horizontally in 2 hemishperes:
     height, width = prev_bgr.shape[:2]
     prev_bgr_l = prev_bgr[:,:width//2]
-    prev_bgr_r= prev_bgr[:,width//2:]
+    prev_bgr_r = prev_bgr[:,width//2:]
     bgr_l = bgr[:,:width//2]
     bgr_r = bgr[:,width//2:]
 
@@ -48,15 +40,15 @@ def main():
          criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))
     # NOTE keep graphics= False since half-iamges are not very interesting but still slow
     t0 = time.time()   #start timer
-    _,_,flow_vectors_l = utils.show_flow(prev_bgr_l, bgr_l,\
+    _,_,flow_vectors_l = OF_core.show_flow(prev_bgr_l, bgr_l,\
          dense = True, graphics = False, params = lk_params)
-    _,_,flow_vectors_r = utils.show_flow(prev_bgr_r, bgr_r,\
+    _,_,flow_vectors_r = OF_core.show_flow(prev_bgr_r, bgr_r,\
          dense = True, graphics = False, params = lk_params)
 
     # flow_vectors_l, flow_vectors_r = correct_rot(id, nav_data, height, width, flow_vectors_l, flow_vectors_r)
 
     # Get heading change command:
-    utils.calc_heading_com(flow_vectors_l, flow_vectors_r)
+    OF_core.calc_heading_com(flow_vectors_l, flow_vectors_r)
 
     # Time Analysis part:
     # time_analysis_winSize(img_list, lk_params, num_imgs = 5)
@@ -67,7 +59,7 @@ def main():
     print(f'Time ellapsed: {time.time() - t0} s')
 
     # Show full OF on image:
-    _,_,flow_vectors_l = utils.show_flow(prev_bgr, bgr,\
+    _,_,flow_vectors_l = OF_core.show_flow(prev_bgr, bgr,\
          dense = True, graphics = True, params = lk_params)
 
 
@@ -185,6 +177,13 @@ def simple_OF_fit(prev_bgr, bgr, plotting = True):
 
 
     return points_old,flow_vectors,pu,pv
+
+def calc_rot_flow(x ,y , A = 0. ,B = 0.,C = 0.):
+    """ Working progress."""
+    u_r = A * x * y - B*x**2 - B + C*y
+    v_r = -C * x + A + A * y**2 - B*x*y
+
+    return u_r, v_r
 
 
 if __name__ == '__main__':

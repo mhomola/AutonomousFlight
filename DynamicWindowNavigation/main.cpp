@@ -1,6 +1,7 @@
 #include <iostream>
 #include <tuple>
 #include <math.h>
+#include <eigen3/Eigen/Dense> 
 
 tuple<vect, vect> dwa_control(vect x, Config config, vect goal, objectlist ob){
     //Top level control function

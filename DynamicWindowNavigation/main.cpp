@@ -87,6 +87,35 @@ def calc_dynamic_window(x, config):
 
 def predict_trajectory(x_init, v, y, config):
 //TODO Georg
+		// predict trajectory with an input
+
+/*
+ * Horizontally:
+ * MatrixXd C(A.rows(), A.cols()+B.cols());
+ * C << A, B;
+ *
+ * Vertically:
+ * // eigen uses provided dimensions in declaration to determine
+ * // concatenation direction
+ * MatrixXd D(A.rows()+B.rows(), A.cols()); // <-- D(A.rows() + B.rows(), ...)
+ * D << A, B; // <-- syntax is the same for vertical and horizontal concatenation
+ *
+ * MatrixXd trajectory_a(trajectory.rows()+x.rows(), trajectory.cols());
+ * trajectory_a >> trajectory,
+ * x;
+ * trajectory = trajectory_a
+ */
+		float x[] = {x_init};
+		float trajectory[] = {x};
+		int time = 0;
+		while (time <= config.predict_time){
+			x = motion(x, [v, y], config.dt);
+			auto trajectory = vstack(trajectory, x) 		//not sure whether this is correct,
+															//otherwise use above commented out code
+		    time += config.dt;
+		}
+		return trajectory;
+}
 
 def calc_control_and_trajectory(x, dw, config, goal, ob):
 //TODO Nathaniel

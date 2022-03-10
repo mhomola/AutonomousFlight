@@ -1,4 +1,5 @@
-
+#include <tuple>
+#include <cmath>
 
 def dwa_control(x, config, goal, ob):
     //TODO Nathaniel
@@ -7,11 +8,15 @@ def dwa_control(x, config, goal, ob):
 auto class Config:
 //TODO Nathaniel
 
-def motion(x, u, dt):
-    //TODO figure out if this is just simulating the real world. Do we need to implement something here?
-    //TODO is this a placeholder and we just use our drone simulation instead. 
-    //TODO this could also be a prediction
-    //TODO thijs will figure it out
+tuple<vect> motion(vect x, vect u, float dt){
+
+    x[2] += u[1] * dt;
+    x[0] += u[0] * cos(x[2]) * dt;
+    x[1] += u[0] * sin(x[2]) * dt;
+    x[3] = u[0];
+    x[4] = u[1];
+
+    return x;
 }
 
 def calc_dynamic_window(x, config):

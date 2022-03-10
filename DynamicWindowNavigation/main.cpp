@@ -82,18 +82,15 @@ def motion(x, u, dt):
     //TODO thijs will figure it out
 }
 
-uint8_t calc_dynamic_window(x, config){				// add datatype? uint8_t?
+Matrix<float, 1, 4> calc_dynamic_window(Matrix<float, 1, 5> x, struct config){				// is config really a struct?
 		//TODO Georg
 		// calculation dynamic window based on current state x
 
 		// Dynamic window from robot specification
-		float Vs[] = {
-				config.min_speed, config.max_speed,
-				-config.max_yaw_rate, config.max_yaw_rate
-		};
+		Matrix<float, 1, 4> Vs = {config.min_speed, config.max_speed, -config.max_yaw_rate, config.max_yaw_rate};
 
 		// Dynamic window from motion model
-		float Vd[] = {
+		Matrix<float, 1, 4> Vd = {
 				x[3] - config.max_accel * config.dt,
 				x[3] + config.max_accel * config.dt,
 				x[4] - config.max_delta_yaw_rate * config.dt,
@@ -101,43 +98,22 @@ uint8_t calc_dynamic_window(x, config){				// add datatype? uint8_t?
 		};
 
 		// [v_min, v_max, yaw_rate_min, yaw_rate_max]
-		float dw[] = {
-				max(Vs[0], Vd[0]), min(Vs[1], Vd[1]),
-				max(Vs[2], Vd[2]), min(Vs[3], Vd[3])
-		};
+		Matrix<float, 1, 4>  dw = {max(Vs[0], Vd[0]), min(Vs[1], Vd[1]), max(Vs[2], Vd[2]), min(Vs[3], Vd[3])};
 
 		return dw;
 }
 
-
-def predict_trajectory(x_init, v, y, config):
-//TODO Georg
+Matrix<float, 31, 5> predict_trajectory(Matrix<float, 1, 5> x_init, float v, float y, struct config){
+		//TODO Georg
 		// predict trajectory with an input
 
-/*
- * Horizontally:
- * MatrixXd C(A.rows(), A.cols()+B.cols());
- * C << A, B;
- *
- * Vertically:
- * // eigen uses provided dimensions in declaration to determine
- * // concatenation direction
- * MatrixXd D(A.rows()+B.rows(), A.cols()); // <-- D(A.rows() + B.rows(), ...)
- * D << A, B; // <-- syntax is the same for vertical and horizontal concatenation
- *
- * MatrixXd trajectory_a(trajectory.rows()+x.rows(), trajectory.cols());
- * trajectory_a >> trajectory,
- * x;
- * trajectory = trajectory_a
- */
-		float x[] = {x_init};
-		float trajectory[] = {x};
-		int time = 0;
-		while (time <= config.predict_time){
-			x = motion(x, [v, y], config.dt);
-			auto trajectory = vstack(trajectory, x) 		//not sure whether this is correct,
-															//otherwise use above commented out code
-		    time += config.dt;
+		Matrix<float, 1, 5>  x = {x_init};
+		MatrixXf  trajectory= {x};							//starts with just x, but then vstacks them up to 31 times
+		float time = 0;
+		while (time <= int config.predict_time){
+			Matrix<float, 1, 5> x = motion(x, [v, y], float config.dt);
+			MatrixXf trajectory = vstack(trajectory, x) 		//not sure whether vstackworks this way
+		    float time += config.dt;
 		}
 		return trajectory;
 }

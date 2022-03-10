@@ -87,10 +87,10 @@ Matrix<float, 1, 4> calc_dynamic_window(Matrix<float, 1, 5> x, struct config){		
 		// calculation dynamic window based on current state x
 
 		// Dynamic window from robot specification
-		Matrix<float, 1, 4> Vs = {config.min_speed, config.max_speed, -config.max_yaw_rate, config.max_yaw_rate};
+		Matrix<float, 1, 4> 	Vs = {config.min_speed, config.max_speed, -config.max_yaw_rate, config.max_yaw_rate};
 
 		// Dynamic window from motion model
-		Matrix<float, 1, 4> Vd = {
+		Matrix<float, 1, 4> 	Vd = {
 				x[3] - config.max_accel * config.dt,
 				x[3] + config.max_accel * config.dt,
 				x[4] - config.max_delta_yaw_rate * config.dt,
@@ -98,7 +98,7 @@ Matrix<float, 1, 4> calc_dynamic_window(Matrix<float, 1, 5> x, struct config){		
 		};
 
 		// [v_min, v_max, yaw_rate_min, yaw_rate_max]
-		Matrix<float, 1, 4>  dw = {max(Vs[0], Vd[0]), min(Vs[1], Vd[1]), max(Vs[2], Vd[2]), min(Vs[3], Vd[3])};
+		Matrix<float, 1, 4>  	dw = {max(Vs[0], Vd[0]), min(Vs[1], Vd[1]), max(Vs[2], Vd[2]), min(Vs[3], Vd[3])};
 
 		return dw;
 }
@@ -107,12 +107,12 @@ Matrix<float, 31, 5> predict_trajectory(Matrix<float, 1, 5> x_init, float v, flo
 		//TODO Georg
 		// predict trajectory with an input
 
-		Matrix<float, 1, 5>  x = {x_init};
-		Matrix<float, 31, 5>  trajectory= {x};							//starts with just x, but then vstacks them up to 31 times
+		Matrix<float, 1, 5>  	x = {x_init};
+		Matrix<float, 31, 5>  	trajectory= {x};							//starts with just x, but then vstacks them up to 31 times
 		float time = 0;
 		while (time <= int config.predict_time){
-			Matrix<float, 1, 5> x = motion(x, [v, y], float config.dt);
-			Matrix<float, 31, 5> trajectory = vstack(trajectory, x) 		//not sure whether vstackworks this way
+			Matrix<float, 1, 5> 	x = motion(x, [v, y], float config.dt);
+			Matrix<float, 31, 5> 	trajectory = vstack(trajectory, x) 		//not sure whether vstack works this way
 		    float time += config.dt;
 		}
 		return trajectory;
@@ -121,42 +121,42 @@ Matrix<float, 31, 5> predict_trajectory(Matrix<float, 1, 5> x_init, float v, flo
 def calc_control_and_trajectory(x, dw, config, goal, ob):
 //TODO Nathaniel
 
-float calc_obstacle_cost(trajectory, ob, config):
-//TODO Georg
+float calc_obstacle_cost(Matrix<float, 31, 5> trajectory, Matrix<float, 15, 2> ob, struct config) {
+		//TODO Georg
 		//calc obstacle cost inf: collision
 
-		auto ox = ob[:][0];
-		auto oy = ob[:][1];
-		auto dx = trajectory[:][0] - ox[:][None];
-		auto dy = trajectory[:][1] - oy[:][None];
-		auto intermediary = dx*dx+dy*dy;
-		auto r = sqrt(intermediary);
+		Matrix<float, 15, 1> ox = ob[:][0];
+		Matrix<float, 15, 1> oy = ob[:][1];
+		Matrix<float, 15, 31> dx = trajectory[:][0] - ox[:][None];
+		Matrix<float, 15, 31> dy = trajectory[:][1] - oy[:][None];
+		Matrix<float, 15, 31> intermediary = dx*dx+dy*dy;
+		Matrix<float, 15, 31> r = sqrt(intermediary);
 
 		if (config.robot_type == RobotType.rectangle){
-			auto yaw = trajectory[:][2];
-			auto rot [][] = [[cos(yaw), -sin(yaw)], [sin(yaw), cos(yaw)]];
-		    auto rot = transpose(rot, [2, 0, 1]);
-		    auto local_ob = ob[:][None] - trajectory[:][0:2];
-		    auto local_ob = local_ob.reshape(-1, local_ob.shape[-1]);
-		    auto local_ob = [local_ob @ x for x in rot];				//fix this
-		    auto local_ob = local_ob.reshaped(-1, local_ob.shape[-1]);
-		    auto upper_check = local_ob[:][0] <= config.robot_length / 2;
-		    auto right_check = local_ob[:][1] <= config.robot_width / 2;
-		    auto bottom_check = local_ob[:][0] >= -config.robot_length / 2;
-		    auto left_check = local_ob[:][1] >= -config.robot_width / 2;
+			Matrix<float, 31, 1>  		yaw = trajectory[:][2];
+			Matrix<float, 2, 2, 31>  	rot [][] = [[cos(yaw), -sin(yaw)], [sin(yaw), cos(yaw)]];
+			Matrix<float, 31, 2, 2>  	rot = transpose(rot, [2, 0, 1]);
+			Matrix<float, 15, 31, 2>  	local_ob = ob[:][None] - trajectory[:][0:2];
+			Matrix<float, 465, 2>  		local_ob = local_ob.reshape(-1, local_ob.shape[-1]);
+			Matrix<float, 31, 465, 2>  	local_ob = [local_ob @ x for x in rot];				//fix this
+			Matrix<float, 14415, 2>  	local_ob = local_ob.reshaped(-1, local_ob.shape[-1]);
+			Matrix<bool, 14415, 1>  	upper_check = local_ob[:][0] <= config.robot_length / 2;
+			Matrix<bool, 14415, 1>  	right_check = local_ob[:][1] <= config.robot_width / 2;
+			Matrix<bool, 14415, 1>  	bottom_check = local_ob[:][0] >= -config.robot_length / 2;
+			Matrix<bool, 14415, 1>  	left_check = local_ob[:][1] >= -config.robot_width / 2;
+			// if upper, right, bottom, left are all the same, return float "Inf"
 		    if ((logical_and(logical_and(upper_check, right_check),logical_and(bottom_check, left_check))).any()){
 		    	return float("Inf");
 		        }
-		} else if (config.robot_type == RobotType.circle){
+		}
+		else if (config.robot_type == RobotType.circle){
 			if ([r <= config.robot_radius].any()){
 				return float("Inf");
 			}
 		}
 
-
-		min_r = min(r);
-		return 1.0 / min_r;		// OK
-
+		float min_r = min(r);
+		return (1.0/min_r);		// OK
 }
 
 def calc_to_goal_cost(trajectory, goal):

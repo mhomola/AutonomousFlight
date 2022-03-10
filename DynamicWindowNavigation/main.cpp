@@ -33,16 +33,16 @@ int main(){
 	float gy=10.0;
 	RobotType robot_type = circle;
 	// initial state [x(m), y(m), yaw(rad), v(m/s), omega(rad/s)]
-	float x[5] = {0.0,0.0,M_PI/8.0,0.0,0.0};
-	auto goal[2] = {gx,gy};
+	vect x = {0.0,0.0,M_PI/8.0,0.0,0.0};
+	vect goal = {gx,gy};
 
 	config.robot_type = robot_type;
-	auto trajectory = x;
+	vect trajectory = x;
 	ob = config.ob;
 
 	while (true){
-		auto [u, predicted_trajectory] = dwa_control(x,config,goal,ob);
-		auto x = motion(x,u,config.dt);
+		vect [u, predicted_trajectory] = dwa_control(x,config,goal,ob);
+		vect x = motion(x,u,config.dt);
 
 		// trajectory = np.vstack((trajectory, x))  NOT SURE HOW TO IMPLEMENT THIS
 

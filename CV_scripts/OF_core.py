@@ -36,7 +36,18 @@ def show_flow(prev_bgr : np.ndarray, bgr : np.ndarray, dense : float = False, gr
 
 #                          Optical Flow 
 
-def determine_dense_OF(prev_bgr : np.ndarray, bgr : np.ndarray, subsampling_factor : int =1, graphics : bool = True, params : dict = {}):
+def determine_dense_OF(prev_bgr : np.ndarray, bgr : np.ndarray, graphics : bool = True, params : dict = {}) -> tuple:
+    """ Computes the dense optical flow with the Lukas-Kanade algorithm. 
+
+    Args:
+        prev_bgr (np.ndarray): _description_
+        bgr (np.ndarray): _description_
+        graphics (bool, optional): _description_. Defaults to True.
+        params (dict, optional): _description_. Defaults to {}.
+
+    Returns:
+        tuple: _description_
+    """    
     subsampling = params['subsampling']
 
     # convert the images to grayscale:

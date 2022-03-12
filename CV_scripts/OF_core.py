@@ -39,6 +39,7 @@ def show_flow(prev_bgr : np.ndarray, bgr : np.ndarray, dense : float = False, gr
 def determine_dense_OF(prev_bgr : np.ndarray, bgr : np.ndarray, graphics : bool = True, params : dict = {}) -> tuple:
     """ Computes the dense optical flow with the Lukas-Kanade algorithm. 
 
+
     Args:
         prev_bgr (np.ndarray): _description_
         bgr (np.ndarray): _description_
@@ -98,7 +99,10 @@ def determine_dense_OF(prev_bgr : np.ndarray, bgr : np.ndarray, graphics : bool 
     return points_old, points_new, flow_vectors
 
 def calc_heading_com(flow_vectors_l :np.ndarray, flow_vectors_r : np.ndarray):
-
+    '''
+    Calculate the yaw/heading command based on the difference between total optical flow of the left image and the right iamge.
+    TODO: wirte in C/++ 
+    '''
     # calc total flow:
     total_flow_l = np.sum(np.linalg.norm(flow_vectors_l))
     total_flow_r = np.sum(np.linalg.norm(flow_vectors_r))
@@ -115,8 +119,7 @@ def calc_heading_com(flow_vectors_l :np.ndarray, flow_vectors_r : np.ndarray):
 
 def determine_optical_flow(prev_bgr, bgr, graphics= True):
     # *******************************************************************
-    # TODO:  investigate the trade-off between
-    # accuracy and computational efficiency
+
     # *******************************************************************
     
     # convert the images to grayscale:

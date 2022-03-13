@@ -12,8 +12,7 @@ import utils
 
 #data_folder = r'Data\cyberzoo_poles'
 #image_folder = str(data_folder + r'\20190121-135009' )
-image_folder = r'C:\Users\mhomo\OneDrive\Dokumenty\University\GitHub\AutonomousFlight\CV_scripts\Data\cyberzoo_poles\20190121-135009'
-#print('folder',image_folder)
+image_folder = r'C:/Users/mhomo/OneDrive/Dokumenty/University/GitHub/AutonomousFlight/CV_scripts/Data/cyberzoo_poles/20190121-135009'
 
 
 def filter_color(im, y_low=50, y_high=200, u_low=120, u_high=130, v_low=120, v_high=130, resize_factor=1):

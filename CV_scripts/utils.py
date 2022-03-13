@@ -45,16 +45,14 @@ def interpolate_state(new_time : 'list[float]', data : pd.DataFrame):
     return new_data
 
 
-def get_single_image(image_nr, image_dir_name, image_prefix='', image_type='.jpg', graphics = True):
+def get_single_image(image_nr, image_dir_name, image_prefix='', image_type='.jpg', graphics=True):
+    image_name = image_dir_name + '/' + image_prefix + str(image_nr)
+    _bgr = cv2.imread(image_name)
 
-    image_name = image_dir_name / image_prefix / image_nr
-
-    _bgr = cv2.imread(str(image_name))
-    
     if type(_bgr) != np.ndarray:
-        raise TypeError('Wrong parsing of the iamge file! Check its name: ', image_name)   
+        raise TypeError('Wrong parsing of the iamge file! Check its name: ', image_name)
     bgr = cv2.rotate(_bgr, cv2.cv2.ROTATE_90_COUNTERCLOCKWISE)
-    
+
     if graphics:
         plt.figure()
         plt.imshow(bgr)

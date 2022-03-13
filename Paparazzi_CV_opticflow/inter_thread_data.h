@@ -45,9 +45,9 @@ struct opticflow_result_t {
   int16_t flow_der_x;     ///< The derotated flow calculation in the x direction (in subpixels)
   int16_t flow_der_y;     ///< The derotated flow calculation in the y direction (in subpixels)
 
-  struct FloatVect3 vel_cam;      ///< The velocity in camera frame (m/s)
-  struct FloatVect3 vel_body;     ///< The velocity in body frame (m/s) with X positive to the front of the aircraft, Y positive to the right and Z positive downwards to the ground
-
+  // struct FloatVect3 vel_cam;      ///< The velocity in camera frame (m/s) --   from edge_velocity
+  // struct FloatVect3 vel_body;     ///< The velocity in body frame (m/s) with X positive to the front of the aircraft, Y positive to the right and Z positive downwards to the ground
+  // struct FloatVect3 fast9_ret_corners;
   float div_size;         ///< Divergence as determined with the size_divergence script
 
   float surface_roughness; ///< Surface roughness as determined with a linear optical flow fit

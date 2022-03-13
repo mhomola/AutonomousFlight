@@ -110,7 +110,11 @@ float get_size_divergence(struct flow_t *vectors, int count, int n_samples)
   if (used_samples < 1){
     return 0.f;
   }
+  float out = divs_sum / used_samples;
 
+  // if (out > 0.f){
+  //   printf("Divergence size: %d \n", out);
+  // }
   // return the calculated mean divergence:
-  return divs_sum / used_samples;
+  return out;
 }

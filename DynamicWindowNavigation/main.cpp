@@ -7,6 +7,13 @@ using namespace Eigen;
 //python arange function
 #include <vector>
 
+//Functions in this file:
+std::tuple<Vector2f, Matrix<float,31,5> >   dwa_control(Matrix<float, 1, 5> x, Config config, Vector2f goal, Matrix<float, Dynamic,2> ob);
+Matrix<float, 1, 5>                         motion(Matrix<float, 1, 5> x,Vector2f u, float dt);
+Matrix<float, 1, 4>                         calc_dynamic_window(Matrix<float, 1, 5> x, struct Config config);
+Matrix<float, 31, 5>                        predict_trajectory(Matrix<float, 1, 5> x_init, float v, float y, struct Config config);
+
+
 template<typename T>
 std::vector<T> arange(T start, T stop, T step = 1) {
     std::vector<T> values;
@@ -15,7 +22,7 @@ std::vector<T> arange(T start, T stop, T step = 1) {
     return values;
 }
 
-tuple<vect, vect> dwa_control(vect x, Config config, vect goal, objectlist ob){
+std::tuple<Vector2f, Matrix<float,31,5> >dwa_control(Matrix<float, 1, 5>  x, Config config, Vector2f goal, Matrix<float, Dynamic,2>  ob) {
     //Top level control function
     //call Calculate dynamic window
     //call Calculate control and trajectory
@@ -38,63 +45,63 @@ struct Config{
 
     using enum RobotType;
 
-    Config() {
-        // robot parameterint
-        //TODO Tune parameters. Currently all still on default
-        //TODO implement pi
-        float max_speed = 1.0;  // [m/s]
-        float min_speed = -0.5;  // [m/s]
-        float max_yaw_rate = 40.0 * M_PI / 180.0;  // [rad/s]
-        float max_accel = 0.2;  // [m/ss]
-        float max_delta_yaw_rate = 40.0 * M_PI / 180.0;  // [rad/ss]
-        float v_resolution = 0.01;  // [m/s]
-        float yaw_rate_resolution = 0.1 * M_PI / 180.0;  // [rad/s]
-        float dt = 0.1;  // [s] Time tick for motion prediction
-        float predict_time = 3.0;  // [s]
-        float to_goal_cost_gain = 0.15;
-        float speed_cost_gain = 1.0;
-        float obstacle_cost_gain = 1.0;
-        float robot_stuck_flag_cons = 0.001;  // constant to prevent robot stucked
-        RobotType robot_type = circle;
+    // robot parameterint
+    //TODO Tune parameters. Currently all still on default
+    //TODO implement pi
+    float max_speed = 1.0;  // [m/s]
+    float min_speed = -0.5;  // [m/s]
+    float max_yaw_rate = 40.0 * M_PI / 180.0;  // [rad/s]
+    float max_accel = 0.2;  // [m/ss]
+    float max_delta_yaw_rate = 40.0 * M_PI / 180.0;  // [rad/ss]
+    float v_resolution = 0.01;  // [m/s]
+    float yaw_rate_resolution = 0.1 * M_PI / 180.0;  // [rad/s]
+    float dt = 0.1;  // [s] Time tick for motion prediction
+    float predict_time = 3.0;  // [s]
+    float to_goal_cost_gain = 0.15;
+    float speed_cost_gain = 1.0;
+    float obstacle_cost_gain = 1.0;
+    float robot_stuck_flag_cons = 0.001;  // constant to prevent robot stucked
+    RobotType robot_type = circle;
 
-        // if robot_type == RobotType.circle
-        // Also used to check if goal is reached in both types
-        float robot_radius = 1.0;  // [m] for collision check
+    // if robot_type == RobotType.circle
+    // Also used to check if goal is reached in both types
+    float robot_radius = 1.0;  // [m] for collision check
 
-        // if robot_type == RobotType.rectangle
-        float robot_width = 0.5;  // [m] for collision check
-        float robot_length = 1.2;  // [m] for collision check
-        // obstacles [x(m) y(m), ....]
-        /*
-        Currently removed this. We should implement the object list differently then the python script
-        self.ob = np.array([[-1, -1],
-                            [0, 2],
-                            [4.0, 2.0],
-                            [5.0, 4.0],
-                            [5.0, 5.0],
-                            [5.0, 6.0],
-                            [5.0, 9.0],
-                            [8.0, 9.0],
-                            [7.0, 9.0],
-                            [8.0, 10.0],
-                            [9.0, 11.0],
-                            [12.0, 13.0],
-                            [12.0, 12.0],
-                            [15.0, 15.0],
-                            [13.0, 13.0]
-                            ]);
-        */
-        }
+    // if robot_type == RobotType.rectangle
+    float robot_width = 0.5;  // [m] for collision check
+    float robot_length = 1.2;  // [m] for collision check
+    // obstacles [x(m) y(m), ....]
+    /*
+    Currently removed this. We should implement the object list differently then the python script
+    self.ob = np.array([[-1, -1],
+                        [0, 2],
+                        [4.0, 2.0],
+                        [5.0, 4.0],
+                        [5.0, 5.0],
+                        [5.0, 6.0],
+                        [5.0, 9.0],
+                        [8.0, 9.0],
+                        [7.0, 9.0],
+                        [8.0, 10.0],
+                        [9.0, 11.0],
+                        [12.0, 13.0],
+                        [12.0, 12.0],
+                        [15.0, 15.0],
+                        [13.0, 13.0]
+                        ]);
+    */
 };
 
-def motion(x, u, dt):
+
+Matrix<float, 1, 5> motion(Matrix<float, 1, 5> x,Vector2f u, float dt) {
     //TODO figure out if this is just simulating the real world. Do we need to implement something here?
     //TODO is this a placeholder and we just use our drone simulation instead. 
     //TODO this could also be a prediction
     //TODO thijs will figure it out
+    return x;
 }
 
-Matrix<float, 1, 4> calc_dynamic_window(Matrix<float, 1, 5> x, struct config){				// is config really a struct?
+Matrix<float, 1, 4> calc_dynamic_window(Matrix<float, 1, 5> x, struct Config config){				// is config really a struct?
 		//TODO Georg
 		// calculation dynamic window based on current state x
 
@@ -110,27 +117,29 @@ Matrix<float, 1, 4> calc_dynamic_window(Matrix<float, 1, 5> x, struct config){		
 		};
 
 		// [v_min, v_max, yaw_rate_min, yaw_rate_max]
-		Matrix<float, 1, 4>  	dw = {max(Vs[0], Vd[0]), min(Vs[1], Vd[1]), max(Vs[2], Vd[2]), min(Vs[3], Vd[3])};
+		Matrix<float, 1, 4>  	dw(std::max(Vs[0], Vd[0]), std::min(Vs[1], Vd[1]), std::max(Vs[2], Vd[2]), std::min(Vs[3], Vd[3]));
 
 		return dw;
 }
 
-Matrix<float, 31, 5> predict_trajectory(Matrix<float, 1, 5> x_init, float v, float y, struct config){
+Matrix<float, 31, 5> predict_trajectory(Matrix<float, 1, 5> x_init, float v, float y, struct Config config){
 		//TODO Georg
 		// predict trajectory with an input
 
-		Matrix<float, 1, 5>  	x = {x_init};
-		Matrix<float, 31, 5>  	trajectory= {x};							//starts with just x, but then vstacks them up to 31 times
+		Matrix<float, 1, 5>  	x(x_init);
+		Matrix<float, 31, 5>  	trajectory(x);		        //starts with just x, but then vstacks them up to 31 times //We can probably make this dynamic/based on the dt. OPTIMIZE
+        Vector2f                u(v,y);
 		float time = 0;
-		while (time <= int config.predict_time){
-			Matrix<float, 1, 5> 	x = motion(x, [v, y], float config.dt);
-			Matrix<float, 31, 5> 	trajectory = vstack(trajectory, x) 		//not sure whether vstack works this way
-		    float time += config.dt;
+        //gonna leave this while loop. Needs to be refactored as this isn't the best way to do it.
+		while (time <= config.predict_time){
+			x = motion(x, u, config.dt);                    //return next position based on current position, v,y and timestep
+			trajectory = Eigen::vstack(trajectory, x); 		//not sure whether vstack works this way
+		    time += config.dt;
 		}
 		return trajectory;
 }
 
-tuple<Vector2f, Matrix<float, 1, 5>> calc_control_and_trajectory(x, dw, config, goal, ob) {
+std::tuple<Vector2f, Matrix<float, 1, 5>> calc_control_and_trajectory(Matrix<float, 1, 5> x, dw,struct Config config, goal, ob) {
     //TODO Nathaniel
     //calculation final input with dynamic window
 

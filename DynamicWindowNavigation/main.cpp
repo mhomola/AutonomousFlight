@@ -19,14 +19,22 @@ using namespace Eigen;
 //python arange function
 #include <vector>
 
+//Declare matrix sizes for clarity and reducing read complexity
+typedef Matrix<float, 1, 5> x_vect;
+typedef Matrix<float, 1, 4> dw_vect;
+typedef Matrix<float, 31, 5> trajectory_mat;
+typedef Matrix<float, Dynamic, 2> obj_mat;
+//typedef x_vect trajectory_vect; //is x always the trajectory?? Yes yes it is. 
+
+
 //Functions in this file:
-std::tuple<Vector2f, Matrix<float,31,5>>    dwa_control(Matrix<float, 1, 5> x, Config config, Vector2f goal, Matrix<float, Dynamic,2> ob);
-Matrix<float, 1, 5>                         motion(Matrix<float, 1, 5> x,Vector2f u, float dt);
-Matrix<float, 1, 4>                         calc_dynamic_window(Matrix<float, 1, 5> x, struct Config config);
-Matrix<float, 31, 5>                        predict_trajectory(Matrix<float, 1, 5> x_init, float v, float y, struct Config config);
-std::tuple<Vector2f, Matrix<float, 1, 5>>   calc_control_and_trajectory(Matrix<float, 1, 5> x, Vector4f dw,struct Config config, Vector2f goal, Matrix<float, Dynamic,2> ob);
-float                                       calc_obstacle_cost(Matrix<float, 31, 5> trajectory, Matrix<float, 15, 2> ob, struct Config config);
-float                                       calc_to_goal_cost(Matrix<float, 31, 5> trajectory, Vector2f goal);
+std::tuple<Vector2f, trajectory_mat>    dwa_control(x_vect x, Config config, Vector2f goal, Matrix<float, Dynamic,2> ob);
+x_vect                                  motion(x_vect x,Vector2f u, float dt);
+dw_vect                                 calc_dynamic_window(x_vect x, struct Config config);
+trajectory_mat                          predict_trajectory(x_vect x_init, float v, float y, struct Config config);
+std::tuple<Vector2f, x_vect>            calc_control_and_trajectory(x_vect x, Vector4f dw,struct Config config, Vector2f goal, obj_mat ob);
+float                                   calc_obstacle_cost(trajectory_mat trajectory, obj_mat ob, struct Config config);
+float                                   calc_to_goal_cost(trajectory_mat trajectory, Vector2f goal);
 
 template<typename T>
 std::vector<T> arange(T start, T stop, T step = 1) {
@@ -36,7 +44,7 @@ std::vector<T> arange(T start, T stop, T step = 1) {
     return values;
 }
 
-std::tuple<Vector2f, Matrix<float,31,5> >dwa_control(Matrix<float, 1, 5>  x, Config config, Vector2f goal, Matrix<float, Dynamic,2>  ob) {
+std::tuple<Vector2f, trajectory_mat >dwa_control(x_vect x, Config config, Vector2f goal, obj_mat ob) {
     //Top level control function
     //call Calculate dynamic window
     //call Calculate control and trajectory
@@ -45,8 +53,8 @@ std::tuple<Vector2f, Matrix<float,31,5> >dwa_control(Matrix<float, 1, 5>  x, Con
     //TODO ensure proper variable types.
     //TODO ensure pointers are used etc.
     Vector2f u;
-    Matrix<float, 1, 5> trajectory;
-    auto dw = calc_dynamic_window(x, config);
+    x_vect trajectory;
+    dw_vect dw = calc_dynamic_window(x, config);
     [u, trajectory] = calc_control_and_trajectory(x, dw, config, goal, ob);
     return  {u, trajectory};
 }
@@ -108,7 +116,7 @@ struct Config{
 };
 
 
-Matrix<float, 1, 5> motion(Matrix<float, 1, 5> x,Vector2f u, float dt) {
+x_vect motion(x_vect x,Vector2f u, float dt) {
     //TODO figure out if this is just simulating the real world. Do we need to implement something here?
     //TODO is this a placeholder and we just use our drone simulation instead. 
     //TODO this could also be a prediction
@@ -116,15 +124,15 @@ Matrix<float, 1, 5> motion(Matrix<float, 1, 5> x,Vector2f u, float dt) {
     return x;
 }
 
-Matrix<float, 1, 4> calc_dynamic_window(Matrix<float, 1, 5> x, struct Config config){				// is config really a struct?
+dw_vect calc_dynamic_window(x_vect x, struct Config config){				// is config really a struct?
 		//TODO Georg
 		// calculation dynamic window based on current state x
 
 		// Dynamic window from robot specification
-		Matrix<float, 1, 4> 	Vs = {config.min_speed, config.max_speed, -config.max_yaw_rate, config.max_yaw_rate};
+		dw_vect	Vs = {config.min_speed, config.max_speed, -config.max_yaw_rate, config.max_yaw_rate};
 
 		// Dynamic window from motion model
-		Matrix<float, 1, 4> 	Vd = {
+		dw_vect 	Vd = {
 				x[3] - config.max_accel * config.dt,
 				x[3] + config.max_accel * config.dt,
 				x[4] - config.max_delta_yaw_rate * config.dt,
@@ -132,17 +140,17 @@ Matrix<float, 1, 4> calc_dynamic_window(Matrix<float, 1, 5> x, struct Config con
 		};
 
 		// [v_min, v_max, yaw_rate_min, yaw_rate_max]
-		Matrix<float, 1, 4>  	dw(std::max(Vs[0], Vd[0]), std::min(Vs[1], Vd[1]), std::max(Vs[2], Vd[2]), std::min(Vs[3], Vd[3]));
+		dw_vect 	dw(std::max(Vs[0], Vd[0]), std::min(Vs[1], Vd[1]), std::max(Vs[2], Vd[2]), std::min(Vs[3], Vd[3]));
 
 		return dw;
 }
 
-Matrix<float, 31, 5> predict_trajectory(Matrix<float, 1, 5> x_init, float v, float y, struct Config config){
+trajectory_mat predict_trajectory(x_vect x_init, float v, float y, struct Config config){
 		//TODO Georg
 		// predict trajectory with an input
 
-		Matrix<float, 1, 5>  	x(x_init);
-		Matrix<float, 31, 5>  	trajectory(x);		        //starts with just x, but then vstacks them up to 31 times //We can probably make this dynamic/based on the dt. OPTIMIZE
+		x_vect  	x(x_init);
+		trajectory_mat  	trajectory(x);		        //starts with just x, but then vstacks them up to 31 times //We can probably make this dynamic/based on the dt. OPTIMIZE
         Vector2f                u(v,y);
 		float time = 0;
         //gonna leave this while loop. Needs to be refactored as this isn't the best way to do it.
@@ -154,14 +162,14 @@ Matrix<float, 31, 5> predict_trajectory(Matrix<float, 1, 5> x_init, float v, flo
 		return trajectory;
 }
 
-std::tuple<Vector2f, Matrix<float, 1, 5>> calc_control_and_trajectory(Matrix<float, 1, 5> x, Vector4f dw,struct Config config, Vector2f goal, Matrix<float, Dynamic,2> ob) {
+std::tuple<Vector2f, x_vect> calc_control_and_trajectory(x_vect x, Vector4f dw,struct Config config, Vector2f goal, obj_mat ob) {
     //TODO Nathaniel
     //calculation final input with dynamic window
 
-    Matrix<float, 1, 5>  x_init = x;
+    x_vect  x_init = x;
     double min_cost = INFINITY;
     Vector2f best_u(0.0, 0.0);
-    Matrix<float, 1, 5>  best_trajectory = x;
+    x_vect  best_trajectory = x;
 
     //Can we eliminate this in favor of something not double looped
     auto v_range = arange<float>(dw[0], dw[1], config.v_resolution);
@@ -192,10 +200,10 @@ std::tuple<Vector2f, Matrix<float, 1, 5>> calc_control_and_trajectory(Matrix<flo
     return {best_u, best_trajectory};
 }
 
-float calc_obstacle_cost(Matrix<float, 31, 5> trajectory, Matrix<float, 15, 2> ob, struct Config config) {
+float calc_obstacle_cost(trajectory_mat trajectory, obj_mat ob, struct Config config) {
 		//TODO Georg
 		//calc obstacle cost inf: collision
-
+        //- Nathaniel haven't touched any of the types. This needs a pretty big refactor.
 		Matrix<float, 15, 1> ox = ob[:][0];
 		Matrix<float, 15, 1> oy = ob[:][1];
 		Matrix<float, 15, 31> dx = trajectory[:][0] - ox[:][None];
@@ -230,7 +238,7 @@ float calc_obstacle_cost(Matrix<float, 31, 5> trajectory, Matrix<float, 15, 2> o
 		return (1.0/min_r);		// OK
 }
 
-float calc_to_goal_cost(Matrix<float, 31, 5> trajectory, Vector2f goal){
+float calc_to_goal_cost(trajectory_mat trajectory, Vector2f goal){
 //TODO Thijs
     float cost;
     return cost;

@@ -80,7 +80,7 @@ uint16_t n_agents[2] = {25, 25};
 #endif
 
 #ifndef SUBSAMPLING_FACTOR
-#define SUBSAMPLING_FACTOR 10
+#define SUBSAMPLING_FACTOR 2
 #endif
 
 PRINT_CONFIG_VAR(OPTICFLOW_CORNER_METHOD)
@@ -88,11 +88,11 @@ PRINT_CONFIG_VAR(OPTICFLOW_CORNER_METHOD_CAMERA2)
 
 /* Set the default values */
 #ifndef OPTICFLOW_MAX_TRACK_CORNERS
-#define OPTICFLOW_MAX_TRACK_CORNERS 10
+#define OPTICFLOW_MAX_TRACK_CORNERS 25
 #endif
 
 #ifndef OPTICFLOW_MAX_TRACK_CORNERS_CAMERA2
-#define OPTICFLOW_MAX_TRACK_CORNERS_CAMERA2 100
+#define OPTICFLOW_MAX_TRACK_CORNERS_CAMERA2 25
 #endif
 PRINT_CONFIG_VAR(OPTICFLOW_MAX_TRACK_CORNERS)
 PRINT_CONFIG_VAR(OPTICFLOW_MAX_TRACK_CORNERS_CAMERA2)
@@ -172,7 +172,7 @@ PRINT_CONFIG_VAR(OPTICFLOW_PYRAMID_LEVEL_CAMERA2)
 #endif
 
 #ifndef OPTICFLOW_FAST9_ADAPTIVE_CAMERA2
-#define OPTICFLOW_FAST9_ADAPTIVE_CAMERA2 FALSE
+#define OPTICFLOW_FAST9_ADAPTIVE_CAMERA2 TRUE
 #endif
 PRINT_CONFIG_VAR(OPTICFLOW_FAST9_ADAPTIVE)
 PRINT_CONFIG_VAR(OPTICFLOW_FAST9_ADAPTIVE_CAMERA2)
@@ -565,20 +565,19 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
                opticflow->actfast_long_step, opticflow->actfast_short_step, opticflow->actfast_min_gradient,
                opticflow->actfast_gradient_method, opticflow->id);
 
-    } 
-    else if (opticflow->corner_method == GRID){
+    } else if (opticflow->corner_method == GRID){
       // Manually set a grid of 'corners' to track -- shoudl be much cheaper computationally
       int i,j;
-      for(i=0; i < opticflow->prev_img_gray.w; i=i+opticflow->prev_img_gray.w/SUBSAMPLING_FACTOR)
-        for(j=0; j < opticflow->prev_img_gray.h; j=j+opticflow->prev_img_gray.h/SUBSAMPLING_FACTOR)
+      for(i=0; i < opticflow->prev_img_gray.w; i+=opticflow->prev_img_gray.w/SUBSAMPLING_FACTOR)
+        for(j=0; j < opticflow->prev_img_gray.h; i+=opticflow->prev_img_gray.h/SUBSAMPLING_FACTOR)
           {
             result->corner_cnt++;
-            opticflow->fast9_ret_corners[result->corner_cnt].x = i;
-            opticflow->fast9_ret_corners[result->corner_cnt].y = j;
+            opticflow->fast9_ret_corners->x = i;
+            opticflow->fast9_ret_corners->y = j;
 
           }
+      printf("Number of corners tracked: %d", result->corner_cnt);
     }
-    printf("Number of corners tracked: %d", result->corner_cnt);
     
 
     // Adaptive threshold
@@ -833,7 +832,7 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
   result->noise_measurement = 0.25;
 
   // *************************************************************************************
-  //                              Next Loop Preparation
+  // Next Loop Preparation
   // *************************************************************************************
   if (opticflow->feature_management) {
     result->corner_cnt = result->tracked_cnt;

@@ -204,16 +204,16 @@ float calc_obstacle_cost(trajectory_mat trajectory, obj_mat ob, struct Config co
 		//TODO Georg
 		//calc obstacle cost inf: collision
         //- Nathaniel haven't touched any of the types. This needs a pretty big refactor.
-		Matrix<float, 15, 1> ox = ob[:][0];
-		Matrix<float, 15, 1> oy = ob[:][1];
-		Matrix<float, 15, 31> dx = trajectory[:][0] - ox[:][None];
-		Matrix<float, 15, 31> dy = trajectory[:][1] - oy[:][None];
-		Matrix<float, 15, 31> intermediary = dx*dx+dy*dy;
-		Matrix<float, 15, 31> r = sqrt(intermediary);
+        //If we can use auto here it simplifies the typedef stuff
+		auto dx = trajectory.col(0) - ob.col(0);
+		auto dy = trajectory.col(1) - ob.col(1);
+		auto r = sqrt(dx.pow(2)+dy.pow(2));
 
+        //honestly look at this it looks super duper computationally expensive. I think we just go with the circle - Nathaniel
+        /*
 		if (config.robot_type == RobotType.rectangle){
-			Matrix<float, 31, 1>  		yaw = trajectory[:][2];
-			Matrix<float, 2, 2, 31>  	rot [][] = [[cos(yaw), -sin(yaw)], [sin(yaw), cos(yaw)]];
+			auto  		yaw = trajectory.col(2);
+			auto  	    rot = [[yaw.cos(), -sin(yaw)], [sin(yaw), cos(yaw)]];
 			Matrix<float, 31, 2, 2>  	rot = transpose(rot, [2, 0, 1]);
 			Matrix<float, 15, 31, 2>  	local_ob = ob[:][None] - trajectory[:][0:2];
 			Matrix<float, 465, 2>  		local_ob = local_ob.reshape(-1, local_ob.shape[-1]);
@@ -232,10 +232,14 @@ float calc_obstacle_cost(trajectory_mat trajectory, obj_mat ob, struct Config co
 			if ([r <= config.robot_radius].any()){
 				return float("Inf");
 			}
+		}*/
+
+        if (r <= config.robot_radius){
+				return INFINITY;
 		}
 
-		float min_r = min(r);
-		return (1.0/min_r);		// OK
+		float min_r = r.min();
+		return (1.0/min_r);		
 }
 
 float calc_to_goal_cost(trajectory_mat trajectory, Vector2f goal){

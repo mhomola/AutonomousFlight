@@ -53,8 +53,11 @@
 // whether to show the flow and corners:
 #define OPTICFLOW_SHOW_CORNERS 1
 
+#define GRID 1
 #define EXHAUSTIVE_FAST 0
-#define ACT_FAST 1
+#define ACT_FAST 0
+
+
 // TODO: these are now adapted, but perhaps later could be a setting:
 uint16_t n_time_steps[2] = {10, 10};
 uint16_t n_agents[2] = {25, 25};
@@ -64,15 +67,22 @@ uint16_t n_agents[2] = {25, 25};
 #define SIZE_DIV 1
 // LINEAR_FIT makes a linear optical flow field fit and extracts a lot of information:
 // relative velocities in x, y, z (divergence / time to contact), the slope of the surface, and the surface roughness.
-#define LINEAR_FIT 1
+#define LINEAR_FIT 0
 
+// TODO: check which camera is actually used.
+//  Should be camera2= front, camera= bottom
 #ifndef OPTICFLOW_CORNER_METHOD
 #define OPTICFLOW_CORNER_METHOD ACT_FAST
 #endif
 
 #ifndef OPTICFLOW_CORNER_METHOD_CAMERA2
-#define OPTICFLOW_CORNER_METHOD_CAMERA2 ACT_FAST
+#define OPTICFLOW_CORNER_METHOD_CAMERA2 GRID
 #endif
+
+#ifndef SUBSAMPLING_FACTOR
+#define SUBSAMPLING_FACTOR 2
+#endif
+
 PRINT_CONFIG_VAR(OPTICFLOW_CORNER_METHOD)
 PRINT_CONFIG_VAR(OPTICFLOW_CORNER_METHOD_CAMERA2)
 
@@ -425,7 +435,7 @@ void opticflow_calc_init(struct opticflow_t opticflow[])
   opticflow[0].fast9_min_distance = OPTICFLOW_FAST9_MIN_DISTANCE;
   opticflow[0].fast9_padding = OPTICFLOW_FAST9_PADDING;
   opticflow[0].fast9_rsize = FAST9_MAX_CORNERS;
-  opticflow[0].fast9_ret_corners = calloc(opticflow[0].fast9_rsize, sizeof(struct point_t));
+  opticflow[0].fast9_ret_corners = calloc(opticflow[0].fast9_rsize, sizeof(struct point_t));   //corners are also point_t
 
   opticflow[0].corner_method = OPTICFLOW_CORNER_METHOD;
   opticflow[0].actfast_long_step = OPTICFLOW_ACTFAST_LONG_STEP;
@@ -484,7 +494,8 @@ void opticflow_calc_init(struct opticflow_t opticflow[])
 #endif
 }
 /**
- * Run the optical flow with fast9 and lukaskanade on a new image frame
+ * Run the optical flow with fast9 and lukaskanade on a new image frame.
+ * The magic happens in this function.
  * @param[in] *opticflow The opticalflow structure that keeps track of previous images
  * @param[in] *state The state of the drone
  * @param[in] *img The image frame to calculate the optical flow from
@@ -553,8 +564,21 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
                &opticflow->fast9_ret_corners, n_agents[opticflow->id], n_time_steps[opticflow->id],
                opticflow->actfast_long_step, opticflow->actfast_short_step, opticflow->actfast_min_gradient,
                opticflow->actfast_gradient_method, opticflow->id);
+
+    } else if (opticflow->corner_method == GRID){
+      // Manually set a grid of 'corners' to track -- shoudl be much cheaper computationally
+      int i,j;
+      for(i=0; i < opticflow->prev_img_gray.w; i+=opticflow->prev_img_gray.w/SUBSAMPLING_FACTOR)
+        for(j=0; j < opticflow->prev_img_gray.h; i+=opticflow->prev_img_gray.h/SUBSAMPLING_FACTOR)
+          {
+            result->corner_cnt++;
+            opticflow->fast9_ret_corners->x = i;
+            opticflow->fast9_ret_corners->y = j;
+
+          }
+      printf("Number of corners tracked: %d", result->corner_cnt);
     }
-    // printf("Corners tracked: %d", opticflow->fast9_ret_corners)
+    
 
     // Adaptive threshold
     // NOTE This one is set to True
@@ -587,25 +611,28 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
     }
   }
 
-#if OPTICFLOW_SHOW_CORNERS
-  image_show_points(img, opticflow->fast9_ret_corners, result->corner_cnt);
-#endif
+  #if OPTICFLOW_SHOW_CORNERS
+    image_show_points(img, opticflow->fast9_ret_corners, result->corner_cnt);
+  #endif
 
-  // Check if we found some corners to track
-  if (result->corner_cnt < 1) {
-    // Clear the result otherwise the previous values will be returned for this frame too
-   // VECT3_ASSIGN(result->vel_cam, 0, 0, 0);
-    // VECT3_ASSIGN(result->vel_body, 0, 0, 0);
-    result->div_size = 0;
-    result->divergence = 0;
-    result->noise_measurement = 5.0;
+  if (opticflow->corner_method != GRID)
+  {
+    // Check if we found some corners to track
+    if (result->corner_cnt < 1) {
+      // Clear the result otherwise the previous values will be returned for this frame too
+    // VECT3_ASSIGN(result->vel_cam, 0, 0, 0);
+      // VECT3_ASSIGN(result->vel_body, 0, 0, 0);
+      result->div_size = 0;
+      result->divergence = 0;
+      result->noise_measurement = 5.0;
 
-    image_switch(&opticflow->img_gray, &opticflow->prev_img_gray);
-    return false;
+      image_switch(&opticflow->img_gray, &opticflow->prev_img_gray);
+      return false;
+    }
   }
 
   // *************************************************************************************
-  // Corner Tracking
+  //                                      Corner Tracking
   // *************************************************************************************
 
   // Execute a Lucas Kanade optical flow
@@ -676,6 +703,7 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
 
   if (LINEAR_FIT) {
     // Linear flow fit (normally derotation should be performed before):
+    printf("Doing the expensive lienar fit! \n");
     error_threshold = 10.0f;
     n_iterations_RANSAC = 20;
     n_samples_RANSAC = 5;

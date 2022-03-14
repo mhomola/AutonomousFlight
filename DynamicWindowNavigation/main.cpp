@@ -2,6 +2,18 @@
 #include <tuple>
 #include <math.h>
 #include <eigen3/Eigen/Dense> 
+using namespace Eigen;
+
+//python arange function
+#include <vector>
+
+template<typename T>
+std::vector<T> arange(T start, T stop, T step = 1) {
+    std::vector<T> values;
+    for (T value = start; value < stop; value += step)
+        values.push_back(value);
+    return values;
+}
 
 tuple<vect, vect> dwa_control(vect x, Config config, vect goal, objectlist ob){
     //Top level control function
@@ -118,8 +130,44 @@ Matrix<float, 31, 5> predict_trajectory(Matrix<float, 1, 5> x_init, float v, flo
 		return trajectory;
 }
 
-def calc_control_and_trajectory(x, dw, config, goal, ob):
-//TODO Nathaniel
+tuple<Vector2f, Matrix<float, 1, 5>> calc_control_and_trajectory(x, dw, config, goal, ob) {
+    //TODO Nathaniel
+    //calculation final input with dynamic window
+
+    Matrix<float, 1, 5>  x_init = x;
+    double min_cost = INFINITY;
+    Vector2f best_u(0.0, 0.0);
+    Matrix<float, 1, 5>  best_trajectory = x;
+
+    //Can we eliminate this in favor of something not double looped
+    auto v_range = arange<float>(dw[0], dw[1], config.v_resolution);
+    auto y_range = arange<float>(dw[2], dw[3], config.yaw_rate_resolution);
+    //Maybe can do a for each?
+    for (float v = std::begin(v_range); v != std::end(v_range); ++v) {
+        for (float y = std::begin(y_range); y != std::end(y_range); ++y) {
+
+            auto trajectory  = predicted_trajectory(x_init, *v, *y, config);
+            //Calculate the cost
+            float to_goal_cost= config.to_goal_cost_gain  * calc_to_goal_cost(trajectory, goal);
+            float speed_cost  = config.speed_cost_gain    * (config.max_speed - trajectory(-1, 3));
+            float ob_cost     = config.obstacle_cost_gain * calc_obstacle_cost(trajectory, ob, config);
+
+            float sinal_csot = to_goal_cost + speed_cost + ob_cost;
+
+            // Search for minimum trajectory
+            if (min_cost >= final_cost) {
+                min_cost = final_cost;
+                best_u = Vector2f(*v, *y);
+                best_trajectory = trajectory;
+                if (abs(best_u[0]) < config.robot_stuck_flag_cons & abs(x[3]) < config.robot_stuck_flag_cons){
+                    best_u[1] = -config.max_delta_yaw_rate;
+                }
+            }
+        }
+    }
+    return {best_u, best_trajectory};
+}
+
 
 float calc_obstacle_cost(Matrix<float, 31, 5> trajectory, Matrix<float, 15, 2> ob, struct config) {
 		//TODO Georg
@@ -161,6 +209,9 @@ float calc_obstacle_cost(Matrix<float, 31, 5> trajectory, Matrix<float, 15, 2> o
 
 def calc_to_goal_cost(trajectory, goal):
 //TODO Thijs
+
+    return cost
+}
 
 def main(gx=10.0, gy=10.0, robot_type=RobotType.circle):
 //DODO just call the functions in the right order (just implement the while loop)

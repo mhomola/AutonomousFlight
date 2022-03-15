@@ -14,11 +14,10 @@ Thijs Verkade
 #include <tuple>
 #include <math.h>
 #include <eigen3/Eigen/Core> 
+#include <vector>
 using namespace Eigen;
 using Eigen::placeholders::last;
 
-//python arange function
-#include <vector>
 
 //for simplicity we will just do it manually:
 #define DT 0.1
@@ -55,8 +54,8 @@ std::tuple<Vector2f, trajectory_mat> dwa_control(x_vect& x, const Config& config
     //call Calculate dynamic window
     //call Calculate control and trajectory
     //return control and traject.
-    dw_vect dw = calc_dynamic_window(x, config);
-    return  calc_control_and_trajectory(x, dw, config, goal, ob);
+    dw_vect dw  = calc_dynamic_window(x, config);
+    return        calc_control_and_trajectory(x, dw, config, goal, ob);
 }
 
 x_vect motion(x_vect& x, const Vector2f& u, const float dt) {
@@ -71,54 +70,32 @@ x_vect motion(x_vect& x, const Vector2f& u, const float dt) {
 }
 
 struct Config{
-    //TODO Nathaniel
     //simulation parameter class
-    //Tune stoff here
-
-
-    // robot parameterint
-    //TODO Tune parameters. Currently all still on default
-    //TODO implement pi
-    float max_speed = 1.0;  // [m/s]
-    float min_speed = -0.5;  // [m/s]
-    float max_yaw_rate = 40.0 * M_PI / 180.0;  // [rad/s]
-    float max_accel = 0.2;  // [m/ss]
-    float max_delta_yaw_rate = 40.0 * M_PI / 180.0;  // [rad/ss]
-    float v_resolution = 0.01;  // [m/s]
-    float yaw_rate_resolution = 0.1 * M_PI / 180.0;  // [rad/s]
-    float dt = 0.1;  // [s] Time tick for motion prediction
-    float predict_time = 3.0;  // [s]
-    float to_goal_cost_gain = 0.15;
-    float speed_cost_gain = 1.0;
-    float obstacle_cost_gain = 1.0;
+    //Tune stuff here
+    //Robot parameters
+    float max_speed             = 1.0;  // [m/s]
+    float min_speed             = -0.5;  // [m/s]
+    float max_yaw_rate          = 40.0 * M_PI / 180.0;  // [rad/s]
+    float max_accel             = 0.2;  // [m/ss]
+    float max_delta_yaw_rate    = 40.0 * M_PI / 180.0;  // [rad/ss]
+    float v_resolution          = 0.01;  // [m/s]
+    float yaw_rate_resolution   = 0.1 * M_PI / 180.0;  // [rad/s]
+    float dt                    = DT;  // [s] Time tick for motion prediction
+    float predict_time          = HORIZON;  // [s]
+    float to_goal_cost_gain     = 0.15;
+    float speed_cost_gain       = 1.0;
+    float obstacle_cost_gain    = 1.0;
     float robot_stuck_flag_cons = 0.001;  // constant to prevent robot stucked
-
-    // Also used to check if goal is reached in both types
-    float robot_radius = 1.0;  // [m] for collision check
-
-    // if robot_type == RobotType.rectangle
-    float robot_width = 0.5;  // [m] for collision check
-    float robot_length = 1.2;  // [m] for collision check
-    // obstacles [x(m) y(m), ....]
-    //Lets keep this outside config
-    //obj_mat ob;
-    /*
-    self.ob = np.array([[-1, -1],
-                        [0, 2],
-                        [4.0, 2.0],
-                        ]);
-    */
+    float robot_radius          = 1.0;  // [m] for collision check
 };
 
 dw_vect calc_dynamic_window(x_vect& x,const Config& config){
-		//TODO Georg
 		// calculation dynamic window based on current state x
-
 		// Dynamic window from robot specification
-		dw_vect	Vs = {config.min_speed, config.max_speed, -config.max_yaw_rate, config.max_yaw_rate};
+		dw_vect	Vs  = {config.min_speed, config.max_speed, -config.max_yaw_rate, config.max_yaw_rate};
 
 		// Dynamic window from motion model
-		dw_vect Vd = {
+		dw_vect Vd  = {
 				x[3] - config.max_accel * config.dt,
 				x[3] + config.max_accel * config.dt,
 				x[4] - config.max_delta_yaw_rate * config.dt,
@@ -132,26 +109,24 @@ dw_vect calc_dynamic_window(x_vect& x,const Config& config){
 }
 
 trajectory_mat predict_trajectory(const x_vect& x_init, float v, float y, const Config& config){
-		//TODO Georg
 		// predict trajectory with an input
-        x_vect x;
-		trajectory_mat      trajectory;		        //starts with just x, but then vstacks them up to 31 times //We can probably make this dynamic/based on the dt. OPTIMIZE
-        trajectory.row(0) = x_init;
-        Vector2f            u(v,y);
+        x_vect                x;
+		trajectory_mat        trajectory;
+        trajectory.row(0)   = x_init;
+        Vector2f              u(v,y);
 
         for (int step = 1; step != STEPS; ++step){   
-            x = trajectory.row(step - 1);        
-            trajectory.row(step) =  motion(x, u, config.dt);
+            x                       =  trajectory.row(step - 1);        
+            trajectory.row(step)    =  motion(x, u, config.dt);
         }
 		return trajectory;
 }
 
 std::tuple<Vector2f, x_vect> calc_control_and_trajectory(const x_vect& x, const Vector4f& dw, const Config& config, const Vector2f& goal, const obj_mat& ob) {
-    //TODO Nathaniel
     //calculation final input with dynamic window
 
-    x_vect  x_init = x;
-    double min_cost = INFINITY;
+    x_vect  x_init          = x;
+    double min_cost         = INFINITY;
     Vector2f best_u(0.0, 0.0);
     x_vect  best_trajectory = x;
 
@@ -162,13 +137,13 @@ std::tuple<Vector2f, x_vect> calc_control_and_trajectory(const x_vect& x, const 
     for (auto v_it = v_range.begin(); v_it != v_range.end(); ++v) {
         for (auto y_it = y_range.begin(); y_it != y_range.end(); ++y) {
 
-            auto trajectory  = predict_trajectory(x_init, *v_it, *y_it, config);
+            auto trajectory     = predict_trajectory(x_init, *v_it, *y_it, config);
             //Calculate the cost
-            float to_goal_cost= config.to_goal_cost_gain  * calc_to_goal_cost(trajectory, goal);
-            float speed_cost  = config.speed_cost_gain    * (config.max_speed - trajectory(-1, 3));
-            float ob_cost     = config.obstacle_cost_gain * calc_obstacle_cost(trajectory, ob, config);
+            float to_goal_cost  = config.to_goal_cost_gain  * calc_to_goal_cost(trajectory, goal);
+            float speed_cost    = config.speed_cost_gain    * (config.max_speed - trajectory(-1, 3));
+            float ob_cost       = config.obstacle_cost_gain * calc_obstacle_cost(trajectory, ob, config);
 
-            float final_cost = to_goal_cost + speed_cost + ob_cost;
+            float final_cost    = to_goal_cost + speed_cost + ob_cost;
 
             // Search for minimum trajectory
             if (min_cost >= final_cost) {
@@ -176,7 +151,7 @@ std::tuple<Vector2f, x_vect> calc_control_and_trajectory(const x_vect& x, const 
                 best_u = Vector2f(*v_it, *y_it);
                 best_trajectory = trajectory;
                 if (abs(best_u[0]) < config.robot_stuck_flag_cons & abs(x[3]) < config.robot_stuck_flag_cons){
-                    best_u[1] = -config.max_delta_yaw_rate;
+                    best_u[1]   = -config.max_delta_yaw_rate;
                 }
             }
         }
@@ -189,7 +164,7 @@ float calc_obstacle_cost(const trajectory_mat& trajectory,const obj_mat& ob, con
 		//calc obstacle cost inf: collision
 		auto dx = trajectory.col(0) - ob.col(0);
 		auto dy = trajectory.col(1) - ob.col(1);
-		auto r = sqrt(dx.pow(2)+dy.pow(2));
+		auto r  = sqrt(dx.pow(2)+dy.pow(2));
 
         if (r <= config.robot_radius){
 				return INFINITY;
@@ -201,11 +176,11 @@ float calc_obstacle_cost(const trajectory_mat& trajectory,const obj_mat& ob, con
 
 float calc_to_goal_cost(const trajectory_mat& trajectory, const Vector2f& goal){
     //calc to goal cost with angle difference
-    auto dx = goal[0] - trajectory(last,0);
-    auto dy = goal[1] - trajectory(last, 1);
-    auto error_angle = atan2(dy, dx);
-    auto cost_angle = error_angle - trajectory(last, 2);
-    float cost = abs(atan2(sin(cost_angle),cos(cost_angle)));
+    auto dx             = goal[0] - trajectory(last,0);
+    auto dy             = goal[1] - trajectory(last, 1);
+    auto error_angle    = atan2(dy, dx);
+    auto cost_angle     = error_angle - trajectory(last, 2);
+    float cost          = abs(atan2(sin(cost_angle),cos(cost_angle)));
     return cost
 }
 

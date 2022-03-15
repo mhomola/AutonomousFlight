@@ -70,14 +70,13 @@ uint16_t n_agents[2] = {25, 25};
 // relative velocities in x, y, z (divergence / time to contact), the slope of the surface, and the surface roughness.
 #define LINEAR_FIT 1
 
-// TODO: check which camera is actually used.
-//  Should be camera2= front, camera= bottom
+
 #ifndef OPTICFLOW_CORNER_METHOD
 #define OPTICFLOW_CORNER_METHOD ACT_FAST
 #endif
 
 #ifndef OPTICFLOW_CORNER_METHOD_CAMERA2
-#define OPTICFLOW_CORNER_METHOD_CAMERA2 GRID
+#define OPTICFLOW_CORNER_METHOD_CAMERA2 GRID    // Change here the method
 #endif
 
 #ifndef SUBSAMPLING_FACTOR
@@ -93,7 +92,11 @@ PRINT_CONFIG_VAR(OPTICFLOW_CORNER_METHOD_CAMERA2)
 #endif
 
 #ifndef OPTICFLOW_MAX_TRACK_CORNERS_CAMERA2
-#define OPTICFLOW_MAX_TRACK_CORNERS_CAMERA2 100
+  #if OPTICFLOW_CORNER_METHOD_CAMERA2 == 0 
+    #define OPTICFLOW_MAX_TRACK_CORNERS_CAMERA2 400
+  #else 
+    #define OPTICFLOW_MAX_TRACK_CORNERS_CAMERA2 40
+  #endif
 #endif
 PRINT_CONFIG_VAR(OPTICFLOW_MAX_TRACK_CORNERS)
 PRINT_CONFIG_VAR(OPTICFLOW_MAX_TRACK_CORNERS_CAMERA2)
@@ -179,12 +182,17 @@ PRINT_CONFIG_VAR(OPTICFLOW_FAST9_ADAPTIVE)
 PRINT_CONFIG_VAR(OPTICFLOW_FAST9_ADAPTIVE_CAMERA2)
 
 #ifndef OPTICFLOW_FAST9_THRESHOLD
-#define OPTICFLOW_FAST9_THRESHOLD 20
+#define OPTICFLOW_FAST9_THRESHOLD 30
 #endif
 
 #ifndef OPTICFLOW_FAST9_THRESHOLD_CAMERA2
-#define OPTICFLOW_FAST9_THRESHOLD_CAMERA2 20
+  #if OPTICFLOW_CORNER_METHOD_CAMERA2 == 0 
+    #define OPTICFLOW_FAST9_THRESHOLD_CAMERA2 100
+  #else 
+    #define OPTICFLOW_FAST9_THRESHOLD_CAMERA2 30
+  #endif
 #endif
+
 PRINT_CONFIG_VAR(OPTICFLOW_FAST9_THRESHOLD)
 PRINT_CONFIG_VAR(OPTICFLOW_FAST9_THRESHOLD_CAMERA2)
 
@@ -564,8 +572,7 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
                opticflow->actfast_long_step, opticflow->actfast_short_step, opticflow->actfast_min_gradient,
                opticflow->actfast_gradient_method, opticflow->id);
 
-    } 
-    else if (opticflow->corner_method == GRID){
+    } else if (opticflow->corner_method == GRID){
       // Manually set a grid of 'corners' to track -- shoudl be much cheaper computationally
       int i,j;
       for(i=0; i < opticflow->prev_img_gray.w; i=i+opticflow->prev_img_gray.w/SUBSAMPLING_FACTOR)
@@ -577,7 +584,7 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
 
           }
     }
-    // printf("Number of corners tracked: %d", result->corner_cnt);
+
     
   }
 
@@ -588,6 +595,7 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
 
   if (opticflow->corner_method != GRID)
   {
+      // printf("--- %s is using method %d ", opticflow->camera->dev_name,opticflow->corner_method);
     // Adaptive threshold
     // NOTE This one is set to True
     if (opticflow->fast9_adaptive) {
@@ -635,13 +643,17 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
 
   // Execute a Lucas Kanade optical flow
   result->tracked_cnt = result->corner_cnt;
-  printf("Camera %i -- %d points tracked \n",  opticflow->id+1, result->tracked_cnt);
+  // printf("%s: Conrers dected: %d\n",opticflow->camera->dev_name,result->corner_cnt);
+  // printf("--Max tracked corners: %d \n",opticflow->max_track_corners);
+  
   uint8_t keep_bad_points = 0;
   struct flow_t *vectors = opticFlowLK(&opticflow->img_gray, &opticflow->prev_img_gray, opticflow->fast9_ret_corners,
                                        &result->tracked_cnt,
                                        opticflow->window_size / 2, opticflow->subpixel_factor, opticflow->max_iterations,
                                        opticflow->threshold_vec, opticflow->max_track_corners, opticflow->pyramid_level, keep_bad_points);
   
+  // TODO: the nubmer of tracked corners is not the the full size grid!!!!
+  // printf("Flow vectors found: %i \n", sizeof(vectors)/sizeof(vectors[0]));
 
   if (opticflow->track_back) {
     // TODO: Watch out!
@@ -662,7 +674,9 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
                                   opticflow->window_size / 2, opticflow->subpixel_factor, opticflow->max_iterations,
                                   opticflow->threshold_vec, opticflow->max_track_corners, opticflow->pyramid_level, keep_bad_points);
 
-    printf("Tracked %d points back.\n", back_track_cnt);
+    
+    // printf("Camera %s -- %d back-tracked out of %d points \n",  opticflow->camera->dev_name, back_track_cnt ,result->tracked_cnt);
+    
     int32_t back_x, back_y, diff_x, diff_y, dist_squared;
     int32_t back_track_threshold = 200;
 
@@ -681,7 +695,7 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
         vectors[i].error = LARGE_FLOW_ERROR;
       }
     }
-
+    // Free-up back-tracked vectors:
     free(back_vectors);
   }
 
@@ -691,18 +705,19 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
     image_show_flow_color(img, vectors, result->tracked_cnt, opticflow->subpixel_factor, color, bad_color);
   }
 
-  static int n_samples = 100;
+  if (strcmp(opticflow->camera->dev_name, front_camera.dev_name) == 0)
+  { 
+    // printf("W,H: %d, %d", opticflow->prev_img_gray.w, opticflow->prev_img_gray.h);
+    result->div_size = get_heading_command(vectors, result->tracked_cnt, opticflow->prev_img_gray.h);
+    // TODO: the iamge is for soem reason roated so the width shoudl be height ...
+    // printf("Tracked corners: %d by camera %s \n", result->tracked_cnt, opticflow->camera->dev_name);
   // Estimate size divergence:
-  if (SIZE_DIV) {
-    result->div_size = get_size_divergence(vectors, result->tracked_cnt, n_samples);// * result->fps;
-  } else {
-    result->div_size = 0.0f;
   }
 
   if (strcmp(opticflow->camera->dev_name, bottom_camera.dev_name) == 0){
       if (LINEAR_FIT) {
         // Linear flow fit (normally derotation should be performed before):
-        printf("Doing the expensive lienar fit! \n");
+        // printf("Doing the expensive lienar fit for camera %s! \n",opticflow->camera->dev_name);
         error_threshold = 10.0f;
         n_iterations_RANSAC = 20;
         n_samples_RANSAC = 5;
@@ -722,9 +737,7 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
       }
   }
   
-
-  // Get the median flow
-
+  // Get the median flow -WHy??
   qsort(vectors, result->tracked_cnt, sizeof(struct flow_t), cmp_flow);
   if (result->tracked_cnt == 0) {
     // We got no flow
@@ -913,6 +926,7 @@ static struct flow_t *predict_flow_vectors(struct flow_t *flow_vectors, uint16_t
  */
 static void manage_flow_features(struct image_t *img, struct opticflow_t *opticflow, struct opticflow_result_t *result)
 {   
+
   if (opticflow->corner_method != GRID){
     // check if corners have not moved too close together due to flow:
     // NOTE it only makes sense to do this if the GRID method is not used i.e. if the corners can actually move

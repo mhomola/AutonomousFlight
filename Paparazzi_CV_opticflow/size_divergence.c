@@ -118,3 +118,45 @@ float get_size_divergence(struct flow_t *vectors, int count, int n_samples)
   // return the calculated mean divergence:
   return out;
 }
+
+
+/**
+ * Get the heading command from the difference in optical flow between left and right hemispheres.
+ * @param[in] vectors        The optical flow vectors
+ * @pararam[in] count      The number of optical flow vectors 
+ * @param[in] img_wdith    Size fo the current frame. 
+ * @return Yaw rate command.
+ */
+float get_heading_command(struct flow_t *vectors, int count, int img_size)
+{
+  uint16_t count_l=0, count_r = 0, i;
+  float flow_l =0.f, flow_r =0.f, yaw_command=0.f, flow_tot =0.f;
+
+
+  for (i=0; i< count; i++)
+  { 
+    flow_tot = (float)vectors[i].flow_x * (float)vectors[i].flow_x +\
+     (float)vectors[i].pos.y * (float)vectors[i].flow_y;
+  
+    if (vectors[i].pos.y < img_size/2){
+      count_l++;
+      flow_l+= flow_tot; 
+    }
+    else if(vectors[i].pos.y >img_size/2){
+      count_r++;
+      flow_r+= flow_tot; 
+    }
+  }
+  count_l = (float)(count_l);
+  count_r = (float)(count_r);
+
+  // compute simpel yaw/heading change command
+  yaw_command = (flow_l/count_l - flow_r/count_r)/(flow_l + flow_r);
+  printf("Yaw command: %f from %d + %d (l/r) samples\n", yaw_command, count_l, count_r);
+
+  if (yaw_command < 0.1 || isnan(yaw_command))
+    return 0.0;
+
+  return yaw_command;
+
+}

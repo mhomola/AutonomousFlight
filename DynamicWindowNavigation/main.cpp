@@ -28,9 +28,9 @@ def calc_obstacle_cost(trajectory, ob, config):
 float calc_to_goal_cost(trajectory_mat trajectory, Vector2f goal){
     //calc to goal cost with angle difference
     auto dx = goal[0] - trajectory(last,0);
-    auto dy = goal[1] - trajectory[last, 1];
+    auto dy = goal[1] - trajectory(last, 1);
     auto error_angle = atan2(dy, dx);
-    auto cost_angle = error_angle - trajectory[last, 2];
+    auto cost_angle = error_angle - trajectory(last, 2);
     float cost = abs(atan2(sin(cost_angle),cos(cost_angle)));
 
     return cost

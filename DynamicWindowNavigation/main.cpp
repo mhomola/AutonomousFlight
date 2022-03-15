@@ -8,7 +8,7 @@ def dwa_control(x, config, goal, ob):
 auto class Config:
 //TODO Nathaniel
 
-tuple<vect> motion(vect x, vect u, float dt){
+x_vect motion(x_vect x,Vector2f u, float dt) {
 
     x[2] += u[1] * dt;
     x[0] += u[0] * cos(x[2]) * dt;

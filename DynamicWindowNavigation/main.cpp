@@ -204,6 +204,30 @@ float calc_obstacle_cost(trajectory_mat trajectory, obj_mat ob, struct Config co
 }
 
 
-void main() {}
-//DODO just call the functions in the right order (just implement the while loop)
-//TODO Thijs
+int main(){
+	float gx=10.0;
+	float gy=10.0;
+	RobotType robot_type = circle;
+	// initial state [x(m), y(m), yaw(rad), v(m/s), omega(rad/s)]
+	x_vect x = {0.0,0.0,M_PI/8.0,0.0,0.0};
+	Vector2f goal = {gx,gy};
+
+	config.robot_type = robot_type;
+	trajectory_mat trajectory = x;
+	obj_mat ob = config.ob;
+
+	while (true){
+		[Vector2f u, trajectory_mat predicted_trajectory] = dwa_control(x,config,goal,ob);
+		x_vect x = motion(x,u,config.dt);
+		trajectory = Eigen::vstack(trajectory,x);
+
+		auto dist_to_goal = sqrt(square((x[0]-goal[0]),2) + square((x[1]-goal[1]),2));
+
+		if (dist_to_goal <= config.robot_radius){
+			break;
+		}
+
+	}
+	return 0;
+}
+

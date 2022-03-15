@@ -58,6 +58,16 @@ std::tuple<Vector2f, trajectory_mat >dwa_control(x_vect x, Config config, Vector
     return  calc_control_and_trajectory(x, dw, config, goal, ob);
 }
 
+x_vect motion(x_vect x,Vector2f u, float dt) {
+
+    x[2] += u[1] * dt;
+    x[0] += u[0] * cos(x[2]) * dt;
+    x[1] += u[0] * sin(x[2]) * dt;
+    x[3] = u[0];
+    x[4] = u[1];
+
+    return x;
+}
 
 struct Config{
     //TODO Nathaniel

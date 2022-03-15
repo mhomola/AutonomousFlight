@@ -99,6 +99,8 @@ struct Config{
     float robot_width = 0.5;  // [m] for collision check
     float robot_length = 1.2;  // [m] for collision check
     // obstacles [x(m) y(m), ....]
+
+    obj_mat ob;
     /*
     self.ob = np.array([[-1, -1],
                         [0, 2],

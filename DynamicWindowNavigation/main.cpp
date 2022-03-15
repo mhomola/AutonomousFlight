@@ -24,7 +24,6 @@ typedef Matrix<float, 1, 5> x_vect;
 typedef Matrix<float, 1, 4> dw_vect;
 typedef Matrix<float, 31, 5> trajectory_mat;
 typedef Matrix<float, Dynamic, 2> obj_mat;
-//typedef x_vect trajectory_vect; //is x always the trajectory?? Yes yes it is. 
 
 
 //Functions in this file:
@@ -49,24 +48,16 @@ std::tuple<Vector2f, trajectory_mat >dwa_control(x_vect x, Config config, Vector
     //call Calculate dynamic window
     //call Calculate control and trajectory
     //return control and traject.
-    //TODO Nathaniel
-    //TODO ensure proper variable types.
-    //TODO ensure pointers are used etc.
-    Vector2f u;
-    x_vect trajectory;
     dw_vect dw = calc_dynamic_window(x, config);
-    [u, trajectory] = calc_control_and_trajectory(x, dw, config, goal, ob);
-    return  {u, trajectory};
+    return  calc_control_and_trajectory(x, dw, config, goal, ob);
 }
 
-enum RobotType {circle, rectangle};
 
 struct Config{
     //TODO Nathaniel
     //simulation parameter class
     //Tune stoff here
 
-    using enum RobotType;
 
     // robot parameterint
     //TODO Tune parameters. Currently all still on default
@@ -84,9 +75,7 @@ struct Config{
     float speed_cost_gain = 1.0;
     float obstacle_cost_gain = 1.0;
     float robot_stuck_flag_cons = 0.001;  // constant to prevent robot stucked
-    RobotType robot_type = circle;
 
-    // if robot_type == RobotType.circle
     // Also used to check if goal is reached in both types
     float robot_radius = 1.0;  // [m] for collision check
 
@@ -95,22 +84,9 @@ struct Config{
     float robot_length = 1.2;  // [m] for collision check
     // obstacles [x(m) y(m), ....]
     /*
-    Currently removed this. We should implement the object list differently then the python script
     self.ob = np.array([[-1, -1],
                         [0, 2],
                         [4.0, 2.0],
-                        [5.0, 4.0],
-                        [5.0, 5.0],
-                        [5.0, 6.0],
-                        [5.0, 9.0],
-                        [8.0, 9.0],
-                        [7.0, 9.0],
-                        [8.0, 10.0],
-                        [9.0, 11.0],
-                        [12.0, 13.0],
-                        [12.0, 12.0],
-                        [15.0, 15.0],
-                        [13.0, 13.0]
                         ]);
     */
 };
@@ -203,36 +179,9 @@ std::tuple<Vector2f, x_vect> calc_control_and_trajectory(x_vect x, Vector4f dw,s
 float calc_obstacle_cost(trajectory_mat trajectory, obj_mat ob, struct Config config) {
 		//TODO Georg
 		//calc obstacle cost inf: collision
-        //- Nathaniel haven't touched any of the types. This needs a pretty big refactor.
-        //If we can use auto here it simplifies the typedef stuff
 		auto dx = trajectory.col(0) - ob.col(0);
 		auto dy = trajectory.col(1) - ob.col(1);
 		auto r = sqrt(dx.pow(2)+dy.pow(2));
-
-        //honestly look at this it looks super duper computationally expensive. I think we just go with the circle - Nathaniel
-        /*
-		if (config.robot_type == RobotType.rectangle){
-			auto  		yaw = trajectory.col(2);
-			auto  	    rot = [[yaw.cos(), -sin(yaw)], [sin(yaw), cos(yaw)]];
-			Matrix<float, 31, 2, 2>  	rot = transpose(rot, [2, 0, 1]);
-			Matrix<float, 15, 31, 2>  	local_ob = ob[:][None] - trajectory[:][0:2];
-			Matrix<float, 465, 2>  		local_ob = local_ob.reshape(-1, local_ob.shape[-1]);
-			Matrix<float, 31, 465, 2>  	local_ob = [local_ob @ x for x in rot];				//fix this
-			Matrix<float, 14415, 2>  	local_ob = local_ob.reshaped(-1, local_ob.shape[-1]);
-			Matrix<bool, 14415, 1>  	upper_check = local_ob[:][0] <= config.robot_length / 2;
-			Matrix<bool, 14415, 1>  	right_check = local_ob[:][1] <= config.robot_width / 2;
-			Matrix<bool, 14415, 1>  	bottom_check = local_ob[:][0] >= -config.robot_length / 2;
-			Matrix<bool, 14415, 1>  	left_check = local_ob[:][1] >= -config.robot_width / 2;
-			// if upper, right, bottom, left are all the same, return float "Inf"
-		    if ((logical_and(logical_and(upper_check, right_check),logical_and(bottom_check, left_check))).any()){
-		    	return float("Inf");
-		        }
-		}
-		else if (config.robot_type == RobotType.circle){
-			if ([r <= config.robot_radius].any()){
-				return float("Inf");
-			}
-		}*/
 
         if (r <= config.robot_radius){
 				return INFINITY;
@@ -248,6 +197,6 @@ float calc_to_goal_cost(trajectory_mat trajectory, Vector2f goal){
     return cost;
 }
 
-void main(gx=10.0, gy=10.0, robot_type=RobotType.circle) {}
+void main() {}
 //DODO just call the functions in the right order (just implement the while loop)
 //TODO Thijs

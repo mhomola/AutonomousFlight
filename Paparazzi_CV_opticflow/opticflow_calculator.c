@@ -630,7 +630,7 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
   }
 
   // *************************************************************************************
-  //                                      Corner Tracking
+  //                                      Corner/Grid-points Tracking
   // *************************************************************************************
 
   // Execute a Lucas Kanade optical flow
@@ -686,8 +686,8 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
   }
 
   if (opticflow->show_flow) {
-    uint8_t color[4] = {0, 0, 0, 0};
-    uint8_t bad_color[4] = {255, 0, 0, 0};
+    uint8_t color[4] = {100, 100, 0, 0};
+    uint8_t bad_color[4] = {255, 255, 0, 0};
     image_show_flow_color(img, vectors, result->tracked_cnt, opticflow->subpixel_factor, color, bad_color);
   }
 
@@ -699,28 +699,32 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
     result->div_size = 0.0f;
   }
 
-  if (LINEAR_FIT) {
-    // Linear flow fit (normally derotation should be performed before):
-    printf("Doing the expensive lienar fit! \n");
-    error_threshold = 10.0f;
-    n_iterations_RANSAC = 20;
-    n_samples_RANSAC = 5;
-    success_fit = analyze_linear_flow_field(vectors, result->tracked_cnt, error_threshold, n_iterations_RANSAC,
-                                            n_samples_RANSAC, img->w, img->h, &fit_info);
+  if (strcmp(opticflow->camera->dev_name, bottom_camera.dev_name) == 0){
+      if (LINEAR_FIT) {
+        // Linear flow fit (normally derotation should be performed before):
+        printf("Doing the expensive lienar fit! \n");
+        error_threshold = 10.0f;
+        n_iterations_RANSAC = 20;
+        n_samples_RANSAC = 5;
+        success_fit = analyze_linear_flow_field(vectors, result->tracked_cnt, error_threshold, n_iterations_RANSAC,
+                                                n_samples_RANSAC, img->w, img->h, &fit_info);
 
-    if (!success_fit) {
-      fit_info.divergence = 0.0f;
-      fit_info.surface_roughness = 0.0f;
-    }
+        if (!success_fit) {
+          fit_info.divergence = 0.0f;
+          fit_info.surface_roughness = 0.0f;
+        }
 
-    result->divergence = fit_info.divergence;
-    result->surface_roughness = fit_info.surface_roughness;
-  } else {
-    result->divergence = 0.0f;
-    result->surface_roughness = 0.0f;
+        result->divergence = fit_info.divergence;
+        result->surface_roughness = fit_info.surface_roughness;
+      } else {
+        result->divergence = 0.0f;
+        result->surface_roughness = 0.0f;
+      }
   }
+  
 
   // Get the median flow
+
   qsort(vectors, result->tracked_cnt, sizeof(struct flow_t), cmp_flow);
   if (result->tracked_cnt == 0) {
     // We got no flow
@@ -735,7 +739,7 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
     result->flow_x = vectors[result->tracked_cnt / 2].flow_x;
     result->flow_y = vectors[result->tracked_cnt / 2].flow_y;
   } else {
-    // Take the average of the 2 median points
+    // Take the average of the 2 median points (because there are odd number of vectors)
     result->flow_x = (vectors[result->tracked_cnt / 2 - 1].flow_x + vectors[result->tracked_cnt / 2].flow_x) / 2.f;
     result->flow_y = (vectors[result->tracked_cnt / 2 - 1].flow_y + vectors[result->tracked_cnt / 2].flow_y) / 2.f;
   }
@@ -807,26 +811,6 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
     }
   }
   result->camera_id = opticflow->id;
-
-  // Velocity calculation
-  // NOTE -- removed since we use optitrack during the competition 
-  // Right now this formula is under assumption that the flow only exist in the center axis of the camera.
-  // TODO: Calculate the velocity more sophisticated, taking into account the drone's angle and the slope of the ground plane.
-  // TODO: This is actually only correct for the bottom camera:
-  // result->vel_cam.x = (float)result->flow_der_x * result->fps * agl_dist_value_filtered /
-  //                     (opticflow->subpixel_factor * opticflow->camera->camera_intrinsics.focal_x);
-  // result->vel_cam.y = (float)result->flow_der_y * result->fps * agl_dist_value_filtered /
-  //                     (opticflow->subpixel_factor * opticflow->camera->camera_intrinsics.focal_y);
-  // result->vel_cam.z = result->divergence * result->fps * agl_dist_value_filtered;
-
-  //Apply a  median filter to the velocity if wanted
-  // if (opticflow->median_filter == true) {
-  //   UpdateMedianFilterVect3Float(vel_filt, result->vel_cam);
-  // }
-
-  // Determine quality of noise measurement for state filter
-  //TODO develop a noise model based on groundtruth
-  //result->noise_measurement = 1 - (float)result->tracked_cnt / ((float)opticflow->max_track_corners * 1.25f);
   result->noise_measurement = 0.25;
 
   // *************************************************************************************

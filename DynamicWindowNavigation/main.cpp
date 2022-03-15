@@ -15,6 +15,7 @@ Thijs Verkade
 #include <math.h>
 #include <eigen3/Eigen/Core> 
 using namespace Eigen;
+using Eigen::placeholders::last;
 
 //python arange function
 #include <vector>
@@ -33,13 +34,13 @@ typedef Matrix<float, Dynamic, 2> obj_mat;
 
 
 //Functions in this file:
-std::tuple<Vector2f, trajectory_mat>    dwa_control(x_vect x, Config config, Vector2f goal, Matrix<float, Dynamic,2> ob);
-x_vect                                  motion(x_vect x,Vector2f u, float dt);
-dw_vect                                 calc_dynamic_window(x_vect x, struct Config config);
-trajectory_mat                          predict_trajectory(x_vect x_init, float v, float y, struct Config config);
-std::tuple<Vector2f, x_vect>            calc_control_and_trajectory(x_vect x, Vector4f dw,struct Config config, Vector2f goal, obj_mat ob);
-float                                   calc_obstacle_cost(trajectory_mat trajectory, obj_mat ob, struct Config config);
-float                                   calc_to_goal_cost(trajectory_mat trajectory, Vector2f goal);
+std::tuple<Vector2f, trajectory_mat>    dwa_control(x_vect& x, const Config& config, const Vector2f& goal, const obj_mat& ob);
+x_vect                                  motion(x_vect& x, const Vector2f& u, const float dt);
+dw_vect                                 calc_dynamic_window(x_vect& x,const Config& config);
+trajectory_mat                          predict_trajectory(const x_vect& x_init, float v, float y, const Config& config);
+std::tuple<Vector2f, x_vect>            calc_control_and_trajectory(const x_vect& x, const Vector4f& dw, const Config& config, const Vector2f& goal, const obj_mat& ob);
+float                                   calc_obstacle_cost(const trajectory_mat& trajectory,const obj_mat& ob, const Config& config);
+float                                   calc_to_goal_cost(const trajectory_mat& trajectory, const Vector2f& goal);
 
 template<typename T>
 std::vector<T> arange(T start, T stop, T step = 1) {
@@ -49,7 +50,7 @@ std::vector<T> arange(T start, T stop, T step = 1) {
     return values;
 }
 
-std::tuple<Vector2f, trajectory_mat >dwa_control(x_vect x, Config config, Vector2f goal, obj_mat ob) {
+std::tuple<Vector2f, trajectory_mat> dwa_control(x_vect& x, const Config& config, const Vector2f& goal, const obj_mat& ob) {
     //Top level control function
     //call Calculate dynamic window
     //call Calculate control and trajectory
@@ -58,7 +59,7 @@ std::tuple<Vector2f, trajectory_mat >dwa_control(x_vect x, Config config, Vector
     return  calc_control_and_trajectory(x, dw, config, goal, ob);
 }
 
-x_vect motion(x_vect x,Vector2f u, float dt) {
+x_vect motion(x_vect& x, const Vector2f& u, const float dt) {
 
     x[2] += u[1] * dt;
     x[0] += u[0] * cos(x[2]) * dt;
@@ -99,8 +100,8 @@ struct Config{
     float robot_width = 0.5;  // [m] for collision check
     float robot_length = 1.2;  // [m] for collision check
     // obstacles [x(m) y(m), ....]
-
-    obj_mat ob;
+    //Lets keep this outside config
+    //obj_mat ob;
     /*
     self.ob = np.array([[-1, -1],
                         [0, 2],
@@ -109,8 +110,7 @@ struct Config{
     */
 };
 
-
-dw_vect calc_dynamic_window(x_vect x, struct Config config){				// is config really a struct?
+dw_vect calc_dynamic_window(x_vect& x,const Config& config){
 		//TODO Georg
 		// calculation dynamic window based on current state x
 
@@ -130,31 +130,23 @@ dw_vect calc_dynamic_window(x_vect x, struct Config config){				// is config rea
 
 		return dw;
 }
-float calc_to_goal_cost(trajectory_mat trajectory, Vector2f goal){
-    //calc to goal cost with angle difference
-    auto dx = goal[0] - trajectory(last,0);
-    auto dy = goal[1] - trajectory(last, 1);
-    auto error_angle = atan2(dy, dx);
-    auto cost_angle = error_angle - trajectory(last, 2);
-    float cost = abs(atan2(sin(cost_angle),cos(cost_angle)));
-    return cost
-}
-trajectory_mat predict_trajectory(x_vect x_init, float v, float y, struct Config config){
+
+trajectory_mat predict_trajectory(const x_vect& x_init, float v, float y, const Config& config){
 		//TODO Georg
 		// predict trajectory with an input
+        x_vect x;
 		trajectory_mat      trajectory;		        //starts with just x, but then vstacks them up to 31 times //We can probably make this dynamic/based on the dt. OPTIMIZE
         trajectory.row(0) = x_init;
         Vector2f            u(v,y);
-        //gonna leave this while loop. Needs to be refactored as this isn't the best way to do it.
 
-        for (int step = 1; step != STEPS; ++step){           
-            trajectory.row(step) =  motion(trajectory.row(step - 1), u, config.dt);
+        for (int step = 1; step != STEPS; ++step){   
+            x = trajectory.row(step - 1);        
+            trajectory.row(step) =  motion(x, u, config.dt);
         }
-
 		return trajectory;
 }
 
-std::tuple<Vector2f, x_vect> calc_control_and_trajectory(x_vect x, Vector4f dw,struct Config config, Vector2f goal, obj_mat ob) {
+std::tuple<Vector2f, x_vect> calc_control_and_trajectory(const x_vect& x, const Vector4f& dw, const Config& config, const Vector2f& goal, const obj_mat& ob) {
     //TODO Nathaniel
     //calculation final input with dynamic window
 
@@ -192,7 +184,7 @@ std::tuple<Vector2f, x_vect> calc_control_and_trajectory(x_vect x, Vector4f dw,s
     return {best_u, best_trajectory};
 }
 
-float calc_obstacle_cost(trajectory_mat trajectory, obj_mat ob, struct Config config) {
+float calc_obstacle_cost(const trajectory_mat& trajectory,const obj_mat& ob, const Config& config) {
 		//TODO Georg
 		//calc obstacle cost inf: collision
 		auto dx = trajectory.col(0) - ob.col(0);
@@ -207,6 +199,15 @@ float calc_obstacle_cost(trajectory_mat trajectory, obj_mat ob, struct Config co
 		return (1.0/min_r);		
 }
 
+float calc_to_goal_cost(const trajectory_mat& trajectory, const Vector2f& goal){
+    //calc to goal cost with angle difference
+    auto dx = goal[0] - trajectory(last,0);
+    auto dy = goal[1] - trajectory(last, 1);
+    auto error_angle = atan2(dy, dx);
+    auto cost_angle = error_angle - trajectory(last, 2);
+    float cost = abs(atan2(sin(cost_angle),cos(cost_angle)));
+    return cost
+}
 
 int main(){
 	float gx=10.0;

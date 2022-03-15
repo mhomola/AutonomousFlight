@@ -13,7 +13,7 @@ Thijs Verkade
 #include <iostream>
 #include <tuple>
 #include <math.h>
-#include <eigen3/Eigen/Dense> 
+#include <eigen3/Eigen/Core> 
 using namespace Eigen;
 
 //python arange function
@@ -124,10 +124,9 @@ dw_vect calc_dynamic_window(x_vect x, struct Config config){				// is config rea
 trajectory_mat predict_trajectory(x_vect x_init, float v, float y, struct Config config){
 		//TODO Georg
 		// predict trajectory with an input
-
-		x_vect  	x(x_init);
-		trajectory_mat  	trajectory(x);		        //starts with just x, but then vstacks them up to 31 times //We can probably make this dynamic/based on the dt. OPTIMIZE
-        Vector2f                u(v,y);
+		x_vect  	    x(x_init);
+		trajectory_mat  trajectory(x);		        //starts with just x, but then vstacks them up to 31 times //We can probably make this dynamic/based on the dt. OPTIMIZE
+        Vector2f        u(v,y);
 		float time = 0;
         //gonna leave this while loop. Needs to be refactored as this isn't the best way to do it.
 		while (time <= config.predict_time){

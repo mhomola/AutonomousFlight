@@ -25,12 +25,12 @@ def calc_control_and_trajectory(x, dw, config, goal, ob):
 def calc_obstacle_cost(trajectory, ob, config):
 //TODO Georg
 
-float calc_to_goal_cost(vect trajectory, vect goal){
+float calc_to_goal_cost(trajectory_mat trajectory, Vector2f goal){
     //calc to goal cost with angle difference
-    float dx = goal[0] - trajectory[-1, 0];
-    float dy = goal[1] - trajectory[-1, 1];
-    float error_angle = atan2(dy, dx);
-    float cost_angle = error_angle - trajectory[-1, 2];
+    auto dx = goal[0] - trajectory(last,0);
+    auto dy = goal[1] - trajectory[last, 1];
+    auto error_angle = atan2(dy, dx);
+    auto cost_angle = error_angle - trajectory[last, 2];
     float cost = abs(atan2(sin(cost_angle),cos(cost_angle)));
 
     return cost

@@ -19,10 +19,16 @@ using namespace Eigen;
 //python arange function
 #include <vector>
 
+//for simplicity we will just do it manually:
+#define DT 0.1
+#define HORIZON 3
+//horizon time/dt = 3/0.1 = 30 + 1 (+1 for the current time)
+#define STEPS 31
+
 //Declare matrix sizes for clarity and reducing read complexity
 typedef Matrix<float, 1, 5> x_vect;
 typedef Matrix<float, 1, 4> dw_vect;
-typedef Matrix<float, 31, 5> trajectory_mat;
+typedef Matrix<float, STEPS, 5> trajectory_mat;
 typedef Matrix<float, Dynamic, 2> obj_mat;
 
 
@@ -108,7 +114,7 @@ dw_vect calc_dynamic_window(x_vect x, struct Config config){				// is config rea
 		dw_vect	Vs = {config.min_speed, config.max_speed, -config.max_yaw_rate, config.max_yaw_rate};
 
 		// Dynamic window from motion model
-		dw_vect 	Vd = {
+		dw_vect Vd = {
 				x[3] - config.max_accel * config.dt,
 				x[3] + config.max_accel * config.dt,
 				x[4] - config.max_delta_yaw_rate * config.dt,
@@ -116,7 +122,7 @@ dw_vect calc_dynamic_window(x_vect x, struct Config config){				// is config rea
 		};
 
 		// [v_min, v_max, yaw_rate_min, yaw_rate_max]
-		dw_vect 	dw(std::max(Vs[0], Vd[0]), std::min(Vs[1], Vd[1]), std::max(Vs[2], Vd[2]), std::min(Vs[3], Vd[3]));
+		dw_vect dw(std::max(Vs[0], Vd[0]), std::min(Vs[1], Vd[1]), std::max(Vs[2], Vd[2]), std::min(Vs[3], Vd[3]));
 
 		return dw;
 }
@@ -124,16 +130,15 @@ dw_vect calc_dynamic_window(x_vect x, struct Config config){				// is config rea
 trajectory_mat predict_trajectory(x_vect x_init, float v, float y, struct Config config){
 		//TODO Georg
 		// predict trajectory with an input
-		x_vect  	    x(x_init);
-		trajectory_mat  trajectory(x);		        //starts with just x, but then vstacks them up to 31 times //We can probably make this dynamic/based on the dt. OPTIMIZE
-        Vector2f        u(v,y);
-		float time = 0;
+		trajectory_mat      trajectory;		        //starts with just x, but then vstacks them up to 31 times //We can probably make this dynamic/based on the dt. OPTIMIZE
+        trajectory.row(0) = x_init;
+        Vector2f            u(v,y);
         //gonna leave this while loop. Needs to be refactored as this isn't the best way to do it.
-		while (time <= config.predict_time){
-			x = motion(x, u, config.dt);                    //return next position based on current position, v,y and timestep
-			trajectory = Eigen::vstack(trajectory, x); 		//not sure whether vstack works this way
-		    time += config.dt;
-		}
+
+        for (int step = 1; step != STEPS; ++step){           
+            trajectory.row(step) =  motion(trajectory.row(step - 1), u, config.dt);
+        }
+
 		return trajectory;
 }
 

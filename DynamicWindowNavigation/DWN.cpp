@@ -184,7 +184,7 @@ float calc_to_goal_cost(const trajectory_mat& trajectory, const Vector2f& goal){
     return cost
 }
 
-int main(){
+/*int main(){
 	float gx=10.0;
 	float gy=10.0;
 	// initial state [x(m), y(m), yaw(rad), v(m/s), omega(rad/s)]
@@ -210,4 +210,4 @@ int main(){
 	}
 	return 0;
 }
-
+*/

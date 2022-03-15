@@ -108,14 +108,6 @@ struct Config{
 };
 
 
-x_vect motion(x_vect x,Vector2f u, float dt) {
-    //TODO figure out if this is just simulating the real world. Do we need to implement something here?
-    //TODO is this a placeholder and we just use our drone simulation instead. 
-    //TODO this could also be a prediction
-    //TODO thijs will figure it out
-    return x;
-}
-
 dw_vect calc_dynamic_window(x_vect x, struct Config config){				// is config really a struct?
 		//TODO Georg
 		// calculation dynamic window based on current state x
@@ -217,13 +209,13 @@ float calc_obstacle_cost(trajectory_mat trajectory, obj_mat ob, struct Config co
 int main(){
 	float gx=10.0;
 	float gy=10.0;
-	RobotType robot_type = circle;
 	// initial state [x(m), y(m), yaw(rad), v(m/s), omega(rad/s)]
 	x_vect x = {0.0,0.0,M_PI/8.0,0.0,0.0};
 	Vector2f goal = {gx,gy};
 
-	config.robot_type = robot_type;
 	trajectory_mat trajectory = x;
+
+    Config config;
 	obj_mat ob = config.ob;
 
 	while (true){

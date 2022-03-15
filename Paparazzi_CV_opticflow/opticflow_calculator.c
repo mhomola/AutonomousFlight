@@ -53,9 +53,10 @@
 // whether to show the flow and corners:
 #define OPTICFLOW_SHOW_CORNERS 1
 
-#define GRID 1
-#define EXHAUSTIVE_FAST 0
-#define ACT_FAST 0
+// How to select interesting features:
+#define GRID 0    // grid points (dense flow)
+#define EXHAUSTIVE_FAST 1   //corners
+#define ACT_FAST 2     //corners
 
 
 // TODO: these are now adapted, but perhaps later could be a setting:
@@ -67,7 +68,7 @@ uint16_t n_agents[2] = {25, 25};
 #define SIZE_DIV 1
 // LINEAR_FIT makes a linear optical flow field fit and extracts a lot of information:
 // relative velocities in x, y, z (divergence / time to contact), the slope of the surface, and the surface roughness.
-#define LINEAR_FIT 0
+#define LINEAR_FIT 1
 
 // TODO: check which camera is actually used.
 //  Should be camera2= front, camera= bottom
@@ -80,7 +81,7 @@ uint16_t n_agents[2] = {25, 25};
 #endif
 
 #ifndef SUBSAMPLING_FACTOR
-#define SUBSAMPLING_FACTOR 10
+#define SUBSAMPLING_FACTOR 20
 #endif
 
 PRINT_CONFIG_VAR(OPTICFLOW_CORNER_METHOD)
@@ -544,16 +545,14 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
   // *************************************************************************************
   // TODO: 
   // if feature_management is selected and tracked corners drop below a threshold, redetect
-  if ((opticflow->feature_management) && (result->corner_cnt < opticflow->max_track_corners / 2)) {
+  if ((opticflow->feature_management) && (result->corner_cnt < opticflow->max_track_corners / 2)) 
     manage_flow_features(img, opticflow, result);
-  } else if (!opticflow->feature_management) {
+  else if (!opticflow->feature_management) {
     // needs to be set to 0 because result is now static
     result->corner_cnt = 0;
 
     if (opticflow->corner_method == EXHAUSTIVE_FAST) {
       // FAST corner detection
-      // TODO: There is something wrong with fast9_detect destabilizing FPS. This problem is reduced with putting min_distance
-      // to 0 (see defines), however a more permanent solution should be considered
       fast9_detect(&opticflow->prev_img_gray, opticflow->fast9_threshold, opticflow->fast9_min_distance,
                    opticflow->fast9_padding, opticflow->fast9_padding, &result->corner_cnt, &opticflow->fast9_rsize,
                    &opticflow->fast9_ret_corners, NULL);
@@ -572,15 +571,23 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
       for(i=0; i < opticflow->prev_img_gray.w; i=i+opticflow->prev_img_gray.w/SUBSAMPLING_FACTOR)
         for(j=0; j < opticflow->prev_img_gray.h; j=j+opticflow->prev_img_gray.h/SUBSAMPLING_FACTOR)
           {
-            result->corner_cnt++;
             opticflow->fast9_ret_corners[result->corner_cnt].x = i;
             opticflow->fast9_ret_corners[result->corner_cnt].y = j;
+            result->corner_cnt++;  // update corner counter
 
           }
     }
-    printf("Number of corners tracked: %d", result->corner_cnt);
+    // printf("Number of corners tracked: %d", result->corner_cnt);
     
+  }
 
+  // Show corners on the video recording:
+  #if OPTICFLOW_SHOW_CORNERS
+    image_show_points(img, opticflow->fast9_ret_corners, result->corner_cnt);
+  #endif
+
+  if (opticflow->corner_method != GRID)
+  {
     // Adaptive threshold
     // NOTE This one is set to True
     if (opticflow->fast9_adaptive) {
@@ -610,19 +617,9 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
         }
       }
     }
-  }
-
-  #if OPTICFLOW_SHOW_CORNERS
-    image_show_points(img, opticflow->fast9_ret_corners, result->corner_cnt);
-  #endif
-
-  if (opticflow->corner_method != GRID)
-  {
     // Check if we found some corners to track
     if (result->corner_cnt < 1) {
-      // Clear the result otherwise the previous values will be returned for this frame too
-    // VECT3_ASSIGN(result->vel_cam, 0, 0, 0);
-      // VECT3_ASSIGN(result->vel_body, 0, 0, 0);
+
       result->div_size = 0;
       result->divergence = 0;
       result->noise_measurement = 5.0;
@@ -638,7 +635,7 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
 
   // Execute a Lucas Kanade optical flow
   result->tracked_cnt = result->corner_cnt;
-  printf("Number of corners tracked: %d \n", result->tracked_cnt);
+  printf("Camera %i -- %d points tracked \n",  opticflow->id+1, result->tracked_cnt);
   uint8_t keep_bad_points = 0;
   struct flow_t *vectors = opticFlowLK(&opticflow->img_gray, &opticflow->prev_img_gray, opticflow->fast9_ret_corners,
                                        &result->tracked_cnt,
@@ -931,32 +928,35 @@ static struct flow_t *predict_flow_vectors(struct flow_t *flow_vectors, uint16_t
  *
  */
 static void manage_flow_features(struct image_t *img, struct opticflow_t *opticflow, struct opticflow_result_t *result)
-{
-  // first check if corners have not moved too close together due to flow:
-  int16_t c1 = 0;
-  while (c1 < (int16_t)result->corner_cnt - 1) {
-    bool exists = false;
-    for (int16_t i = c1 + 1; i < result->corner_cnt; i++) {
-      if (abs((int16_t)opticflow->fast9_ret_corners[c1].x - (int16_t)opticflow->fast9_ret_corners[i].x) <
-          opticflow->fast9_min_distance / 2
-          && abs((int16_t)opticflow->fast9_ret_corners[c1].y - (int16_t)opticflow->fast9_ret_corners[i].y) <
-          opticflow->fast9_min_distance / 2) {
-        // if too close, replace the corner with the last one in the list:
-        opticflow->fast9_ret_corners[c1].x = opticflow->fast9_ret_corners[result->corner_cnt - 1].x;
-        opticflow->fast9_ret_corners[c1].y = opticflow->fast9_ret_corners[result->corner_cnt - 1].y;
-        opticflow->fast9_ret_corners[c1].count = opticflow->fast9_ret_corners[result->corner_cnt - 1].count;
-        opticflow->fast9_ret_corners[c1].x_sub = opticflow->fast9_ret_corners[result->corner_cnt - 1].x_sub;
-        opticflow->fast9_ret_corners[c1].y_sub = opticflow->fast9_ret_corners[result->corner_cnt - 1].y_sub;
+{   
+  if (opticflow->corner_method != GRID){
+    // check if corners have not moved too close together due to flow:
+    // NOTE it only makes sense to do this if the GRID method is not used i.e. if the corners can actually move
+    int16_t c1 = 0;
+    while (c1 < (int16_t)result->corner_cnt - 1) {
+      bool exists = false;
+      for (int16_t i = c1 + 1; i < result->corner_cnt; i++) {
+        if (abs((int16_t)opticflow->fast9_ret_corners[c1].x - (int16_t)opticflow->fast9_ret_corners[i].x) <
+            opticflow->fast9_min_distance / 2
+            && abs((int16_t)opticflow->fast9_ret_corners[c1].y - (int16_t)opticflow->fast9_ret_corners[i].y) <
+            opticflow->fast9_min_distance / 2) {
+          // if too close, replace the corner with the last one in the list:
+          opticflow->fast9_ret_corners[c1].x = opticflow->fast9_ret_corners[result->corner_cnt - 1].x;
+          opticflow->fast9_ret_corners[c1].y = opticflow->fast9_ret_corners[result->corner_cnt - 1].y;
+          opticflow->fast9_ret_corners[c1].count = opticflow->fast9_ret_corners[result->corner_cnt - 1].count;
+          opticflow->fast9_ret_corners[c1].x_sub = opticflow->fast9_ret_corners[result->corner_cnt - 1].x_sub;
+          opticflow->fast9_ret_corners[c1].y_sub = opticflow->fast9_ret_corners[result->corner_cnt - 1].y_sub;
 
-        // decrease the number of corners:
-        result->corner_cnt--;
-        exists = true;
-        // no further checking required for the removed corner
-        break;
+          // decrease the number of corners:
+          result->corner_cnt--;
+          exists = true;
+          // no further checking required for the removed corner
+          break;
+        }
       }
+      // if the corner has been replaced, the new corner in position c1 has to be checked again:
+      if (!exists) { c1++; }
     }
-    // if the corner has been replaced, the new corner in position c1 has to be checked again:
-    if (!exists) { c1++; }
   }
 
   // no need for "per region" re-detection when there are no previous corners
@@ -1036,170 +1036,6 @@ static void manage_flow_features(struct image_t *img, struct opticflow_t *opticf
   }
 }
 
-/**
- * Run the optical flow with EDGEFLOW on a new image frame
- * @param[in] *opticflow The opticalflow structure that keeps track of previous images
- * @param[in] *state The state of the drone
- * @param[in] *img The image frame to calculate the optical flow from
- * @param[out] *result The optical flow result
- * @param computation successful
- 
-bool calc_edgeflow_tot(struct opticflow_t *opticflow, struct image_t *img,
-                       struct opticflow_result_t *result)
-{
-  // Define Static Variables
-  static struct edge_hist_t edge_hist[MAX_HORIZON];
-  static uint8_t current_frame_nr = 0;
-  struct edge_flow_t edgeflow;
-  static uint8_t previous_frame_offset[2] = {1, 1};
-
-  // Define Normal variables
-  struct edgeflow_displacement_t displacement;
-  displacement.x = calloc(img->w, sizeof(int32_t));
-  displacement.y = calloc(img->h, sizeof(int32_t));
-  // If the methods just switched to this one, reintialize the
-  // array of edge_hist structure.
-  if (opticflow->just_switched_method == 1 && edge_hist[0].x == NULL) {
-    int i;
-    for (i = 0; i < MAX_HORIZON; i++) {
-      edge_hist[i].x = calloc(img->w, sizeof(int32_t));
-      edge_hist[i].y = calloc(img->h, sizeof(int32_t));
-      FLOAT_EULERS_ZERO(edge_hist[i].eulers);
-    }
-  }
-  uint16_t disp_range;
-  if (opticflow->search_distance < DISP_RANGE_MAX) {
-    disp_range = opticflow->search_distance;
-  } else {
-    disp_range = DISP_RANGE_MAX;
-  }
-
-  uint16_t window_size;
-
-  if (opticflow->window_size < MAX_WINDOW_SIZE) {
-    window_size = opticflow->window_size;
-  } else {
-    window_size = MAX_WINDOW_SIZE;
-  }
-
-  uint16_t RES = opticflow->resolution_factor;
-
-  //......................Calculating EdgeFlow..................... //
-
-  // Calculate current frame's edge histogram
-  int32_t *edge_hist_x = edge_hist[current_frame_nr].x;
-  int32_t *edge_hist_y = edge_hist[current_frame_nr].y;
-  calculate_edge_histogram(img, edge_hist_x, 'x', 0);
-  calculate_edge_histogram(img, edge_hist_y, 'y', 0);
-
-
-  // Copy frame time and angles of image to calculated edge histogram
-  edge_hist[current_frame_nr].frame_time = img->ts;
-  edge_hist[current_frame_nr].eulers = img->eulers;
-
-  // Calculate which previous edge_hist to compare with the current
-  uint8_t previous_frame_nr[2];
-  calc_previous_frame_nr(result, opticflow, current_frame_nr, previous_frame_offset, previous_frame_nr);
-
-  //Select edge histogram from the previous frame nr
-  int32_t *prev_edge_histogram_x = edge_hist[previous_frame_nr[0]].x;
-  int32_t *prev_edge_histogram_y = edge_hist[previous_frame_nr[1]].y;
-
-  //Calculate the corresponding derotation of the two frames
-  int16_t der_shift_x = 0;
-  int16_t der_shift_y = 0;
-  if (opticflow->derotation) {
-    der_shift_x = (int16_t)((edge_hist[current_frame_nr].eulers.phi - edge_hist[previous_frame_nr[0]].eulers.phi) *
-                            opticflow->camera->camera_intrinsics.focal_x * opticflow->derotation_correction_factor_x);
-    der_shift_y = (int16_t)((edge_hist[current_frame_nr].eulers.theta - edge_hist[previous_frame_nr[1]].eulers.theta) *
-                            opticflow->camera->camera_intrinsics.focal_y * opticflow->derotation_correction_factor_y);
-  }
-
-  // Estimate pixel wise displacement of the edge histograms for x and y direction
-  calculate_edge_displacement(edge_hist_x, prev_edge_histogram_x,
-                              displacement.x, img->w,
-                              window_size, disp_range,  der_shift_x);
-  calculate_edge_displacement(edge_hist_y, prev_edge_histogram_y,
-                              displacement.y, img->h,
-                              window_size, disp_range, der_shift_y);
-
-  // Fit a line on the pixel displacement to estimate
-  // the global pixel flow and divergence (RES is resolution)
-  line_fit(displacement.x, &edgeflow.div_x,
-           &edgeflow.flow_x, img->w,
-           window_size + disp_range, RES);
-  line_fit(displacement.y, &edgeflow.div_y,
-           &edgeflow.flow_y, img->h,
-           window_size + disp_range, RES);
-
-  //  Save Resulting flow in results
-  //  * Warning: The flow detected here is different in sign
-  //  * and size, therefore this will be divided with
-  //  * the same subpixel factor and multiplied by -1 to make it
-  //  * on par with the LK algorithm in opticalflow_calculator.c
-  //  * 
-  edgeflow.flow_x = -1 * edgeflow.flow_x;
-  edgeflow.flow_y = -1 * edgeflow.flow_y;
-
-  edgeflow.flow_x = (int16_t)edgeflow.flow_x / previous_frame_offset[0];
-  edgeflow.flow_y = (int16_t)edgeflow.flow_y / previous_frame_offset[1];
-
-  result->flow_x = (int16_t)edgeflow.flow_x / RES;
-  result->flow_y = (int16_t)edgeflow.flow_y / RES;
-
-  //Fill up the results optic flow to be on par with LK_fast9
-  result->flow_der_x =  result->flow_x;
-  result->flow_der_y =  result->flow_y;
-  result->corner_cnt = getAmountPeaks(edge_hist_x, 500, img->w);
-  result->tracked_cnt = getAmountPeaks(edge_hist_x, 500, img->w);
-  result->divergence = -1.0 * (float)edgeflow.div_x /
-                       RES; // Also multiply the divergence with -1.0 to make it on par with the LK algorithm of
-  result->div_size = result->divergence;  // Fill the div_size with the divergence to atleast get some divergenge measurement when switching from LK to EF
-  result->camera_id = opticflow->id;
-  result->surface_roughness = 0.0f;
-  //......................Calculating VELOCITY ..................... //
-
-  // Estimate fps per direction
-  //  * This is the fps with adaptive horizon for subpixel flow, which is not similar
-  //  * to the loop speed of the algorithm. The faster the quadcopter flies
-  //  * the higher it becomes
-  
-  float fps_x = 0;
-  float fps_y = 0;
-  float time_diff_x = (float)(timeval_diff(&edge_hist[previous_frame_nr[0]].frame_time, &img->ts)) / 1000.;
-  float time_diff_y = (float)(timeval_diff(&edge_hist[previous_frame_nr[1]].frame_time, &img->ts)) / 1000.;
-  fps_x = 1 / (time_diff_x);
-  fps_y = 1 / (time_diff_y);
-
-  result->fps = fps_x;
-
-  // TODO scale flow to rad/s here
-
-  // Calculate velocity
-  result->vel_cam.x = edgeflow.flow_x * fps_x * agl_dist_value_filtered * opticflow->camera->camera_intrinsics.focal_x /
-                      RES;
-  result->vel_cam.y = edgeflow.flow_y * fps_y * agl_dist_value_filtered * opticflow->camera->camera_intrinsics.focal_y /
-                      RES;
-  result->vel_cam.z = result->divergence * fps_x * agl_dist_value_filtered;
-
-  //Apply a  median filter to the velocity if wanted
-  if (opticflow->median_filter == true) {
-    UpdateMedianFilterVect3Float(vel_filt, result->vel_cam);
-  }
-
-  result->noise_measurement = 0.2;
-  if (opticflow->show_flow) {
-    draw_edgeflow_img(img, edgeflow, prev_edge_histogram_x, edge_hist_x);
-  }
-  // Increment and wrap current time frame
-  current_frame_nr = (current_frame_nr + 1) % MAX_HORIZON;
-  // Free alloc'd variables
-  free(displacement.x);
-  free(displacement.y);
-  return true;
-}
-
-*/
 
 /**
  * Run the optical flow on a new image frame
@@ -1228,19 +1064,13 @@ bool opticflow_calc_frame(struct opticflow_t *opticflow, struct image_t *img,
   if (opticflow->method == 0) {
     flow_successful = calc_fast9_lukas_kanade(opticflow, img, result);
   }
-  // } else if (opticflow->method == 1) {
-  //   flow_successful = calc_edgeflow_tot(opticflow, img, result);
-  // }
-  /* Rotate velocities from camera frame coordinates to body coordinates for control
-  * IMPORTANT!!! This frame to body orientation should be the case for the Parrot
-  * ARdrone and Bebop, however this can be different for other quadcopters
-  * ALWAYS double check!
-  */
- // TODO: repalce vel_body with state_vel
-  // float_rmat_transp_vmult(&result->vel_body, &body_to_cam[opticflow->id], &result->vel_cam);
 
   return flow_successful;
 }
+
+// ********************************************************************************************
+//                                       Utility Functions
+// ********************************************************************************************
 
 /**
  * Calculate the difference from start till finish

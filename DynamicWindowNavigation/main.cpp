@@ -126,7 +126,15 @@ dw_vect calc_dynamic_window(x_vect x, struct Config config){				// is config rea
 
 		return dw;
 }
-
+float calc_to_goal_cost(trajectory_mat trajectory, Vector2f goal){
+    //calc to goal cost with angle difference
+    auto dx = goal[0] - trajectory(last,0);
+    auto dy = goal[1] - trajectory(last, 1);
+    auto error_angle = atan2(dy, dx);
+    auto cost_angle = error_angle - trajectory(last, 2);
+    float cost = abs(atan2(sin(cost_angle),cos(cost_angle)));
+    return cost
+}
 trajectory_mat predict_trajectory(x_vect x_init, float v, float y, struct Config config){
 		//TODO Georg
 		// predict trajectory with an input
@@ -195,11 +203,6 @@ float calc_obstacle_cost(trajectory_mat trajectory, obj_mat ob, struct Config co
 		return (1.0/min_r);		
 }
 
-float calc_to_goal_cost(trajectory_mat trajectory, Vector2f goal){
-//TODO Thijs
-    float cost;
-    return cost;
-}
 
 void main() {}
 //DODO just call the functions in the right order (just implement the while loop)

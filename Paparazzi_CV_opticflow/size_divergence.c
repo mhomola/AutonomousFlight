@@ -32,6 +32,14 @@
 #include "size_divergence.h"
 #include <stdlib.h>
 
+
+
+// TODO: Check this threshold of outputting a yaw command
+#ifndef THRESHOLD
+#define THRESHOLD 0.01
+#endif
+
+
 /**
  * Get divergence from optical flow vectors based on line sizes between corners
  * @param[in] vectors    The optical flow vectors
@@ -129,32 +137,37 @@ float get_size_divergence(struct flow_t *vectors, int count, int n_samples)
  */
 float get_heading_command(struct flow_t *vectors, int count, int img_size)
 {
-  uint16_t count_l=0, count_r = 0, i;
-  float flow_l =0.f, flow_r =0.f, yaw_command=0.f, flow_tot =0.f;
+  uint16_t count_l = 0, count_r = 0, i;
+  float flow_l =0.f, flow_r =0.f, yaw_command=0.f, local_flow_sq =0.f;
 
 
-  for (i=0; i< count; i++)
+  for(i=0; i < count; i++)
   { 
-    flow_tot = (float)vectors[i].flow_x * (float)vectors[i].flow_x +\
-     (float)vectors[i].pos.y * (float)vectors[i].flow_y;
-  
+    // Calculate the squarred flow:
+    local_flow_sq = (float)vectors[i].flow_x * (float)vectors[i].flow_x +\
+     (float)vectors[i].flow_y * (float)vectors[i].flow_y;
+     
+    // printf("Iamge size:%d \n ", img_size/2);
+
     if (vectors[i].pos.y < img_size/2){
       count_l++;
-      flow_l+= flow_tot; 
+      flow_l+= local_flow_sq ; 
     }
-    else if(vectors[i].pos.y >img_size/2){
+    else if(vectors[i].pos.y > img_size/2){
       count_r++;
-      flow_r+= flow_tot; 
+      flow_r+= local_flow_sq ; 
     }
   }
   count_l = (float)(count_l);
   count_r = (float)(count_r);
 
-  // compute simpel yaw/heading change command
-  yaw_command = (flow_l/count_l - flow_r/count_r)/(flow_l + flow_r);
-  printf("Yaw command: %f from %d + %d (l/r) samples\n", yaw_command, count_l, count_r);
+  printf("Total flow: %d\n", flow_l + flow_r);
 
-  if (yaw_command < 0.1 || isnan(yaw_command))
+  // compute simpel yaw/heading change command
+  yaw_command = (flow_l - flow_r)/(flow_l + flow_r);
+  // printf(" %d + %d (l/r) samples\n", count_l, count_r);
+
+  if (isnan(yaw_command) || fabs(yaw_command) < THRESHOLD)
     return 0.0;
 
   return yaw_command;

@@ -628,7 +628,7 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
     // Check if we found some corners to track
     if (result->corner_cnt < 1) {
 
-      result->div_size = 0;
+      result->yaw_command = 0;
       result->divergence = 0;
       result->noise_measurement = 5.0;
 
@@ -707,8 +707,11 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
 
   if (strcmp(opticflow->camera->dev_name, front_camera.dev_name) == 0)
   { 
+    
     // printf("W,H: %d, %d", opticflow->prev_img_gray.w, opticflow->prev_img_gray.h);
-    result->div_size = get_heading_command(vectors, result->tracked_cnt, opticflow->prev_img_gray.h);
+    result->yaw_command = get_heading_command(vectors, result->tracked_cnt, opticflow->prev_img_gray.h);
+    printf("Yaw command: %f \n", result->yaw_command);
+    
     // TODO: the iamge is for soem reason roated so the width shoudl be height ...
     // printf("Tracked corners: %d by camera %s \n", result->tracked_cnt, opticflow->camera->dev_name);
   // Estimate size divergence:

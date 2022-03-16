@@ -34,6 +34,7 @@
 #ifndef SIZE_DIVERGENCE
 #define SIZE_DIVERGENCE
 
+
 float get_size_divergence(struct flow_t *vectors, int count, int n_samples);
 float get_heading_command(struct flow_t *vectors, int count, int w);
 float get_mean(float *numbers, int n_elements);

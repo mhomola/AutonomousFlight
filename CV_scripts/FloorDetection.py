@@ -19,7 +19,7 @@ def filter_color(im, y_low=50, y_high=200, u_low=120, u_high=130, v_low=120, v_h
     imred = im[int(im.shape[0]*0.45):im.shape[0],:,:]
     YUV = cv2.cvtColor(imred, cv2.COLOR_BGR2YUV)
     Filtered = np.zeros([YUV.shape[0], YUV.shape[1]])
-    print(YUV.shape[0]/3)
+
     for y in range(YUV.shape[0]):
         for x in range(YUV.shape[1]):
             if (y_low <= YUV[y, x, 0] <= y_high and
@@ -41,12 +41,12 @@ def filter_color(im, y_low=50, y_high=200, u_low=120, u_high=130, v_low=120, v_h
     return(Filtered)
 
 
-def filter_color_square(sq, y_low=50, y_high=200, u_low=120, u_high=130, v_low=120, v_high=130, resize_factor=1, passFactor = 0.5):
+def filter_color_square(sq, y_low=50, y_high=200, u_low=120, u_high=130, v_low=120, v_high=130, resize_factor=1, passFactor = 0.4):
 
     sq = cv2.resize(sq, (int(sq.shape[1] / resize_factor), int(sq.shape[0] / resize_factor)))
     YUV = cv2.cvtColor(sq, cv2.COLOR_BGR2YUV)
     Filtered = np.zeros([YUV.shape[0], YUV.shape[1]])
-    print(YUV.shape[0] / 3)
+
     for y in range(YUV.shape[0]):
         for x in range(YUV.shape[1]):
             if (y_low <= YUV[y, x, 0] <= y_high and
@@ -71,21 +71,19 @@ def go_decision(Filtered):
 
 def gen_squares(image_d1,image_d2):
 
-    row_num = 3
-    sq_size = image_d2/5
+    row_num = 4
+    sq_size = int(image_d2/40)
     img_per_row = 20
-
-    base_dim1 = image_d1-1.5*sq_size
-    base_dim2 = int(image_d2/(2*img_per_row+2))
 
     dimensions = []
 
     for i in range(row_num):
-        base_dim1 = base_dim1 - i*sq_size
-        for j in range(img_per_row):
-            base_dim2 = base_dim2*(1+j)
+        base_dim1_t = image_d1 - 2*(i+1)*sq_size
+        base_dim2 = (image_d2/(img_per_row+2))
+        for j in range(img_per_row-2*i):
+            base_dim2_t = int((j+i+1.5)*base_dim2 - sq_size/2)
+            dimensions.append([base_dim1_t, base_dim2_t, sq_size])
 
-            dimensions.append([image_d1, image_d2, sq_size])
 
     return dimensions
 
@@ -93,7 +91,8 @@ def square_mesh(dims, image):
 
     size = dims[0][2]
 
-    for i in range(len(dims[:][0])):
+    for i in range(len(dims[:])):
+
         img = image[int(dims[i][0]):int(dims[i][0] + size), int(dims[i][1]):int(dims[i][1] + size)]
         go_zone = filter_color_square(sq=img, y_low=70, y_high=90, u_low=100, u_high=130, v_low=100, v_high=135)
 
@@ -134,7 +133,6 @@ def main():
     RGB = cv2.cvtColor(meshed_image, cv2.COLOR_BGR2RGB)
     plt.imshow(RGB)
     plt.title('Original image')
-    print(image)
     plt.show()
 
 if __name__ == '__main__':

@@ -1,4 +1,6 @@
 #matplotlib inline
+from typing import List, Any
+
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,8 +16,8 @@ image_folder = os.getcwd() + '/../Data/cyberzoo_poles/20190121-135009'
 def filter_color(im, y_low=50, y_high=200, u_low=120, u_high=130, v_low=120, v_high=130, resize_factor=3):
 
     im = cv2.resize(im, (int(im.shape[1] / resize_factor), int(im.shape[0] / resize_factor)))
-    #imred = im[int(im.shape[0]/2):im.shape[0], int(im.shape[1]/2):im.shape[1],:]
-    YUV = cv2.cvtColor(im, cv2.COLOR_BGR2YUV)
+    imred = im[int(im.shape[0]*0.45):im.shape[0],:,:]
+    YUV = cv2.cvtColor(imred, cv2.COLOR_BGR2YUV)
     Filtered = np.zeros([YUV.shape[0], YUV.shape[1]])
     print(YUV.shape[0]/3)
     for y in range(YUV.shape[0]):
@@ -39,7 +41,7 @@ def filter_color(im, y_low=50, y_high=200, u_low=120, u_high=130, v_low=120, v_h
     return(Filtered)
 
 
-def filter_color_square(sq, y_low=50, y_high=200, u_low=120, u_high=130, v_low=120, v_high=130, resize_factor=3, passFactor = 0.6):
+def filter_color_square(sq, y_low=50, y_high=200, u_low=120, u_high=130, v_low=120, v_high=130, resize_factor=1, passFactor = 0.5):
 
     sq = cv2.resize(sq, (int(sq.shape[1] / resize_factor), int(sq.shape[0] / resize_factor)))
     YUV = cv2.cvtColor(sq, cv2.COLOR_BGR2YUV)
@@ -66,11 +68,41 @@ def go_decision(Filtered):
         return False
     return True
 
-def gen_squares():
 
+def gen_squares(image_d1,image_d2):
 
+    row_num = 3
+    sq_size = image_d2/5
+    img_per_row = 20
 
-    return None
+    base_dim1 = image_d1-1.5*sq_size
+    base_dim2 = int(image_d2/(2*img_per_row+2))
+
+    dimensions = []
+
+    for i in range(row_num):
+        base_dim1 = base_dim1 - i*sq_size
+        for j in range(img_per_row):
+            base_dim2 = base_dim2*(1+j)
+
+            dimensions.append([image_d1, image_d2, sq_size])
+
+    return dimensions
+
+def square_mesh(dims, image):
+
+    size = dims[0][2]
+
+    for i in range(len(dims[:][0])):
+        img = image[int(dims[i][0]):int(dims[i][0] + size), int(dims[i][1]):int(dims[i][1] + size)]
+        go_zone = filter_color_square(sq=img, y_low=70, y_high=90, u_low=100, u_high=130, v_low=100, v_high=135)
+
+        if go_zone:
+            image[int(dims[i][0]):int(dims[i][0]+size),int(dims[i][1]):int(dims[i][1]+size), :] = [0, 255, 0]
+        else:
+            image[int(dims[i][0]):int(dims[i][0]+size),int(dims[i][1]):int(dims[i][1]+size), :] = [0, 0, 255]
+
+    return image
 
 def main():
 
@@ -79,26 +111,27 @@ def main():
     img_list = utils.load_data(image_folder)
     image = utils.get_single_image(img_list[id], image_dir_name = image_folder, graphics=False)
 
-    # Square definition
-    dims = [50,50,20]
-
     # Decision based on amount of pixels
-    Filtered = filter_color(im = image, y_low=70, y_high=90, u_low=100, u_high=130, v_low=100, v_high=135)
+    Filtered = filter_color(im=image, y_low=70, y_high=90, u_low=100, u_high=130, v_low=100, v_high=135)
     DecisionRight = go_decision(Filtered)
     print('Decision RIGHT status: ', DecisionRight)
 
-    # Square testing
-    square = image[dims[0]:dims[0]+dims[2],dims[1]:dims[1]+dims[2],:]
-    print('sqshape',square.shape)
-    goZone = filter_color_square(sq = square, y_low=70, y_high=90, u_low=100, u_high=130, v_low=100, v_high=135)
 
-    if goZone:
-        image[dims[0]:dims[0]+dims[2],dims[1]:dims[1]+dims[2],:] = [0, 255, 0]
-    else:
-        image[dims[0]:dims[0]+dims[2],dims[1]:dims[1]+dims[2],:] = [0, 0, 255]
+    # Square definition
+    #dims = [200,400,20]
+    dims = gen_squares(image.shape[0], image.shape[1])
+    # Square testing
+
+    meshed_image = square_mesh(dims, image)
+    #goZone = filter_color_square(sq = square, y_low=70, y_high=90, u_low=100, u_high=130, v_low=100, v_high=135)
+
+    #if goZone:
+    #    image[dims[0]:dims[0]+dims[2],dims[1]:dims[1]+dims[2],:] = [0, 255, 0]
+    #else:
+    #    image[dims[0]:dims[0]+dims[2],dims[1]:dims[1]+dims[2],:] = [0, 0, 255]
 
     plt.figure()
-    RGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    RGB = cv2.cvtColor(meshed_image, cv2.COLOR_BGR2RGB)
     plt.imshow(RGB)
     plt.title('Original image')
     print(image)

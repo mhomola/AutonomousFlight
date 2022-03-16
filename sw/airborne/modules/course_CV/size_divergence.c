@@ -36,8 +36,14 @@
 
 // TODO: Check this threshold of outputting a yaw command
 #ifndef THRESHOLD
-#define THRESHOLD 0.01
+#define THRESHOLD 0.00000001
 #endif
+
+//Ignore noise threshold
+#ifndef FLOW_THRESHOLD
+#define FLOW_THRESHOLD 1000000000.f
+#endif
+
 
 
 /**
@@ -138,7 +144,7 @@ float get_size_divergence(struct flow_t *vectors, int count, int n_samples)
 float get_heading_command(struct flow_t *vectors, int count, int img_size)
 {
   uint16_t count_l = 0, count_r = 0, i;
-  float flow_l =0.f, flow_r =0.f, yaw_command=0.f, local_flow_sq =0.f;
+  float flow_l =0.f, flow_r =0.f, yaw_command=0.f, local_flow_sq =0.f, flow_x = 0.f, flow_y = 0.f;
 
 
   for(i=0; i < count; i++)
@@ -146,23 +152,31 @@ float get_heading_command(struct flow_t *vectors, int count, int img_size)
     // Calculate the squarred flow:
     local_flow_sq = (float)vectors[i].flow_x * (float)vectors[i].flow_x +\
      (float)vectors[i].flow_y * (float)vectors[i].flow_y;
-     
-    // printf("Iamge size:%d \n ", img_size/2);
 
-    if (vectors[i].pos.y < img_size/2){
-      count_l++;
-      flow_l+= local_flow_sq ; 
-    }
-    else if(vectors[i].pos.y > img_size/2){
-      count_r++;
-      flow_r+= local_flow_sq ; 
+    //adding these for debugging
+    flow_x += (float)vectors[i].flow_x;
+    flow_y += (float)vectors[i].flow_y;
+    // printf("Iamge size:%d \n ", img_size/2);
+    //first check that local_flow_sq is not huge
+    if (local_flow_sq < FLOW_THRESHOLD) {
+      if (vectors[i].pos.y < img_size/2){
+        count_l++;
+        flow_l+= local_flow_sq ; 
+      }
+      else if(vectors[i].pos.y > img_size/2){
+        count_r++;
+        flow_r+= local_flow_sq ; 
+      }
     }
   }
   count_l = (float)(count_l);
   count_r = (float)(count_r);
 
-  printf("Total flow: %d\n", flow_l + flow_r);
-
+  //printf("Total flow: %d\n", flow_l + flow_r);
+  //printf("Left: %f\n", flow_l);
+  //printf("Right         : %f\n", flow_r); //making wack prints over here
+  printf("Flow x: %f\n", flow_x);
+  printf("                                           Flow y: %f\n", flow_y);
   // compute simpel yaw/heading change command
   yaw_command = (flow_l - flow_r)/(flow_l + flow_r);
   // printf(" %d + %d (l/r) samples\n", count_l, count_r);

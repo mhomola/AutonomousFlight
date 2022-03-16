@@ -1,0 +1,197 @@
+150m.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/srtm.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/latlong.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/defivybus.cmi
+150m.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/srtm.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/latlong.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/defivybus.cmx
+aircraft_server.cmo : \
+    server_globals.cmo \
+    /home/npsd/paparazzi/sw/lib/ocaml/latlong.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmi \
+    aircraft_server.cmi
+aircraft_server.cmx : \
+    server_globals.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/latlong.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmx \
+    aircraft_server.cmi
+aircraft_server.cmi : \
+    /home/npsd/paparazzi/sw/lib/ocaml/latlong.cmi
+airprox.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/latlong.cmi \
+    aircraft_server.cmi \
+    airprox.cmi
+airprox.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/latlong.cmx \
+    aircraft_server.cmx \
+    airprox.cmi
+airprox.cmi : \
+    aircraft_server.cmi
+broadcaster.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/defivybus.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/base64.cmi
+broadcaster.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/defivybus.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/base64.cmx
+intruder.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/latlong.cmi \
+    intruder.cmi
+intruder.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/latlong.cmx \
+    intruder.cmi
+intruder.cmi : \
+    /home/npsd/paparazzi/sw/lib/ocaml/latlong.cmi
+ivy2serial.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/serial.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/defivybus.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/debug.cmi
+ivy2serial.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/serial.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/defivybus.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/debug.cmx
+ivy2udp.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/defivybus.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/debug.cmi
+ivy2udp.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/defivybus.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/debug.cmx
+ivy_tcp_aircraft.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/defivybus.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/debug.cmi
+ivy_tcp_aircraft.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/defivybus.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/debug.cmx
+ivy_tcp_controller.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/defivybus.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/debug.cmi
+ivy_tcp_controller.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/defivybus.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/debug.cmx
+kml.cmo : \
+    server_globals.cmo \
+    /home/npsd/paparazzi/sw/lib/ocaml/latlong.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmi \
+    aircraft_server.cmi \
+    kml.cmi
+kml.cmx : \
+    server_globals.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/latlong.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmx \
+    aircraft_server.cmx \
+    kml.cmi
+kml.cmi : \
+    aircraft_server.cmi
+link.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/serial.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/os_calls.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/latlong.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/defivybus.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/debug.cmi
+link.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/serial.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/os_calls.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/latlong.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/defivybus.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/debug.cmx
+messages.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/defivybus.cmi
+messages.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/defivybus.cmx
+modem.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/serial.cmi \
+    modem.cmi
+modem.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/serial.cmx \
+    modem.cmi
+modem.cmi : \
+    /home/npsd/paparazzi/sw/lib/ocaml/serial.cmi
+parse_messages_v1.cmo : \
+    wind.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/srtm.cmi \
+    server_globals.cmo \
+    /home/npsd/paparazzi/sw/lib/ocaml/latlong.cmi \
+    kml.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/debug.cmi \
+    aircraft_server.cmi \
+    parse_messages_v1.cmi
+parse_messages_v1.cmx : \
+    wind.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/srtm.cmx \
+    server_globals.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/latlong.cmx \
+    kml.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/debug.cmx \
+    aircraft_server.cmx \
+    parse_messages_v1.cmi
+parse_messages_v1.cmi : \
+    aircraft_server.cmi
+server.cmo : \
+    wind.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/srtm.cmi \
+    server_globals.cmo \
+    /home/npsd/paparazzi/sw/lib/ocaml/quaternion.cmi \
+    parse_messages_v1.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/module.cmo \
+    /home/npsd/paparazzi/sw/lib/ocaml/latlong.cmi \
+    kml.cmi \
+    intruder.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/geometry_2d.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/defivybus.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/autopilot.cmo \
+    airprox.cmi \
+    aircraft_server.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/aircraft.cmo
+server.cmx : \
+    wind.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/srtm.cmx \
+    server_globals.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/quaternion.cmx \
+    parse_messages_v1.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/module.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/latlong.cmx \
+    kml.cmx \
+    intruder.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/geometry_2d.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/defivybus.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/autopilot.cmx \
+    airprox.cmx \
+    aircraft_server.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/aircraft.cmx
+server_globals.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmi
+server_globals.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmx
+settings_gui.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/defivybus.cmi
+settings_gui.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/defivybus.cmx
+wind.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/latlong.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/geometry_2d.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmi \
+    wind.cmi
+wind.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/latlong.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/geometry_2d.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmx \
+    wind.cmi
+wind.cmi :

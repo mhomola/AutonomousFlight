@@ -1,0 +1,164 @@
+dump_flight_plan.cmo : \
+    gen_flight_plan.cmo \
+    /home/npsd/paparazzi/sw/lib/ocaml/flight_plan.cmo
+dump_flight_plan.cmx : \
+    gen_flight_plan.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/flight_plan.cmx
+gen_abi.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmi
+gen_abi.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmx
+gen_aircraft.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/telemetry.cmo \
+    /home/npsd/paparazzi/sw/lib/ocaml/settings.cmo \
+    /home/npsd/paparazzi/sw/lib/ocaml/radio.cmo \
+    /home/npsd/paparazzi/sw/lib/ocaml/ocaml_tools.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/module.cmo \
+    gen_settings.cmo \
+    gen_radio.cmo \
+    gen_periodic.cmo \
+    gen_modules.cmo \
+    gen_makefile.cmo \
+    gen_flight_plan.cmo \
+    /home/npsd/paparazzi/sw/lib/ocaml/gen_common.cmi \
+    gen_autopilot.cmo \
+    gen_airframe.cmo \
+    /home/npsd/paparazzi/sw/lib/ocaml/flight_plan.cmo \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/autopilot.cmo \
+    /home/npsd/paparazzi/sw/lib/ocaml/airframe.cmo \
+    /home/npsd/paparazzi/sw/lib/ocaml/aircraft.cmo
+gen_aircraft.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/telemetry.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/settings.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/radio.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/ocaml_tools.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/module.cmx \
+    gen_settings.cmx \
+    gen_radio.cmx \
+    gen_periodic.cmx \
+    gen_modules.cmx \
+    gen_makefile.cmx \
+    gen_flight_plan.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/gen_common.cmx \
+    gen_autopilot.cmx \
+    gen_airframe.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/flight_plan.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/autopilot.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/airframe.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/aircraft.cmx
+gen_airframe.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/xml2h.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/airframe.cmo
+gen_airframe.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/xml2h.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/airframe.cmx
+gen_autopilot.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/xml2h.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/autopilot.cmo
+gen_autopilot.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/xml2h.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/autopilot.cmx
+gen_flight_plan.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/xml2h.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/srtm.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/latlong.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/geometry_2d.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/fp_proc.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/flight_plan.cmo \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/expr_syntax.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/egm96.cmi
+gen_flight_plan.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/xml2h.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/srtm.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/latlong.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/geometry_2d.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/fp_proc.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/flight_plan.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/expr_syntax.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/egm96.cmx
+gen_makefile.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/module.cmo \
+    /home/npsd/paparazzi/sw/lib/ocaml/gen_common.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/aircraft.cmo
+gen_makefile.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/module.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/gen_common.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/aircraft.cmx
+gen_modules.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/xml2h.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/module.cmo \
+    /home/npsd/paparazzi/sw/lib/ocaml/gen_common.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/fp_proc.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/expr_syntax.cmi
+gen_modules.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/xml2h.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/module.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/gen_common.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/fp_proc.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/expr_syntax.cmx
+gen_mtk.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmi
+gen_mtk.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmx
+gen_periodic.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/xml2h.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/telemetry.cmo \
+    /home/npsd/paparazzi/sw/lib/ocaml/gen_common.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmi
+gen_periodic.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/xml2h.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/telemetry.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/gen_common.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmx
+gen_radio.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/radio.cmo \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmi
+gen_radio.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/radio.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmx
+gen_settings.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/xml2h.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/settings.cmo \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmi
+gen_settings.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/xml2h.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/settings.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmx
+gen_srtm.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/srtm.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/http.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmi
+gen_srtm.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/srtm.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/http.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmx
+gen_ubx.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmi
+gen_ubx.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmx
+gen_xsens.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmi
+gen_xsens.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmx

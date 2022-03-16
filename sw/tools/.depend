@@ -1,0 +1,6 @@
+find_free_msg_id.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmi
+find_free_msg_id.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmx

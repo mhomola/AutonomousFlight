@@ -1,0 +1,227 @@
+<dump>
+  <flight_plan security_height="0.4" name="Bebop avoid orange TU Delft Cyberzoo" max_dist_from_home="60" lon0="4.376789" lat0="51.990634" ground_alt="0" alt="1.0">
+    <header>    #include "modules/datalink/datalink.h"
+    #include "modules/energy/electrical.h"
+    #include "modules/radio_control/radio_control.h"
+    #include "modules/ahrs/ahrs.h"
+    #define NPS_GAZEBO_WORLD "cyberzoo_orange_poles.world"
+#include "autopilot.h"
+inline void setNav(void){
+  autopilot_mode_auto2 = AP_MODE_NAV;
+  autopilot_static_set_mode(AP_MODE_NAV);
+}
+inline void setGuided(void){
+  autopilot_mode_auto2 = AP_MODE_GUIDED;
+  autopilot_static_set_mode(AP_MODE_GUIDED);
+}</header>
+    <waypoints>
+      <waypoint name="HOME" lon="4.376796" lat="51.990631" x="0.49" y="-0.32"/>
+      <waypoint y="1.0" x="1.9" name="CLIMB"/>
+      <waypoint y="1.0" x="1.9" name="STDBY"/>
+      <waypoint y="-1.7" x="0.8" name="TD"/>
+      <waypoint y="1.0" x="1.9" name="GOAL"/>
+      <waypoint y="1.0" x="1.9" name="TRAJECTORY"/>
+      <waypoint name="_CZ1" lon="4.3767710" lat="51.9905834" x="-1.13" y="-5.65"/>
+      <waypoint name="_CZ2" lon="4.3767060" lat="51.9906440" x="-5.72" y="1.00"/>
+      <waypoint name="_CZ3" lon="4.3768080" lat="51.9906860" x="1.20" y="5.81"/>
+      <waypoint name="_CZ4" lon="4.3768729" lat="51.9906238" x="5.78" y="-1.03"/>
+      <waypoint name="_OZ1" lon="4.376779" lat="51.990595" x="-0.60" y="-4.35"/>
+      <waypoint name="_OZ2" lon="4.376734" lat="51.990640" x="-3.79" y="0.60"/>
+      <waypoint name="_OZ3" lon="4.376804" lat="51.990667" x="0.96" y="3.69"/>
+      <waypoint name="_OZ4" lon="4.376850" lat="51.990623" x="4.21" y="-1.14"/>
+    </waypoints>
+    <sectors>
+      <sector name="CyberZoo" color="red">
+        <corner name="_CZ1"/>
+        <corner name="_CZ2"/>
+        <corner name="_CZ3"/>
+        <corner name="_CZ4"/>
+      </sector>
+      <sector name="ObstacleZone" color="#FF9922">
+        <corner name="_OZ1"/>
+        <corner name="_OZ2"/>
+        <corner name="_OZ3"/>
+        <corner name="_OZ4"/>
+      </sector>
+    </sectors>
+    <exceptions>
+      <exception deroute="land here" cond="((datalink_time @GT 5) @AND
+      !(IndexOfBlock('Holding point') @GT nav_block) @AND
+      !(nav_block >= IndexOfBlock('land here')) @AND
+      (autopilot_in_flight() == true) )"/>
+      <exception deroute="land here" cond="(!InsideCyberZoo(GetPosX(), GetPosY()) @AND
+      !(IndexOfBlock('Holding point') @GT nav_block) @AND
+      !(nav_block >= IndexOfBlock('land here')) @AND
+      (autopilot_in_flight() == true) )"/>
+      <exception deroute="land here" cond="((GetPosAlt() @GT 3.5) @AND
+      !(IndexOfBlock('Holding point') @GT nav_block) @AND
+      !(nav_block >= IndexOfBlock('land here')) @AND
+      (autopilot_in_flight() == true) )"/>
+      <exception deroute="Landed" cond="((GetPosAlt() @GT 4.5) @AND
+      !(IndexOfBlock('Holding point') @GT nav_block) @AND
+      (autopilot_in_flight() == true) )"/>
+      <exception deroute="land here" cond="(electrical.bat_low @AND
+      !(IndexOfBlock('Holding point') @GT nav_block) @AND
+      !(nav_block >= IndexOfBlock('land here')) @AND
+      (autopilot_in_flight() == true) )"/>
+      <exception deroute="land here" cond="(electrical.bat_critical @AND
+      !(IndexOfBlock('Holding point') @GT nav_block) @AND
+      !(nav_block >= IndexOfBlock('land here')) @AND
+      (autopilot_in_flight() == true) )"/>
+    </exceptions>
+    <blocks>
+      <block name="Wait GPS" no="0">
+        <call_once fun="NavKillThrottle()" no="0"/>
+        <while cond="!GpsFixValid()" no="1"/>
+      </block>
+      <block name="Geo init" no="1">
+        <while cond="LessThan(NavBlockTime(), 2)" no="0"/>
+        <call_once fun="NavSetAltitudeReferenceHere()" no="2"/>
+      </block>
+      <block name="Holding point" no="2">
+        <call_once fun="NavKillThrottle()" no="0"/>
+        <attitude vmode="throttle" until="FALSE" throttle="0" roll="0" pitch="0" no="1"/>
+      </block>
+      <block name="Start Engine" key="r" no="3">
+        <call_once fun="NavResurrect()" no="0"/>
+        <attitude vmode="throttle" until="FALSE" throttle="0" roll="0" pitch="0" no="1"/>
+        <call_once fun="NavResurrect()" no="2"/>
+      </block>
+      <block strip_icon="takeoff.png" strip_button="Takeoff" name="Takeoff" key="t" no="4">
+        <exception deroute="Standby" cond="GetPosAlt() @GT 0.8"/>
+        <call_once fun="NavSetWaypointHere(WP_CLIMB)" no="0"/>
+        <stay wp="CLIMB" vmode="climb" climb="nav_climb_vspeed" no="1"/>
+      </block>
+      <block strip_icon="home.png" strip_button="Standby" name="Standby" key="s" no="5">
+        <call_once fun="NavSetWaypointHere(WP_STDBY)" no="0"/>
+        <stay wp="STDBY" no="1"/>
+      </block>
+      <block strip_icon="lookfore.png" strip_button="Go" name="START" key="g" no="6">
+        <call_once fun="setGuided()" no="0"/>
+        <stay wp="STDBY" no="1"/>
+      </block>
+      <block name="STOP" no="7">
+        <call_once fun="NavSetWaypointHere(WP_STDBY)" no="0"/>
+        <call_once fun="setNav()" no="1"/>
+        <stay wp="STDBY" no="2"/>
+      </block>
+      <block strip_icon="land-right.png" strip_button="Land Here" name="land here" key="l" no="8">
+        <call_once fun="setNav()" no="0"/>
+        <call_once fun="NavSetWaypointHere(WP_TD)" no="1"/>
+        <go wp="TD" no="2"/>
+        <deroute block="Flare" no="3"/>
+      </block>
+      <block name="Land" no="9">
+        <call_once fun="setNav()" no="0"/>
+        <go wp="TD" no="1"/>
+        <deroute block="Flare" no="2"/>
+      </block>
+      <block name="Flare" no="10">
+        <exception deroute="Holding point" cond="NavDetectGround()"/>
+        <exception deroute="Landed" cond="!nav_is_in_flight()"/>
+        <exception deroute="Landed" cond="0.10 @GT GetPosAlt()"/>
+        <call_once fun="NavStartDetectGround()" no="0"/>
+        <stay wp="TD" vmode="climb" climb="nav_descend_vspeed" no="1"/>
+      </block>
+      <block name="Landed" no="11">
+        <call_once fun="NavKillThrottle()" no="0"/>
+        <attitude vmode="throttle" until="FALSE" throttle="0" roll="0" pitch="0" no="1"/>
+      </block>
+      <block name="HOME" no="12">
+        <home no="0"/>
+      </block>
+    </blocks>
+  </flight_plan>
+  <stages>
+    <stage block="12" block_name="HOME" stage="0">
+      <home no="0"/>
+    </stage>
+    <stage block="11" block_name="Landed" stage="1">
+      <attitude vmode="throttle" until="FALSE" throttle="0" roll="0" pitch="0" no="1"/>
+    </stage>
+    <stage block="11" block_name="Landed" stage="0">
+      <call_once fun="NavKillThrottle()" no="0"/>
+    </stage>
+    <stage block="10" block_name="Flare" stage="1">
+      <stay wp="TD" vmode="climb" climb="nav_descend_vspeed" no="1"/>
+    </stage>
+    <stage block="10" block_name="Flare" stage="0">
+      <call_once fun="NavStartDetectGround()" no="0"/>
+    </stage>
+    <stage block="9" block_name="Land" stage="2">
+      <deroute block="Flare" no="2"/>
+    </stage>
+    <stage block="9" block_name="Land" stage="1">
+      <go wp="TD" no="1"/>
+    </stage>
+    <stage block="9" block_name="Land" stage="0">
+      <call_once fun="setNav()" no="0"/>
+    </stage>
+    <stage block="8" block_name="land here" stage="3">
+      <deroute block="Flare" no="3"/>
+    </stage>
+    <stage block="8" block_name="land here" stage="2">
+      <go wp="TD" no="2"/>
+    </stage>
+    <stage block="8" block_name="land here" stage="1">
+      <call_once fun="NavSetWaypointHere(WP_TD)" no="1"/>
+    </stage>
+    <stage block="8" block_name="land here" stage="0">
+      <call_once fun="setNav()" no="0"/>
+    </stage>
+    <stage block="7" block_name="STOP" stage="2">
+      <stay wp="STDBY" no="2"/>
+    </stage>
+    <stage block="7" block_name="STOP" stage="1">
+      <call_once fun="setNav()" no="1"/>
+    </stage>
+    <stage block="7" block_name="STOP" stage="0">
+      <call_once fun="NavSetWaypointHere(WP_STDBY)" no="0"/>
+    </stage>
+    <stage block="6" block_name="START" stage="1">
+      <stay wp="STDBY" no="1"/>
+    </stage>
+    <stage block="6" block_name="START" stage="0">
+      <call_once fun="setGuided()" no="0"/>
+    </stage>
+    <stage block="5" block_name="Standby" stage="1">
+      <stay wp="STDBY" no="1"/>
+    </stage>
+    <stage block="5" block_name="Standby" stage="0">
+      <call_once fun="NavSetWaypointHere(WP_STDBY)" no="0"/>
+    </stage>
+    <stage block="4" block_name="Takeoff" stage="1">
+      <stay wp="CLIMB" vmode="climb" climb="nav_climb_vspeed" no="1"/>
+    </stage>
+    <stage block="4" block_name="Takeoff" stage="0">
+      <call_once fun="NavSetWaypointHere(WP_CLIMB)" no="0"/>
+    </stage>
+    <stage block="3" block_name="Start Engine" stage="2">
+      <call_once fun="NavResurrect()" no="2"/>
+    </stage>
+    <stage block="3" block_name="Start Engine" stage="1">
+      <attitude vmode="throttle" until="FALSE" throttle="0" roll="0" pitch="0" no="1"/>
+    </stage>
+    <stage block="3" block_name="Start Engine" stage="0">
+      <call_once fun="NavResurrect()" no="0"/>
+    </stage>
+    <stage block="2" block_name="Holding point" stage="1">
+      <attitude vmode="throttle" until="FALSE" throttle="0" roll="0" pitch="0" no="1"/>
+    </stage>
+    <stage block="2" block_name="Holding point" stage="0">
+      <call_once fun="NavKillThrottle()" no="0"/>
+    </stage>
+    <stage block="1" block_name="Geo init" stage="2">
+      <call_once fun="NavSetAltitudeReferenceHere()" no="2"/>
+    </stage>
+    <stage block="1" block_name="Geo init" stage="0">
+      <while cond="LessThan(NavBlockTime(), 2)" no="0"/>
+    </stage>
+    <stage block="0" block_name="Wait GPS" stage="1">
+      <while cond="!GpsFixValid()" no="1"/>
+    </stage>
+    <stage block="0" block_name="Wait GPS" stage="0">
+      <call_once fun="NavKillThrottle()" no="0"/>
+    </stage>
+  </stages>
+</dump>

@@ -1,0 +1,9 @@
+<gconf>
+  <entry name="left_pane_width" value="250" application="paparazzi center"/>
+  <entry name="height" value="443" application="paparazzi center"/>
+  <entry name="width" value="738" application="paparazzi center"/>
+  <entry name="always keep changes" value="false" application="paparazzi center"/>
+  <entry name="last target" value="nps" application="paparazzi center"/>
+  <entry name="last session" value="Simulation - Gazebo" application="paparazzi center"/>
+  <entry name="last A/C" value="bebop_orange_avoid_guided" application="paparazzi center"/>
+</gconf>

@@ -1,0 +1,145 @@
+<settings>
+  <dl_settings>
+    <dl_settings name="System">
+      <dl_settings name="Telemetry">
+        <dl_setting min="0" step="1" max="13" var="telemetry_mode_Main" shortname="Main" values="default|ppm|raw_sensors|scaled_sensors|ahrs|rate_loop|attitude_setpoint_viz|attitude_loop|vert_loop|vel_guidance|h_loop|aligner|tune_hover|RTCM3" header="generated/periodic_telemetry">
+          <key_press key="h" value="10"/>
+          <key_press key="q" value="9"/>
+          <key_press key="v" value="8"/>
+          <key_press key="a" value="7"/>
+          <key_press key="v" value="6"/>
+          <key_press key="d" value="0"/>
+        </dl_setting>
+      </dl_settings>
+      <dl_settings name="Modules">
+        <dl_setting min="2" max="3" step="1" var="video_thread_video_thread_periodic_status" shortname="video_thread_periodic" values="START|STOP"/>
+        <dl_setting min="2" max="3" step="1" var="logger_file_file_logger_periodic_status" shortname="file_logger_periodic" values="START|STOP"/>
+        <dl_setting min="2" max="3" step="1" var="gps_nps_gps_nps_periodic_check_status" shortname="gps_nps_periodic_check" values="START|STOP"/>
+      </dl_settings>
+    </dl_settings>
+    <dl_settings name="System">
+      <dl_setting var="autopilot_mode_auto2" values="KILL|Fail|HOME|Rate|Att|Rate_rcC|Att_rcC|Att_C|Rate_Z|Att_Z|Hover|Hover_C|Hover_Z|Nav|RC_D|CareFree|Forward|Module|Flip|Guided" step="1" shortname="auto2" module="autopilot" min="0" max="19"/>
+      <dl_setting var="autopilot.kill_throttle" values="Resurrect|Kill" step="1" module="autopilot" min="0" max="1" handler="KillThrottle"/>
+      <dl_setting var="autopilot.power_switch" values="OFF|ON" step="1" module="autopilot" min="0" max="1" handler="SetPowerSwitch">
+        <strip_button value="1" name="POWER ON" icon="on.png" group="power_switch"/>
+        <strip_button value="0" name="POWER OFF" icon="off.png" group="power_switch"/>
+      </dl_setting>
+      <dl_setting var="autopilot.mode" values="KILL|Fail|HOME|Rate|Att|Rate_rcC|Att_rcC|Att_C|Rate_Z|Att_Z|Hover|Hover_C|Hover_Z|Nav|RC_D|CareFree|Forward|Module|Flip|Guided" step="1" shortname="mode" module="autopilot" min="0" max="19" handler="SetModeHandler"/>
+    </dl_settings>
+    <dl_settings name="NAV">
+      <dl_setting var="flight_altitude" unit="m" step="0.1" module="navigation" min="0" max="400" handler="SetFlightAltitude"/>
+      <dl_setting var="nav_heading" unit="1/2^12r" step="1" min="0" max="360" alt_unit_coef="0.0139882" alt_unit="deg"/>
+      <dl_setting var="nav_radius" unit="m" step="0.1" min="-50" max="50"/>
+      <dl_setting var="nav_climb_vspeed" unit="m/s" step="0.1" param="NAV_CLIMB_VSPEED" min="0" max="10.0"/>
+      <dl_setting var="nav_descend_vspeed" unit="m/s" step="0.1" param="NAV_DESCEND_VSPEED" min="-10.0" max="0.0"/>
+    </dl_settings>
+    <dl_settings name="body2imu">
+      <dl_setting var="imu.body_to_imu.eulers_f.phi" unit="rad" type="float" step="0.5" shortname="b2i phi" persistent="true" param="IMU_BODY_TO_IMU_PHI" module="modules/imu/imu" min="-90" max="90" handler="SetBodyToImuPhi" alt_unit="deg"/>
+      <dl_setting var="imu.body_to_imu.eulers_f.theta" unit="rad" type="float" step="0.5" shortname="b2i theta" persistent="true" param="IMU_BODY_TO_IMU_THETA" module="modules/imu/imu" min="-90" max="90" handler="SetBodyToImuTheta" alt_unit="deg"/>
+      <dl_setting var="imu.body_to_imu.eulers_f.psi" unit="rad" type="float" step="0.5" shortname="b2i psi" persistent="true" param="IMU_BODY_TO_IMU_PSI" module="modules/imu/imu" min="-180" max="180" handler="SetBodyToImuPsi" alt_unit="deg"/>
+      <dl_setting var="imu.b2i_set_current" values="FALSE|TRUE" step="1" shortname="b2i cur roll/pitch" module="modules/imu/imu" min="0" max="1" handler="SetBodyToImuCurrent"/>
+    </dl_settings>
+    <dl_settings name="gps">
+      <dl_setting var="multi_gps_mode" values="AUTO|PRIMARY|SECONDARY" step="1" shortname="multi_mode" param="MULTI_GPS_MODE" module="modules/gps/gps" min="0" max="2"/>
+    </dl_settings>
+    <dl_settings name="Front camera">
+      <dl_setting var="mt9f002.set_zoom" step="0.05" shortname="zoom" param="MT9F002_ZOOM" min="1." max="2.5"/>
+      <dl_setting var="mt9f002.set_offset_x" step="0.05" shortname="offset_x" param="MT9F002_OFFSET_X" min="-0.5" max="0.5"/>
+      <dl_setting var="mt9f002.set_offset_y" step="0.05" shortname="offset_y" param="MT9F002_OFFSET_Y" min="-0.5" max="0.5"/>
+      <dl_setting var="mt9f002_send_resolution" values="SEND" step="1" shortname="update_resolution" module="boards/bebop/mt9f002" min="1" max="1" handler="setting_update_resolution"/>
+      <dl_setting var="mt9f002.gain_green1" step="0.1" shortname="green_1" param="MT9F002_GAIN_GREEN1" min="1" max="60"/>
+      <dl_setting var="mt9f002.gain_green2" step="0.1" shortname="green_2" param="MT9F002_GAIN_GREEN2" min="1" max="60"/>
+      <dl_setting var="mt9f002.gain_blue" step="0.1" shortname="blue" param="MT9F002_GAIN_BLUE" min="1" max="60"/>
+      <dl_setting var="mt9f002.gain_red" step="0.1" shortname="red" param="MT9F002_GAIN_RED" min="1" max="60"/>
+      <dl_setting var="mt9f002_send_color" values="SEND" step="1" shortname="update_color" module="boards/bebop/mt9f002" min="1" max="1" handler="setting_update_color"/>
+      <dl_setting var="mt9f002.target_exposure " step="0.1" shortname="exposure" param="MT9F002_TARGET_EXPOSURE" min="0.1" max="80"/>
+      <dl_setting var="mt9f002_send_exposure" values="SEND" step="1" shortname="update_exposure" module="boards/bebop/mt9f002" min="1" max="1" handler="setting_update_exposure"/>
+    </dl_settings>
+    <dl_settings name="ColorObjectDetector">
+      <dl_setting var="cod_lum_min1" step="1" shortname="y_min1" min="0" max="255"/>
+      <dl_setting var="cod_lum_max1" step="1" shortname="y_max1" min="0" max="255"/>
+      <dl_setting var="cod_cb_min1" step="1" shortname="u_min1" min="0" max="255"/>
+      <dl_setting var="cod_cb_max1" step="1" shortname="u_max1" min="0" max="255"/>
+      <dl_setting var="cod_cr_min1" step="1" shortname="v_min1" min="0" max="255"/>
+      <dl_setting var="cod_cr_max1" step="1" shortname="v_max1" min="0" max="255"/>
+      <dl_setting var="cod_draw1" values="False|True" step="1" shortname="draw 1" min="0" max="1"/>
+      <dl_setting var="cod_lum_min2" step="1" shortname="y_min2" min="0" max="255"/>
+      <dl_setting var="cod_lum_max2" step="1" shortname="y_max2" min="0" max="255"/>
+      <dl_setting var="cod_cb_min2" step="1" shortname="u_min2" min="0" max="255"/>
+      <dl_setting var="cod_cb_max2" step="1" shortname="u_max2" min="0" max="255"/>
+      <dl_setting var="cod_cr_min2" step="1" shortname="v_min2" min="0" max="255"/>
+      <dl_setting var="cod_cr_max2" step="1" shortname="v_max2" min="0" max="255"/>
+      <dl_setting var="cod_draw2" values="False|True" step="1" shortname="draw 2" min="0" max="1"/>
+    </dl_settings>
+    <dl_settings name="Horiz Loop">
+      <dl_setting var="guidance_h.use_ref" values="FALSE|TRUE" step="1" shortname="use_ref" persistent="true" param="GUIDANCE_H_USE_REF" module="guidance/guidance_h" min="0" max="1" handler="SetUseRef"/>
+      <dl_setting var="gh_ref.max_speed" type="float" step="0.1" shortname="max_speed" persistent="true" param="GUIDANCE_H_REF_MAX_SPEED" module="guidance/guidance_h" min="0.1" max="15.0" handler="SetMaxSpeed"/>
+      <dl_setting var="guidance_h.approx_force_by_thrust" values="FALSE|TRUE" type="uint8" step="1" shortname="approx_force" persistent="true" param="GUIDANCE_H_APPROX_FORCE_BY_THRUST" min="0" max="1"/>
+      <dl_setting var="gh_ref.tau" type="float" step="0.1" shortname="tau" persistent="true" param="GUIDANCE_H_REF_TAU" module="guidance/guidance_h" min="0.1" max="1.0" handler="SetTau"/>
+      <dl_setting var="gh_ref.omega" type="float" step="0.1" shortname="omega" persistent="true" param="GUIDANCE_H_REF_OMEGA" module="guidance/guidance_h" min="0.1" max="3.0" handler="SetOmega"/>
+      <dl_setting var="gh_ref.zeta" type="float" step="0.05" shortname="zeta" persistent="true" param="GUIDANCE_H_REF_ZETA" module="guidance/guidance_h" min="0.7" max="1.0" handler="SetZeta"/>
+      <dl_setting var="guidance_h.gains.p" type="int32" step="1" shortname="kp" persistent="true" param="GUIDANCE_H_PGAIN" min="0" max="400"/>
+      <dl_setting var="guidance_h.gains.d" type="int32" step="1" shortname="kd" persistent="true" param="GUIDANCE_H_DGAIN" min="0" max="400"/>
+      <dl_setting var="guidance_h.gains.i" type="int32" step="1" shortname="ki" persistent="true" param="GUIDANCE_H_IGAIN" module="guidance/guidance_h" min="0" max="400" handler="set_igain"/>
+      <dl_setting var="guidance_h.gains.v" type="int32" step="1" shortname="kv" persistent="true" param="GUIDANCE_H_VGAIN" min="0" max="400"/>
+      <dl_setting var="guidance_h.gains.a" type="int32" step="1" shortname="ka" persistent="true" param="GUIDANCE_H_AGAIN" min="0" max="400"/>
+      <dl_setting var="guidance_h.sp.pos.x" unit="1/2^8m" step="1" shortname="sp_x_ned" min="-10" max="10" alt_unit_coef="0.00390625" alt_unit="m"/>
+      <dl_setting var="guidance_h.sp.pos.y" unit="1/2^8m" step="1" shortname="sp_y_ned" min="-10" max="10" alt_unit_coef="0.00390625" alt_unit="m"/>
+    </dl_settings>
+    <dl_settings name="Vert Loop">
+      <dl_setting var="guidance_v_kp" step="1" shortname="kp" persistent="true" param="GUIDANCE_V_HOVER_KP" module="guidance/guidance_v" min="0" max="600"/>
+      <dl_setting var="guidance_v_kd" step="1" shortname="kd" persistent="true" param="GUIDANCE_V_HOVER_KD" min="0" max="600"/>
+      <dl_setting var="guidance_v_ki" step="1" shortname="ki" persistent="true" param="GUIDANCE_V_HOVER_KI" module="guidance/guidance_v" min="0" max="300" handler="SetKi"/>
+      <dl_setting var="guidance_v_nominal_throttle" step="0.01" shortname="nominal_throttle" persistent="true" param="GUIDANCE_V_NOMINAL_HOVER_THROTTLE" min="0.2" max="0.8"/>
+      <dl_setting var="guidance_v_adapt_throttle_enabled" values="FALSE|TRUE" step="1" shortname="adapt_throttle" persistent="true" param="GUIDANCE_V_ADAPT_THROTTLE_ENABLED" min="0" max="1"/>
+      <dl_setting var="guidance_v_z_sp" unit="2e-8m" step="0.5" shortname="sp" min="-5" max="3" alt_unit_coef="0.00390625" alt_unit="m"/>
+    </dl_settings>
+    <dl_settings name="INS">
+      <dl_setting var="vff.accel_noise" step="0.1" shortname="accel_noise" module="modules/ins/vf_extended_float" min="0" max="10"/>
+      <dl_setting var="vff.r_baro" step="0.1" shortname="r_baro" min="0" max="10"/>
+      <dl_setting var="vff.r_alt" step="0.1" shortname="r_alt" min="0" max="10"/>
+      <dl_setting var="vff.r_obs_height" step="0.1" shortname="r_obs_height" min="0" max="10"/>
+    </dl_settings>
+    <dl_settings name="OrangeAvoiderGuided">
+      <dl_setting var="oag_color_count_frac" step="0.01" min="0" max="0.5"/>
+      <dl_setting var="oag_floor_count_frac" step="0.01" min="0" max="0.5"/>
+      <dl_setting var="oag_max_speed" step="0.1" min="0" max="1"/>
+      <dl_setting var="oag_heading_rate" unit="rad" step="5" min="0" max="45" alt_unit="deg"/>
+    </dl_settings>
+    <dl_settings name="indi">
+      <dl_setting var="indi.gains.att.p" step="1" shortname="kp_p" persistent="true" param="STABILIZATION_INDI_REF_ERR_P" module="stabilization/stabilization_indi_simple" min="0" max="2500"/>
+      <dl_setting var="indi.gains.rate.p" step="0.1" shortname="kd_p" persistent="true" param="STABILIZATION_INDI_REF_RATE_P" min="0" max="100"/>
+      <dl_setting var="indi.g1.p" step="0.001" shortname="ctl_eff_p" persistent="true" param="STABILIZATION_INDI_G1_P" min="0" max="10"/>
+      <dl_setting var="indi.gains.att.q" step="1" shortname="kp_q" persistent="true" param="STABILIZATION_INDI_REF_ERR_Q" min="0" max="2500"/>
+      <dl_setting var="indi.gains.rate.q" step="0.1" shortname="kd_q" persistent="true" param="STABILIZATION_INDI_REF_RATE_P" min="0" max="100"/>
+      <dl_setting var="indi.g1.q" step="0.001" shortname="ctl_eff_q" persistent="true" param="STABILIZATION_INDI_G1_Q" min="0" max="10"/>
+      <dl_setting var="indi.gains.att.r" step="1" shortname="kp_r" persistent="true" param="STABILIZATION_INDI_REF_ERR_R" min="0" max="2500"/>
+      <dl_setting var="indi.gains.rate.r" step="0.1" shortname="kd_r" persistent="true" param="STABILIZATION_INDI_REF_RATE_P" min="0" max="100"/>
+      <dl_setting var="indi.g1.r" step="0.001" shortname="ctl_eff_r" persistent="true" param="STABILIZATION_INDI_G1_R" min="0" max="10"/>
+      <dl_setting var="indi.g2" step="0.01" shortname="g2" persistent="true" param="STABILIZATION_INDI_G2_R" min="0" max="10"/>
+      <dl_setting var="indi.adaptive" values="FALSE|TRUE" type="uint8" step="1" shortname="use_adaptive" persistent="true" param="STABILIZATION_INDI_USE_ADAPTIVE" min="0" max="1"/>
+      <dl_setting var="indi.max_rate" unit="rad/s" step="0.01" shortname="max_rate" param="STABILIZATION_INDI_MAX_RATE" min="0" max="400.0" alt_unit="deg/s"/>
+      <dl_setting var="indi.attitude_max_yaw_rate" unit="rad/s" step="0.01" shortname="max_yaw_rate_attitude" param="STABILIZATION_INDI_MAX_R" min="0" max="400.0" alt_unit="deg/s"/>
+      <dl_setting var="indi.cutoff_r" type="float" step="0.1" shortname="r_cutoff_hz" module="stabilization/stabilization_indi_simple" min="0.2" max="30.0" handler="reset_r_filter_cutoff"/>
+    </dl_settings>
+    <dl_settings name="video">
+      <dl_setting var="video_capture_record_video" step="1" shortname="record_video" module="computer_vision/video_capture" min="0" max="1">
+        <strip_button value="1" name="Start video capture" icon="dcstart.png" group="cv"/>
+        <strip_button value="0" name="Stop video capture" icon="dcstop.png" group="cv"/>
+      </dl_setting>
+      <dl_setting var="video_capture_take_shot" step="1" shortname="take_shot" module="computer_vision/video_capture" min="0" max="1">
+        <strip_button value="1" name="Save Image" icon="digital-camera.png" group="cv"/>
+      </dl_setting>
+    </dl_settings>
+    <dl_settings name="video">
+      <dl_setting var="viewvideo.use_rtp" values="FALSE|TRUE" step="1" shortname="rtp" param="VIEWVIDEO_USE_RTP" module="computer_vision/viewvideo" min="0" max="1"/>
+    </dl_settings>
+    <dl_settings name="AHRS">
+      <dl_setting var="ahrs_icq.gravity_heuristic_factor" type="uint8" step="1" shortname="g_heuristic" persistent="true" param="AHRS_GRAVITY_HEURISTIC_FACTOR" module="modules/ahrs/ahrs_int_cmpl_quat" min="0" max="50"/>
+      <dl_setting var="ahrs_icq.accel_omega" unit="rad/s" type="float" step="0.02" shortname="acc_omega" persistent="true" param="AHRS_ACCEL_OMEGA" module="modules/ahrs/ahrs_int_cmpl_quat" min="0.02" max="0.2" handler="SetAccelOmega"/>
+      <dl_setting var="ahrs_icq.accel_zeta" type="float" step="0.05" shortname="acc_zeta" persistent="true" param="AHRS_ACCEL_ZETA" module="modules/ahrs/ahrs_int_cmpl_quat" min="0.7" max="1.5" handler="SetAccelZeta"/>
+      <dl_setting var="ahrs_icq.mag_omega" unit="rad/s" type="float" step="0.01" shortname="mag_omega" persistent="true" param="AHRS_MAG_OMEGA" module="modules/ahrs/ahrs_int_cmpl_quat" min="0.02" max="0.1" handler="SetMagOmega"/>
+      <dl_setting var="ahrs_icq.mag_zeta" type="float" step="0.05" shortname="mag_zeta" persistent="true" param="AHRS_MAG_ZETA" module="modules/ahrs/ahrs_int_cmpl_quat" min="0.7" max="1.5" handler="SetMagZeta"/>
+    </dl_settings>
+  </dl_settings>
+</settings>

@@ -1,0 +1,48 @@
+paparazzicenter.cmo : \
+    pc_control_panel.cmo \
+    pc_common.cmo \
+    pc_aircraft.cmo \
+    /home/npsd/paparazzi/sw/lib/ocaml/gtk_tools.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmi
+paparazzicenter.cmx : \
+    pc_control_panel.cmx \
+    pc_common.cmx \
+    pc_aircraft.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/gtk_tools.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmx
+pc_aircraft.cmo : \
+    pc_control_panel.cmo \
+    pc_common.cmo \
+    /home/npsd/paparazzi/sw/lib/ocaml/os_calls.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/module.cmo \
+    /home/npsd/paparazzi/sw/lib/ocaml/gtk_tools.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/aircraft.cmo
+pc_aircraft.cmx : \
+    pc_control_panel.cmx \
+    pc_common.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/os_calls.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/module.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/gtk_tools.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/aircraft.cmx
+pc_common.cmo : \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmi
+pc_common.cmx : \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmx
+pc_control_panel.cmo : \
+    pc_common.cmo \
+    /home/npsd/paparazzi/sw/lib/ocaml/gtk_tools.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmi \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmi
+pc_control_panel.cmx : \
+    pc_common.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/gtk_tools.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/extXml.cmx \
+    /home/npsd/paparazzi/sw/lib/ocaml/env.cmx

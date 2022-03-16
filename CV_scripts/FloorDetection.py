@@ -31,12 +31,12 @@ def filter_color(im, y_low=50, y_high=200, u_low=120, u_high=130, v_low=120, v_h
     RGB = cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
     plt.imshow(RGB)
     plt.title('Original image')
-    plt.show()
+    # plt.show()
 
     plt.figure()
     plt.imshow(Filtered)
     plt.title('Filtered image')
-    plt.show()
+    # plt.show()
 
     return(Filtered)
 
@@ -69,7 +69,7 @@ def go_decision(Filtered):
     return True
 
 
-def gen_squares(image_d1,image_d2):
+def gen_squares(image_d1, image_d2):
 
     row_num = 4
     sq_size = int(image_d2/40)
@@ -84,8 +84,33 @@ def gen_squares(image_d1,image_d2):
             base_dim2_t = int((j+i+1.5)*base_dim2 - sq_size/2)
             dimensions.append([base_dim1_t, base_dim2_t, sq_size])
 
-
     return dimensions
+
+
+def is_carpet(pixel, image):
+    """
+    Function is used to see if red squares (called pixels in the program) are actually a carpet (so they should become
+    green) or not; it assumes that between the pixel and 60% height of the image (this value was considered high enough
+    to be above the horizon but also low enough for saving computational time) there is a space of grass which should be
+    find by checking pixels going up the image.
+    Args:
+        pixel: (array) the square dimensions ([height (240 -> 0), width (0->520), square size])
+        image: (int) the image processed (it is used only for getting its height)
+
+    Returns: (bool) true = carpet; false = obstacle
+
+    """
+    height = int(len(image) * 0.4)
+    index = pixel[0]  # starting height of the pixel
+    status = False  # used to check if a grass line between borders of the grass and carpet can be found
+    while index > height and not status:  # stop if a grass area was found or you bypassed the required height
+        index -= 10  # Move the square 10 pixels (actual pixels of the image this time) up
+        img = image[int(index):int(index + pixel[2]), int(pixel[1]):int(pixel[1] + pixel[2])]  # Build square
+        go_zone = filter_color_square(img, y_low=70, y_high=90, u_low=100, u_high=130, v_low=100, v_high=135)  # Check
+        if go_zone:  # If a grass area was found stop the while loop and return the result to plot the square
+            status = True
+    return status
+
 
 def square_mesh(dims, image):
 
@@ -98,17 +123,21 @@ def square_mesh(dims, image):
 
         if go_zone:
             image[int(dims[i][0]):int(dims[i][0]+size),int(dims[i][1]):int(dims[i][1]+size), :] = [0, 255, 0]
+        elif is_carpet(dims[i], image):
+            image[int(dims[i][0]):int(dims[i][0] + size), int(dims[i][1]):int(dims[i][1] + size), :] = [0, 255, 0]
         else:
             image[int(dims[i][0]):int(dims[i][0]+size),int(dims[i][1]):int(dims[i][1]+size), :] = [0, 0, 255]
 
     return image
 
+
 def main():
 
     # Image loading
-    id = 75
-    img_list = utils.load_data(image_folder)
-    image = utils.get_single_image(img_list[id], image_dir_name = image_folder, graphics=False)
+    # id = 75
+    # img_list = utils.load_data(image_folder)
+    # image1 = utils.get_single_image(img_list[id], image_dir_name = image_folder, graphics=False)
+    image = cv2.imread(os.getcwd() + './../Data/cyberzoo_poles/2_original.jpg')
 
     # Decision based on amount of pixels
     Filtered = filter_color(im=image, y_low=70, y_high=90, u_low=100, u_high=130, v_low=100, v_high=135)
@@ -128,12 +157,14 @@ def main():
     #    image[dims[0]:dims[0]+dims[2],dims[1]:dims[1]+dims[2],:] = [0, 255, 0]
     #else:
     #    image[dims[0]:dims[0]+dims[2],dims[1]:dims[1]+dims[2],:] = [0, 0, 255]
+    print(dims)
 
     plt.figure()
     RGB = cv2.cvtColor(meshed_image, cv2.COLOR_BGR2RGB)
     plt.imshow(RGB)
     plt.title('Original image')
     plt.show()
+
 
 if __name__ == '__main__':
     main()

@@ -15,6 +15,12 @@ image_folder = os.getcwd() + '/../Data/cyberzoo_poles/20190121-135009'
 
 def filter_color(im, y_low=50, y_high=200, u_low=120, u_high=130, v_low=120, v_high=130, resize_factor=3):
 
+    """"
+    This is a piece of code inspired by the Binder example code for filtering the ground color from an image.
+    The inputs are the image and the YUV bounds needed for color filtration. resize_factor resizes the image pixel-wise.
+    The output is a filtered image.
+    """
+
     im = cv2.resize(im, (int(im.shape[1] / resize_factor), int(im.shape[0] / resize_factor)))
     imred = im[int(im.shape[0]*0.45):im.shape[0],:,:]
     YUV = cv2.cvtColor(imred, cv2.COLOR_BGR2YUV)
@@ -41,7 +47,14 @@ def filter_color(im, y_low=50, y_high=200, u_low=120, u_high=130, v_low=120, v_h
     return(Filtered)
 
 
-def filter_color_square(sq, y_low=50, y_high=200, u_low=120, u_high=130, v_low=120, v_high=130, resize_factor=1, passFactor = 0.4):
+def filter_color_square(sq, y_low=50, y_high=200, u_low=120, u_high=130, v_low=120, v_high=130, resize_factor=1, passFactor = 0.7):
+
+    """"
+    This is a function for filtering the ground in the squares. The input is a certain square patch of the image and YUV
+    parameters. The color is then filtered and averaged. Furthermore, a certain pass factor is chosen, which determines how
+    much % of pixels needs to fall within a certain band of colors to be considered a "go" zone. An output is a boolean
+    with the following meaning: True = squared passed filtration, False = square didn't pass filtration
+    """
 
     sq = cv2.resize(sq, (int(sq.shape[1] / resize_factor), int(sq.shape[0] / resize_factor)))
     YUV = cv2.cvtColor(sq, cv2.COLOR_BGR2YUV)
@@ -59,6 +72,13 @@ def filter_color_square(sq, y_low=50, y_high=200, u_low=120, u_high=130, v_low=1
 
 
 def go_decision(Filtered):
+
+    """"
+    This is a function for evaluating which directions to go. If more ground is sensed on the right side, the drone
+    will go right, and vice versa. The input is an image with filtered ground. The output is a boolean, with the following
+    meaning: True = go right / False = go left.
+    """
+
     sumRight = np.sum(Filtered[int(Filtered.shape[0]/2):Filtered.shape[0],
                       int(Filtered.shape[1]/2):Filtered.shape[1]])
     sumLeft = np.sum(Filtered[int(Filtered.shape[0]/2):Filtered.shape[0],
@@ -70,6 +90,15 @@ def go_decision(Filtered):
 
 
 def gen_squares(image_d1, image_d2):
+
+    """"
+    This function creates a mesh of squares within an image shot by camera. The idea is select patches of the image
+    to be considered, so that the drone does not evaluate all the pixels within the image. Therefore, sufficient
+    images should be considered to represent the image adequatly, but too many as to avoid an expensive algorithm.
+
+    The inputs are the dimension of the image in height (image_d1) and in length (image_d2). The output is an array
+    of the pixel location and size of the "patches" within an image.
+    """
 
     row_num = 4
     sq_size = int(image_d2/40)
@@ -114,14 +143,25 @@ def is_carpet(pixel, image):
 
 def square_mesh(dims, image):
 
-    size = dims[0][2]
+    """"
+    This function takes the (pixel) locations and sizes of squares to be considered withing the image and an image
+    itself. It returns the imagine with the regions colored based on whether the zone is free to go or not (i.e. an
+    obstacle stands in the way). Green square = go zone, Red square = no-go zone
+    """
+
+    size = dims[0][2] # Size of one "test" square
 
     for i in range(len(dims[:])):
+
+        """"
+        This for cycle loops through all of the square and examines whether they are of the ground color. If they are
+        (or if they are a carpet), it colors them green within the image. If they are not, it colors them red. 
+        """
 
         img = image[int(dims[i][0]):int(dims[i][0] + size), int(dims[i][1]):int(dims[i][1] + size)]
         go_zone = filter_color_square(sq=img, y_low=70, y_high=90, u_low=100, u_high=130, v_low=100, v_high=135)
 
-        if go_zone:
+        if go_zone: # Coloring is performed here
             image[int(dims[i][0]):int(dims[i][0]+size),int(dims[i][1]):int(dims[i][1]+size), :] = [0, 255, 0]
         elif is_carpet(dims[i], image):
             image[int(dims[i][0]):int(dims[i][0] + size), int(dims[i][1]):int(dims[i][1] + size), :] = [0, 255, 0]
@@ -137,6 +177,7 @@ def main():
     # id = 75
     # img_list = utils.load_data(image_folder)
     # image1 = utils.get_single_image(img_list[id], image_dir_name = image_folder, graphics=False)
+
     image = cv2.imread(os.getcwd() + './../Data/cyberzoo_poles/2_original.jpg')
 
     # Decision based on amount of pixels

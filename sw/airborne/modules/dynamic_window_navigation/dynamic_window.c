@@ -24,6 +24,7 @@
 #include "modules/core/abi.h"
 #include <time.h>
 #include <stdio.h>
+#include <vector>
 
 #define NAV_C // needed to get the nav functions like Inside...
 #include "generated/flight_plan.h"
@@ -246,3 +247,14 @@ uint8_t chooseRandomIncrementAvoidance(void)
   return false;
 }
 
+ Vector2f obs_pos(float heading_angle, int floor_pixels)
+ {
+   float angle = stateGetNedToBodyEulers_f()->psi + heading_angle;
+   //place object in that direction
+   float d = 1.0; [m] //distance to object
+   float object_x = d*cosf(angle);
+   float object_y = d*sinf(angle);
+   Vector2f object_pos = {object_x, object_y};
+
+   return object_pos;
+ }

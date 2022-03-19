@@ -17,10 +17,9 @@
 extern float oa_color_count_frac;
 
 // functions
-extern void orange_avoider_init(void);
-extern void orange_avoider_periodic(void);
+extern void dynamic_window_init(void);
+extern void dynamic_window_periodic(void);
 
-//TODO CHANGE VARIABLE NAMES
 
 #endif
 

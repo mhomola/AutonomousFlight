@@ -5,8 +5,8 @@
  *
  */
 /**
- * @file "modules/orange_avoider/orange_avoider.c"
- * @author Roland Meertens
+ * @file "modules/dynamic_window_navigation/dynamic_window.c"
+ * @author Nathaniel Peter Stebbins Dahl
  * Example on how to use the colours detected to avoid orange pole in the cyberzoo
  * This module is an example module for the course AE4317 Autonomous Flight of Micro Air Vehicles at the TU Delft.
  * This module is used in combination with a color filter (cv_detect_color_object) and the navigation mode of the autopilot.
@@ -17,17 +17,18 @@
  * so you have to define which filter to use with the ORANGE_AVOIDER_VISUAL_DETECTION_ID setting.
  */
 
-#include "modules/orange_avoider/orange_avoider.h"
+#include "modules/dynamic_window_navigation/dynamic_window.h"
 #include "firmwares/rotorcraft/navigation.h"
 #include "generated/airframe.h"
 #include "state.h"
 #include "modules/core/abi.h"
 #include <time.h>
 #include <stdio.h>
-#include <vector>
 
 #define NAV_C // needed to get the nav functions like Inside...
 #include "generated/flight_plan.h"
+
+#include "modules/dynamic_window_navigation/DWN.cpp"
 
 #define ORANGE_AVOIDER_VERBOSE TRUE
 
@@ -93,6 +94,9 @@ void dynamic_window_init(void)
 
   // bind our colorfilter callbacks to receive the color filter outputs
   AbiBindMsgVISUAL_DETECTION(ORANGE_AVOIDER_VISUAL_DETECTION_ID, &color_detection_ev, color_detection_cb);
+
+  //Call temporary initialization function for object locations
+
 }
 
 /*
@@ -105,17 +109,13 @@ void dynamic_window_periodic(void)
     return;
   }
 
+  //float x, float y, float angle, float goal_x, float goal_y)
+  updt_dwn(stateGetPositionEnu_i()->x, stateGetPositionEnu_i()->y, stateGetNedToBodyEulers_f()->psi, 2.f, 2.f);
+
+
   // compute current color thresholds
-  int32_t color_count_threshold = oa_color_count_frac * front_camera.output_size.w * front_camera.output_size.h;
 
   VERBOSE_PRINT("Color_count: %d  threshold: %d state: %d \n", color_count, color_count_threshold, navigation_state);
-
-  // update our safe confidence using color threshold
-  if(color_count < color_count_threshold){
-    obstacle_free_confidence++;
-  } else {
-    obstacle_free_confidence -= 2;  // be more cautious with positive obstacle detections
-  }
 
   // bound obstacle_free_confidence
   Bound(obstacle_free_confidence, 0, max_trajectory_confidence);

@@ -36,6 +36,7 @@
     <define name="ARRIVED_AT_WAYPOINT" value="0.5"/><!-- Detect arrival at waypoint when within 0.5m -->
 
   <!-- Subsystem section -->
+    <module name="dynamic_window_navigation"/>
     <module name="telemetry" type="transparent_udp"/>
     <module name="radio_control" type="datalink"/>
     <module name="motor_mixing"/>

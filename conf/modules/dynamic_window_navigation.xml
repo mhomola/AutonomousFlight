@@ -22,8 +22,10 @@ This is based on the orange avoider module
     <file name="dynamic_window.h"/>
   </header>
   <init fun="dynamic_window_init()"/>
-  <periodic fun="dynamic_window_periodic()" freq="4"/>
+  <periodic fun="dynamic_window_periodic()" freq="15"/>
   <makefile target="ap|nps">
     <file name="dynamic_window.c"/>
+    <file name="DWN.cpp"/>
+    
   </makefile>
 </module>

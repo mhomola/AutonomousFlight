@@ -111,7 +111,7 @@ void dynamic_window_periodic(void)
 
   //float x, float y, float angle, float goal_x, float goal_y)
   updt_dwn(stateGetPositionEnu_i()->x, stateGetPositionEnu_i()->y, stateGetNedToBodyEulers_f()->psi, 2.f, 2.f);
-
+  set
 
   // compute current color thresholds
 
@@ -249,9 +249,10 @@ uint8_t chooseRandomIncrementAvoidance(void)
 
  Vector2f obs_pos(float heading_angle, int floor_pixels)
  {
+   (void)floor_pixels;
    float angle = stateGetNedToBodyEulers_f()->psi + heading_angle;
    //place object in that direction
-   float d = 1.0; [m] //distance to object
+   float d = 1.0; //[m] //distance to object
    float object_x = d*cosf(angle);
    float object_y = d*sinf(angle);
    Vector2f object_pos = {object_x, object_y};

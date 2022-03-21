@@ -11,12 +11,14 @@ Thijs Verkade
 """*/
 
 //#include <iostream>
-#include <tuple>
+#include "modules/dynamic_window_navigation/tuple"
 #include <math.h>
 #include <eigen3/Eigen/Core> 
-using namespace Eigen;
-using Eigen::placeholders::last;
+#include "modules/dynamic_window_navigation/vector"
 
+using namespace Eigen;
+//using Eigen::placeholders::last;
+//Replaced the call of last with STEPS. not ideal but its not working...
 
 //for simplicity we will just do it manually:
 #define DT 0.1
@@ -62,8 +64,8 @@ struct Config{
 
 //arange equivelent function
 template<typename T>
-VectorXf arange(T start, T stop, T step = 1) {
-    VectorXf values;
+vector<T> arange(T start, T stop, T step = 1) {
+    vector<T> values;
     for (T value = start; value < stop; value += step)
         values.push_back(value);
     return values;
@@ -77,6 +79,7 @@ struct DWN_run{
     Vector2f goal = Vector2f(2,2);
     obj_mat ob_lst; ob_lst <<   1.0, 1.0,
                                 1.5, 1.5; //Just a basic list. Need to properly pass this in 
+                                //Error on line 80 due to Dynamic not being understood as a keyword from Eigen
     Vector2f best_u = Vector2f(0,0);
     x_vect best_trajectory;
     x_vect x_vector;
@@ -183,8 +186,8 @@ std::tuple<Vector2f, x_vect> calc_control_and_trajectory(const x_vect& x, const 
     auto v_range = arange<float>(dw[0], dw[1], config.v_resolution);
     auto y_range = arange<float>(dw[2], dw[3], config.yaw_rate_resolution);
     //Maybe can do a for each?
-    for (auto v_it = v_range.begin(); v_it != v_range.end(); ++v) {
-        for (auto y_it = y_range.begin(); y_it != y_range.end(); ++y) {
+    for (auto v_it = v_range.begin(); v_it != v_range.end(); ++v_it) {
+        for (auto y_it = y_range.begin(); y_it != y_range.end(); ++y_it) {
 
             auto trajectory     = predict_trajectory(x_init, *v_it, *y_it, config);
             //Calculate the cost
@@ -209,7 +212,6 @@ std::tuple<Vector2f, x_vect> calc_control_and_trajectory(const x_vect& x, const 
 }
 
 float calc_obstacle_cost(const trajectory_mat& trajectory,const obj_mat& ob, const struct Config& config) {
-		//TODO Georg
 		//calc obstacle cost inf: collision
 		auto dx = trajectory.col(0) - ob.col(0);
 		auto dy = trajectory.col(1) - ob.col(1);
@@ -218,6 +220,10 @@ float calc_obstacle_cost(const trajectory_mat& trajectory,const obj_mat& ob, con
         if (r <= config.robot_radius){
 				return INFINITY;
 		}
+        //DEFine edges of square (four coners)
+        //Do some fancy vector math to closest point to any of the square walls
+        //TODO add cost to going near wall
+
 
 		float min_r = r.min();
 		return (1.0/min_r);		
@@ -225,10 +231,10 @@ float calc_obstacle_cost(const trajectory_mat& trajectory,const obj_mat& ob, con
 
 float calc_to_goal_cost(const trajectory_mat& trajectory, const Vector2f& goal){
     //calc to goal cost with angle difference
-    auto dx             = goal[0] - trajectory(last,0);
-    auto dy             = goal[1] - trajectory(last, 1);
+    auto dx             = goal(0) - trajectory(STEPS,0);
+    auto dy             = goal(1) - trajectory(STEPS, 1);
     auto error_angle    = atan2(dy, dx);
-    auto cost_angle     = error_angle - trajectory(last, 2);
+    auto cost_angle     = error_angle - trajectory(STEPS, 2);
     float cost          = abs(atan2(sin(cost_angle),cos(cost_angle)));
     return cost;
 }

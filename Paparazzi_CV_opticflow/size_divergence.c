@@ -161,7 +161,7 @@ float get_heading_command(struct flow_t *vectors, int count, int img_size)
   count_l = (float)(count_l);
   count_r = (float)(count_r);
 
-  printf("Total flow: %d\n", flow_l + flow_r);
+  printf("Total flow: %d\n", flow_l + flow_r, "%d\n , left: %d\n", flow_l, "%d\n , right: %d\n", flow_r );
 
   // compute simpel yaw/heading change command
   yaw_command = (flow_l - flow_r)/(flow_l + flow_r);

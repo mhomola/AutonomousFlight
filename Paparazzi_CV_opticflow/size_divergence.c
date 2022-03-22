@@ -144,18 +144,18 @@ float get_heading_command(struct flow_t *vectors, int count, int img_size)
   for(i=0; i < count; i++)
   { 
     // Calculate the squarred flow:
-    local_flow_sq = (float)vectors[i].flow_x * (float)vectors[i].flow_x +\
-     (float)vectors[i].flow_y * (float)vectors[i].flow_y;
-     
+    local_flow_sq = (float)(vectors[i].flow_x * vectors[i].flow_x +\
+                            vectors[i].flow_y * vectors[i].flow_y);
+
     // printf("Iamge size:%d \n ", img_size/2);
 
     if (vectors[i].pos.y < img_size/2){
       count_l++;
-      flow_l+= local_flow_sq ; 
+      flow_l+= local_flow_sq; 
     }
     else if(vectors[i].pos.y > img_size/2){
       count_r++;
-      flow_r+= local_flow_sq ; 
+      flow_r+= local_flow_sq; 
     }
   }
   count_l = (float)(count_l);

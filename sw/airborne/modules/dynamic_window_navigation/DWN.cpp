@@ -11,13 +11,11 @@ Thijs Verkade
 """*/
 
 //#include <iostream>
-#include "modules/dynamic_window_navigation/tuple"
-#include <math.h>
-#include <eigen3/Eigen/Core> 
-#include "modules/dynamic_window_navigation/vector"
-#include "generated/flight_plan.h"
 
+#include <math.h>
+#include <Eigen/Core> 
 using namespace Eigen;
+
 //using Eigen::placeholders::last;
 //Replaced the call of last with STEPS. not ideal but its not working...
 
@@ -26,22 +24,30 @@ using namespace Eigen;
 #define HORIZON 3
 //horizon time/dt = 3/0.1 = 30 + 1 (+1 for the current time)
 #define STEPS 31
+#define MAXOBJECTS 3
+#define RESOLUTION 50
 
 //Declare matrix sizes for clarity and reducing read complexity
 typedef Matrix<float, 1, 5> x_vect;
 typedef Matrix<float, 1, 4> dw_vect;
 typedef Matrix<float, STEPS, 5> trajectory_mat;
-typedef Matrix<float, Dynamic, 2> obj_mat;
+typedef Matrix<float, MAXOBJECTS, 2> obj_mat;
+
+//creating custom bit to remove std::tuple requirements
+struct u_traj {
+  Vector2f u;
+  trajectory_mat traj;
+};
 
 
 //Functions in this file:
-std::tuple<Vector2f, trajectory_mat>    dwa_control(x_vect& x, const struct Config& config, const Vector2f& goal, const obj_mat& ob);
-x_vect                                  motion(x_vect& x, const Vector2f& u, const float dt);
-dw_vect                                 calc_dynamic_window(x_vect& x,const struct Config& config);
-trajectory_mat                          predict_trajectory(const x_vect& x_init, float v, float y, const struct Config& config);
-std::tuple<Vector2f, x_vect>            calc_control_and_trajectory(const x_vect& x, const Vector4f& dw, const struct Config& config, const Vector2f& goal, const obj_mat& ob);
-float                                   calc_obstacle_cost(const trajectory_mat& trajectory,const obj_mat& ob, const struct Config& config);
-float                                   calc_to_goal_cost(const trajectory_mat& trajectory, const Vector2f& goal);
+struct u_traj   dwa_control(x_vect& x, const struct Config& config, const Vector2f& goal, const obj_mat& ob);
+x_vect          motion(x_vect& x, const Vector2f& u, const float dt);
+dw_vect         calc_dynamic_window(x_vect& x,const struct Config& config);
+trajectory_mat  predict_trajectory(const x_vect& x_init, float v, float y, const struct Config& config);
+struct u_traj   calc_control_and_trajectory(const x_vect& x, const Vector4f& dw, const struct Config& config, const Vector2f& goal, const obj_mat& ob);
+float           calc_obstacle_cost(const trajectory_mat& trajectory,const obj_mat& ob, const struct Config& config);
+float           calc_to_goal_cost(const trajectory_mat& trajectory, const Vector2f& goal);
 
 struct Config{
     //simulation parameter class
@@ -52,8 +58,10 @@ struct Config{
     float max_yaw_rate          = 40.0 * M_PI / 180.0;  // [rad/s]
     float max_accel             = 0.2;  // [m/ss]
     float max_delta_yaw_rate    = 40.0 * M_PI / 180.0;  // [rad/ss]
-    float v_resolution          = 0.01;  // [m/s]
-    float yaw_rate_resolution   = 0.1 * M_PI / 180.0;  // [rad/s]
+    //float v_resolution          = 0.01;  // [m/s]
+    //float yaw_rate_resolution   = 0.1 * M_PI / 180.0;  // [rad/s]
+    int v_resolution            = RESOLUTION; //Changed usage for better static mem usage
+    int yaw_rate_resolution     = RESOLUTION; //Changed usage for better static mem usage
     float dt                    = DT;  // [s] Time tick for motion prediction
     float predict_time          = HORIZON;  // [s]
     float to_goal_cost_gain     = 0.15;
@@ -64,11 +72,13 @@ struct Config{
 };
 
 //arange equivelent function
-template<typename T>
-vector<T> arange(T start, T stop, T step = 1) {
-    vector<T> values;
-    for (T value = start; value < stop; value += step)
-        values.push_back(value);
+
+Matrix<float, 1, RESOLUTION> linspace(float start, float stop) {
+    Matrix<float, 1, RESOLUTION>  values;
+    int i = 0;
+    for (float value = start; value < stop; value += (stop-start)/RESOLUTION)
+        values(i) = value;
+        ++i;
     return values;
 }
 
@@ -114,7 +124,7 @@ extern "C" float gt_ywrt(){
     return DWN_run->get_yawrate();
 }
 
-std::tuple<Vector2f, trajectory_mat> dwa_control(x_vect& x, const struct Config& config, const Vector2f& goal, const obj_mat& ob) {
+struct u_traj dwa_control(x_vect& x, const struct Config& config, const Vector2f& goal, const obj_mat& ob) {
     //Top level control function
     //call Calculate dynamic window
     //call Calculate control and trajectory
@@ -122,7 +132,6 @@ std::tuple<Vector2f, trajectory_mat> dwa_control(x_vect& x, const struct Config&
     dw_vect dw  = calc_dynamic_window(x, config);
     return        calc_control_and_trajectory(x, dw, config, goal, ob);
 }
-
 
 // initial state [x(m), y(m), yaw(rad), v(m/s), omega(rad/s)]
 //X0 x pos
@@ -140,7 +149,6 @@ x_vect motion(x_vect& x, const Vector2f& u, const float dt) {
 
     return x;
 }
-
 
 dw_vect calc_dynamic_window(x_vect& x,const struct Config& config){
 		// calculation dynamic window based on current state x
@@ -175,7 +183,7 @@ trajectory_mat predict_trajectory(const x_vect& x_init, float v, float y, const 
 		return trajectory;
 }
 
-std::tuple<Vector2f, x_vect> calc_control_and_trajectory(const x_vect& x, const Vector4f& dw, const struct Config& config, const Vector2f& goal, const obj_mat& ob) {
+struct u_traj calc_control_and_trajectory(const x_vect& x, const Vector4f& dw, const struct Config& config, const Vector2f& goal, const obj_mat& ob) {
     //calculation final input with dynamic window
 
     x_vect  x_init          = x;
@@ -184,8 +192,8 @@ std::tuple<Vector2f, x_vect> calc_control_and_trajectory(const x_vect& x, const 
     x_vect  best_trajectory = x;
 
     //Can we eliminate this in favor of something not double looped
-    auto v_range = arange<float>(dw[0], dw[1], config.v_resolution);
-    auto y_range = arange<float>(dw[2], dw[3], config.yaw_rate_resolution);
+    auto v_range = linspace(dw(0), dw(1));
+    auto y_range = linspace(dw(2), dw(3));
     //Maybe can do a for each?
     for (auto v_it = v_range.begin(); v_it != v_range.end(); ++v_it) {
         for (auto y_it = y_range.begin(); y_it != y_range.end(); ++y_it) {
@@ -244,31 +252,3 @@ float calc_to_goal_cost(const trajectory_mat& trajectory, const Vector2f& goal){
     float cost          = abs(atan2(sin(cost_angle),cos(cost_angle)));
     return cost;
 }
-
-/*int main(){
-	float gx=10.0;
-	float gy=10.0;
-	// initial state [x(m), y(m), yaw(rad), v(m/s), omega(rad/s)]
-	x_vect x = {0.0,0.0,M_PI/8.0,0.0,0.0};
-	Vector2f goal = {gx,gy};
-
-	trajectory_mat trajectory = x;
-
-    Config config;
-	obj_mat ob = config.ob;
-
-	while (true){
-		[Vector2f u, trajectory_mat predicted_trajectory] = dwa_control(x,config,goal,ob);
-		x_vect x = motion(x,u,config.dt);
-		trajectory = Eigen::vstack(trajectory,x);
-
-		auto dist_to_goal = sqrt(square((x[0]-goal[0]),2) + square((x[1]-goal[1]),2));
-
-		if (dist_to_goal <= config.robot_radius){
-			break;
-		}
-
-	}
-	return 0;
-}
-*/

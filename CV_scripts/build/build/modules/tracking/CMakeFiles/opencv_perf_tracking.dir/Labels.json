@@ -1,0 +1,42 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/tracking/perf/perf_main.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_tracking",
+				"PerfTest"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/tracking/perf/perf_trackers.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_tracking",
+				"PerfTest"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/tracking/perf/perf_precomp.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_tracking",
+				"PerfTest"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_tracking",
+			"PerfTest"
+		],
+		"name" : "opencv_perf_tracking"
+	}
+}

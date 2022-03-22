@@ -1,0 +1,430 @@
+Build output check failed:
+    Regex: 'command[- ]line option .* is valid for .* but not for C'
+    Output line: 'cc1: warning: command line option ‘-Wnon-virtual-dtor’ is valid for C++/ObjC++ but not for C'
+Compilation failed:
+    source file: '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -fsigned-char -W -Wall -Wreturn-type  -Wnon-virtual-dtor'
+===== BUILD LOG =====
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_e3675/fast && /usr/bin/make -f CMakeFiles/cmTC_e3675.dir/build.make CMakeFiles/cmTC_e3675.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e3675.dir/src.c.o
+/usr/bin/cc   -O3 -DNDEBUG -fPIE    -fsigned-char -W -Wall -Wreturn-type  -Wnon-virtual-dtor -o CMakeFiles/cmTC_e3675.dir/src.c.o   -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.c
+cc1: warning: command line option ‘-Wnon-virtual-dtor’ is valid for C++/ObjC++ but not for C
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.c:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+    1 | #pragma
+      | 
+Linking C executable cmTC_e3675
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e3675.dir/link.txt --verbose=1
+/usr/bin/cc   -O3 -DNDEBUG    CMakeFiles/cmTC_e3675.dir/src.c.o  -o cmTC_e3675 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'command[- ]line option .* is valid for .* but not for C\+\+'
+    Output line: 'cc1plus: warning: command line option ‘-Wmissing-prototypes’ is valid for C/ObjC but not for C++'
+Compilation failed:
+    source file: '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations  -Wmissing-prototypes'
+===== BUILD LOG =====
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_cce4e/fast && /usr/bin/make -f CMakeFiles/cmTC_cce4e.dir/build.make CMakeFiles/cmTC_cce4e.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_cce4e.dir/src.cxx.o
+/usr/bin/c++    -O3 -DNDEBUG -fPIE    -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations  -Wmissing-prototypes -std=c++11 -o CMakeFiles/cmTC_cce4e.dir/src.cxx.o -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx
+cc1plus: warning: command line option ‘-Wmissing-prototypes’ is valid for C/ObjC but not for C++
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+    1 | #pragma
+      | 
+Linking CXX executable cmTC_cce4e
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cce4e.dir/link.txt --verbose=1
+/usr/bin/c++    -O3 -DNDEBUG    CMakeFiles/cmTC_cce4e.dir/src.cxx.o  -o cmTC_cce4e 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'command[- ]line option .* is valid for .* but not for C\+\+'
+    Output line: 'cc1plus: warning: command line option ‘-Wstrict-prototypes’ is valid for C/ObjC but not for C++'
+Compilation failed:
+    source file: '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations  -Wstrict-prototypes'
+===== BUILD LOG =====
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_b8684/fast && /usr/bin/make -f CMakeFiles/cmTC_b8684.dir/build.make CMakeFiles/cmTC_b8684.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_b8684.dir/src.cxx.o
+/usr/bin/c++    -O3 -DNDEBUG -fPIE    -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations  -Wstrict-prototypes -std=c++11 -o CMakeFiles/cmTC_b8684.dir/src.cxx.o -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx
+cc1plus: warning: command line option ‘-Wstrict-prototypes’ is valid for C/ObjC but not for C++
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+    1 | #pragma
+      | 
+Linking CXX executable cmTC_b8684
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b8684.dir/link.txt --verbose=1
+/usr/bin/c++    -O3 -DNDEBUG    CMakeFiles/cmTC_b8684.dir/src.cxx.o  -o cmTC_b8684 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'command[- ]line option .* is valid for .* but not for C'
+    Output line: 'cc1: warning: command line option ‘-Wsign-promo’ is valid for C++/ObjC++ but not for C'
+Compilation failed:
+    source file: '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow  -Wsign-promo'
+===== BUILD LOG =====
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_e8769/fast && /usr/bin/make -f CMakeFiles/cmTC_e8769.dir/build.make CMakeFiles/cmTC_e8769.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e8769.dir/src.c.o
+/usr/bin/cc   -O3 -DNDEBUG -fPIE    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow  -Wsign-promo -o CMakeFiles/cmTC_e8769.dir/src.c.o   -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.c
+cc1: warning: command line option ‘-Wsign-promo’ is valid for C++/ObjC++ but not for C
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.c:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+    1 | #pragma
+      | 
+Linking C executable cmTC_e8769
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e8769.dir/link.txt --verbose=1
+/usr/bin/cc   -O3 -DNDEBUG    CMakeFiles/cmTC_e8769.dir/src.c.o  -o cmTC_e8769 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'command[- ]line option .* is valid for .* but not for C'
+    Output line: 'cc1: warning: command line option ‘-Wsuggest-override’ is valid for C++/ObjC++ but not for C'
+Compilation failed:
+    source file: '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized  -Wsuggest-override'
+===== BUILD LOG =====
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_e0fab/fast && /usr/bin/make -f CMakeFiles/cmTC_e0fab.dir/build.make CMakeFiles/cmTC_e0fab.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e0fab.dir/src.c.o
+/usr/bin/cc   -O3 -DNDEBUG -fPIE    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized  -Wsuggest-override -o CMakeFiles/cmTC_e0fab.dir/src.c.o   -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.c
+cc1: warning: command line option ‘-Wsuggest-override’ is valid for C++/ObjC++ but not for C
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.c:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+    1 | #pragma
+      | 
+Linking C executable cmTC_e0fab
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e0fab.dir/link.txt --verbose=1
+/usr/bin/cc   -O3 -DNDEBUG    CMakeFiles/cmTC_e0fab.dir/src.c.o  -o cmTC_e0fab 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'command[- ]line option .* is valid for .* but not for C'
+    Output line: 'cc1: warning: command line option ‘-Wno-delete-non-virtual-dtor’ is valid for C++/ObjC++ but not for C'
+Compilation failed:
+    source file: '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized  -Wno-delete-non-virtual-dtor'
+===== BUILD LOG =====
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_5acad/fast && /usr/bin/make -f CMakeFiles/cmTC_5acad.dir/build.make CMakeFiles/cmTC_5acad.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_5acad.dir/src.c.o
+/usr/bin/cc   -O3 -DNDEBUG -fPIE    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized  -Wno-delete-non-virtual-dtor -o CMakeFiles/cmTC_5acad.dir/src.c.o   -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.c
+cc1: warning: command line option ‘-Wno-delete-non-virtual-dtor’ is valid for C++/ObjC++ but not for C
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.c:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+    1 | #pragma
+      | 
+Linking C executable cmTC_5acad
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5acad.dir/link.txt --verbose=1
+/usr/bin/cc   -O3 -DNDEBUG    CMakeFiles/cmTC_5acad.dir/src.c.o  -o cmTC_5acad 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unrecognized .*option'
+    Output line: 'cc1plus: warning: unrecognized command line option ‘-Wno-unnamed-type-template-args’'
+Compilation failed:
+    source file: '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Wsuggest-override -Wno-delete-non-virtual-dtor  -Wno-unnamed-type-template-args'
+===== BUILD LOG =====
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_14df5/fast && /usr/bin/make -f CMakeFiles/cmTC_14df5.dir/build.make CMakeFiles/cmTC_14df5.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_14df5.dir/src.cxx.o
+/usr/bin/c++    -O3 -DNDEBUG -fPIE    -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Wsuggest-override -Wno-delete-non-virtual-dtor  -Wno-unnamed-type-template-args -std=c++11 -o CMakeFiles/cmTC_14df5.dir/src.cxx.o -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+    1 | #pragma
+      | 
+cc1plus: warning: unrecognized command line option ‘-Wno-unnamed-type-template-args’
+Linking CXX executable cmTC_14df5
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_14df5.dir/link.txt --verbose=1
+/usr/bin/c++    -O3 -DNDEBUG    CMakeFiles/cmTC_14df5.dir/src.cxx.o  -o cmTC_14df5 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unrecognized .*option'
+    Output line: 'cc1: warning: unrecognized command line option ‘-Wno-unnamed-type-template-args’'
+Compilation failed:
+    source file: '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized  -Wno-unnamed-type-template-args'
+===== BUILD LOG =====
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_58ac6/fast && /usr/bin/make -f CMakeFiles/cmTC_58ac6.dir/build.make CMakeFiles/cmTC_58ac6.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_58ac6.dir/src.c.o
+/usr/bin/cc   -O3 -DNDEBUG -fPIE    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized  -Wno-unnamed-type-template-args -o CMakeFiles/cmTC_58ac6.dir/src.c.o   -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.c
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.c:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+    1 | #pragma
+      | 
+cc1: warning: unrecognized command line option ‘-Wno-unnamed-type-template-args’
+Linking C executable cmTC_58ac6
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_58ac6.dir/link.txt --verbose=1
+/usr/bin/cc   -O3 -DNDEBUG    CMakeFiles/cmTC_58ac6.dir/src.c.o  -o cmTC_58ac6 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'command[- ]line option .* is valid for .* but not for C'
+    Output line: 'cc1: warning: command line option ‘-fvisibility-inlines-hidden’ is valid for C++/ObjC++ but not for C'
+Compilation failed:
+    source file: '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -fvisibility-inlines-hidden'
+===== BUILD LOG =====
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_68a72/fast && /usr/bin/make -f CMakeFiles/cmTC_68a72.dir/build.make CMakeFiles/cmTC_68a72.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_68a72.dir/src.c.o
+/usr/bin/cc   -O3 -DNDEBUG -fPIE    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -fvisibility-inlines-hidden -o CMakeFiles/cmTC_68a72.dir/src.c.o   -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.c
+cc1: warning: command line option ‘-fvisibility-inlines-hidden’ is valid for C++/ObjC++ but not for C
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.c:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+    1 | #pragma
+      | 
+Linking C executable cmTC_68a72
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_68a72.dir/link.txt --verbose=1
+/usr/bin/cc   -O3 -DNDEBUG    CMakeFiles/cmTC_68a72.dir/src.c.o  -o cmTC_68a72 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unrecognized .*option'
+    Output line: 'cc1plus: warning: unrecognized command line option ‘-Wno-inconsistent-missing-override’'
+Compilation failed:
+    source file: '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -Wno-inconsistent-missing-override'
+===== BUILD LOG =====
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_95e90/fast && /usr/bin/make -f CMakeFiles/cmTC_95e90.dir/build.make CMakeFiles/cmTC_95e90.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_95e90.dir/src.cxx.o
+/usr/bin/c++    -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wsign-promo -Wno-delete-non-virtual-dtor -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-shadow -Wno-unused -Wno-sign-compare -Wno-undef -Wno-missing-declarations -Wno-uninitialized -Wno-switch -Wno-parentheses -Wno-array-bounds -Wno-extra -Wno-deprecated-declarations -Wno-misleading-indentation -Wno-deprecated -Wno-suggest-override  -O3 -DNDEBUG  -DNDEBUG -fPIE    -Wno-inconsistent-missing-override -std=c++11 -o CMakeFiles/cmTC_95e90.dir/src.cxx.o -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+    1 | #pragma
+      | 
+cc1plus: warning: unrecognized command line option ‘-Wno-inconsistent-missing-override’
+Linking CXX executable cmTC_95e90
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_95e90.dir/link.txt --verbose=1
+/usr/bin/c++     -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wsign-promo -Wno-delete-non-virtual-dtor -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-shadow -Wno-unused -Wno-sign-compare -Wno-undef -Wno-missing-declarations -Wno-uninitialized -Wno-switch -Wno-parentheses -Wno-array-bounds -Wno-extra -Wno-deprecated-declarations -Wno-misleading-indentation -Wno-deprecated -Wno-suggest-override  -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_95e90.dir/src.cxx.o  -o cmTC_95e90 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'command[- ]line option .* is valid for .* but not for C\+\+'
+    Output line: 'cc1plus: warning: command line option ‘-Wno-missing-prototypes’ is valid for C/ObjC but not for C++'
+Compilation failed:
+    source file: '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -Wno-missing-prototypes'
+===== BUILD LOG =====
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_5823e/fast && /usr/bin/make -f CMakeFiles/cmTC_5823e.dir/build.make CMakeFiles/cmTC_5823e.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_5823e.dir/src.cxx.o
+/usr/bin/c++    -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wsign-promo -Wno-delete-non-virtual-dtor -Wno-comment -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-shadow -Wno-unused -Wno-sign-compare -Wno-undef -Wno-missing-declarations -Wno-uninitialized -Wno-switch -Wno-parentheses -Wno-array-bounds -Wno-extra -Wno-deprecated-declarations -Wno-misleading-indentation -Wno-deprecated -Wno-suggest-override -Wno-implicit-fallthrough -Wno-tautological-compare  -O3 -DNDEBUG  -DNDEBUG -fPIE    -Wno-missing-prototypes -std=c++11 -o CMakeFiles/cmTC_5823e.dir/src.cxx.o -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx
+cc1plus: warning: command line option ‘-Wno-missing-prototypes’ is valid for C/ObjC but not for C++
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+    1 | #pragma
+      | 
+Linking CXX executable cmTC_5823e
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5823e.dir/link.txt --verbose=1
+/usr/bin/c++     -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wsign-promo -Wno-delete-non-virtual-dtor -Wno-comment -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-shadow -Wno-unused -Wno-sign-compare -Wno-undef -Wno-missing-declarations -Wno-uninitialized -Wno-switch -Wno-parentheses -Wno-array-bounds -Wno-extra -Wno-deprecated-declarations -Wno-misleading-indentation -Wno-deprecated -Wno-suggest-override -Wno-implicit-fallthrough -Wno-tautological-compare  -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_5823e.dir/src.cxx.o  -o cmTC_5823e 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unrecognized .*option'
+    Output line: 'cc1plus: warning: unrecognized command line option ‘-Wno-implicit-const-int-float-conversion’'
+Compilation failed:
+    source file: '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -Wno-implicit-const-int-float-conversion'
+===== BUILD LOG =====
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_af9c2/fast && /usr/bin/make -f CMakeFiles/cmTC_af9c2.dir/build.make CMakeFiles/cmTC_af9c2.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_af9c2.dir/src.cxx.o
+/usr/bin/c++    -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wsign-promo -Wno-delete-non-virtual-dtor -Wno-comment -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-shadow -Wno-unused -Wno-sign-compare -Wno-undef -Wno-missing-declarations -Wno-uninitialized -Wno-switch -Wno-parentheses -Wno-array-bounds -Wno-extra -Wno-deprecated-declarations -Wno-misleading-indentation -Wno-deprecated -Wno-suggest-override -Wno-implicit-fallthrough -Wno-tautological-compare -Wno-reorder -Wno-unused-result  -O3 -DNDEBUG  -DNDEBUG -fPIE    -Wno-implicit-const-int-float-conversion -std=c++11 -o CMakeFiles/cmTC_af9c2.dir/src.cxx.o -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+    1 | #pragma
+      | 
+cc1plus: warning: unrecognized command line option ‘-Wno-implicit-const-int-float-conversion’
+Linking CXX executable cmTC_af9c2
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_af9c2.dir/link.txt --verbose=1
+/usr/bin/c++     -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wsign-promo -Wno-delete-non-virtual-dtor -Wno-comment -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-shadow -Wno-unused -Wno-sign-compare -Wno-undef -Wno-missing-declarations -Wno-uninitialized -Wno-switch -Wno-parentheses -Wno-array-bounds -Wno-extra -Wno-deprecated-declarations -Wno-misleading-indentation -Wno-deprecated -Wno-suggest-override -Wno-implicit-fallthrough -Wno-tautological-compare -Wno-reorder -Wno-unused-result  -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_af9c2.dir/src.cxx.o  -o cmTC_af9c2 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Determining if the function sgemm_ exists failed with the following output:
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_49ecc/fast && /usr/bin/make -f CMakeFiles/cmTC_49ecc.dir/build.make CMakeFiles/cmTC_49ecc.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_49ecc.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -DCHECK_FUNCTION_EXISTS=sgemm_ -O3 -DNDEBUG  -DNDEBUG -fPIE   -o CMakeFiles/cmTC_49ecc.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_49ecc
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_49ecc.dir/link.txt --verbose=1
+/usr/bin/cc    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -DCHECK_FUNCTION_EXISTS=sgemm_ -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_49ecc.dir/CheckFunctionExists.c.o  -o cmTC_49ecc 
+/usr/bin/ld: CMakeFiles/cmTC_49ecc.dir/CheckFunctionExists.c.o: in function `main':
+CheckFunctionExists.c:(.text.startup.main+0x10): undefined reference to `sgemm_'
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_49ecc.dir/build.make:87: cmTC_49ecc] Error 1
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_49ecc/fast] Error 2
+
+
+
+Determining if the function cheev_ exists failed with the following output:
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_8dd86/fast && /usr/bin/make -f CMakeFiles/cmTC_8dd86.dir/build.make CMakeFiles/cmTC_8dd86.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_8dd86.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -DCHECK_FUNCTION_EXISTS=cheev_ -O3 -DNDEBUG  -DNDEBUG -fPIE   -o CMakeFiles/cmTC_8dd86.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_8dd86
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8dd86.dir/link.txt --verbose=1
+/usr/bin/cc    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -DCHECK_FUNCTION_EXISTS=cheev_ -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_8dd86.dir/CheckFunctionExists.c.o  -o cmTC_8dd86  /usr/lib/x86_64-linux-gnu/libblas.so 
+/usr/bin/ld: CMakeFiles/cmTC_8dd86.dir/CheckFunctionExists.c.o: in function `main':
+CheckFunctionExists.c:(.text.startup.main+0x10): undefined reference to `cheev_'
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_8dd86.dir/build.make:88: cmTC_8dd86] Error 1
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_8dd86/fast] Error 2
+
+
+
+Build output check failed:
+    Regex: 'unrecognized .*option'
+    Output line: 'cc1plus: warning: unrecognized command line option ‘-Wno-tautological-undefined-compare’'
+Compilation failed:
+    source file: '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -Wno-tautological-undefined-compare'
+===== BUILD LOG =====
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_94974/fast && /usr/bin/make -f CMakeFiles/cmTC_94974.dir/build.make CMakeFiles/cmTC_94974.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_94974.dir/src.cxx.o
+/usr/bin/c++    -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wuninitialized -Wsuggest-override -Wno-delete-non-virtual-dtor -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-deprecated -Wno-missing-declarations -Wno-shadow -Wno-unused-parameter -Wno-unused-local-typedefs -Wno-sign-compare -Wno-sign-promo -Wno-undef  -O3 -DNDEBUG  -DNDEBUG -fPIE    -Wno-tautological-undefined-compare -std=c++11 -o CMakeFiles/cmTC_94974.dir/src.cxx.o -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+    1 | #pragma
+      | 
+cc1plus: warning: unrecognized command line option ‘-Wno-tautological-undefined-compare’
+Linking CXX executable cmTC_94974
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_94974.dir/link.txt --verbose=1
+/usr/bin/c++     -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wuninitialized -Wsuggest-override -Wno-delete-non-virtual-dtor -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-deprecated -Wno-missing-declarations -Wno-shadow -Wno-unused-parameter -Wno-unused-local-typedefs -Wno-sign-compare -Wno-sign-promo -Wno-undef  -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_94974.dir/src.cxx.o  -o cmTC_94974 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unrecognized .*option'
+    Output line: 'cc1plus: warning: unrecognized command line option ‘-Wno-shorten-64-to-32’'
+Compilation failed:
+    source file: '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -Wno-shorten-64-to-32'
+===== BUILD LOG =====
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_95159/fast && /usr/bin/make -f CMakeFiles/cmTC_95159.dir/build.make CMakeFiles/cmTC_95159.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_95159.dir/src.cxx.o
+/usr/bin/c++    -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wuninitialized -Wsuggest-override -Wno-delete-non-virtual-dtor -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-deprecated -Wno-missing-declarations -Wno-shadow -Wno-unused-parameter -Wno-unused-local-typedefs -Wno-sign-compare -Wno-sign-promo -Wno-undef -Wno-ignored-qualifiers -Wno-extra -Wno-unused-function -Wno-unused-const-variable  -O3 -DNDEBUG  -DNDEBUG -fPIE    -Wno-shorten-64-to-32 -std=c++11 -o CMakeFiles/cmTC_95159.dir/src.cxx.o -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+    1 | #pragma
+      | 
+cc1plus: warning: unrecognized command line option ‘-Wno-shorten-64-to-32’
+Linking CXX executable cmTC_95159
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_95159.dir/link.txt --verbose=1
+/usr/bin/c++     -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wuninitialized -Wsuggest-override -Wno-delete-non-virtual-dtor -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-deprecated -Wno-missing-declarations -Wno-shadow -Wno-unused-parameter -Wno-unused-local-typedefs -Wno-sign-compare -Wno-sign-promo -Wno-undef -Wno-ignored-qualifiers -Wno-extra -Wno-unused-function -Wno-unused-const-variable  -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_95159.dir/src.cxx.o  -o cmTC_95159 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unrecognized .*option'
+    Output line: 'cc1plus: warning: unrecognized command line option ‘-Wno-enum-compare-switch’'
+Compilation failed:
+    source file: '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -Wno-enum-compare-switch'
+===== BUILD LOG =====
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_22bf5/fast && /usr/bin/make -f CMakeFiles/cmTC_22bf5.dir/build.make CMakeFiles/cmTC_22bf5.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_22bf5.dir/src.cxx.o
+/usr/bin/c++    -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wuninitialized -Wsuggest-override -Wno-delete-non-virtual-dtor -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-deprecated -Wno-missing-declarations -Wno-shadow -Wno-unused-parameter -Wno-unused-local-typedefs -Wno-sign-compare -Wno-sign-promo -Wno-undef -Wno-ignored-qualifiers -Wno-extra -Wno-unused-function -Wno-unused-const-variable -Wno-invalid-offsetof  -O3 -DNDEBUG  -DNDEBUG -fPIE    -Wno-enum-compare-switch -std=c++11 -o CMakeFiles/cmTC_22bf5.dir/src.cxx.o -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/src.cxx:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+    1 | #pragma
+      | 
+cc1plus: warning: unrecognized command line option ‘-Wno-enum-compare-switch’
+Linking CXX executable cmTC_22bf5
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_22bf5.dir/link.txt --verbose=1
+/usr/bin/c++     -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wuninitialized -Wsuggest-override -Wno-delete-non-virtual-dtor -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-deprecated -Wno-missing-declarations -Wno-shadow -Wno-unused-parameter -Wno-unused-local-typedefs -Wno-sign-compare -Wno-sign-promo -Wno-undef -Wno-ignored-qualifiers -Wno-extra -Wno-unused-function -Wno-unused-const-variable -Wno-invalid-offsetof  -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_22bf5.dir/src.cxx.o  -o cmTC_22bf5 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Determining if the include file sys/videoio.h exists failed with the following output:
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_19aa6/fast && /usr/bin/make -f CMakeFiles/cmTC_19aa6.dir/build.make CMakeFiles/cmTC_19aa6.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_19aa6.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG -fPIE   -o CMakeFiles/cmTC_19aa6.dir/CheckIncludeFile.c.o   -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c:1:10: fatal error: sys/videoio.h: No such file or directory
+    1 | #include <sys/videoio.h>
+      |          ^~~~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTC_19aa6.dir/build.make:66: CMakeFiles/cmTC_19aa6.dir/CheckIncludeFile.c.o] Error 1
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_19aa6/fast] Error 2
+
+
+

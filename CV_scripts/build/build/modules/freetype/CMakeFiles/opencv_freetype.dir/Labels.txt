@@ -1,0 +1,19 @@
+# Target labels
+ Extra
+ opencv_freetype
+ Module
+# Source files and their labels
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/freetype/include/opencv2/freetype.hpp
+ Extra
+ opencv_freetype
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/freetype/src/freetype.cpp
+ Extra
+ opencv_freetype
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/freetype/src/precomp.hpp
+ Extra
+ opencv_freetype
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/cvconfig.h
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/opencv2/opencv_modules.hpp

@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/tudor/Desktop/AutonomousFlight/CV_scripts
+CMAKE_SOURCE_DIR = /home/marek/Documents/AutonomousFlight/CV_scripts
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/tudor/Desktop/AutonomousFlight/CV_scripts
+CMAKE_BINARY_DIR = /home/marek/Documents/AutonomousFlight/CV_scripts
 
 # Include any dependencies generated for this target.
 include CMakeFiles/FloorDetection.dir/depend.make
@@ -59,16 +59,16 @@ include CMakeFiles/FloorDetection.dir/flags.make
 
 CMakeFiles/FloorDetection.dir/FloorDetection.cpp.o: CMakeFiles/FloorDetection.dir/flags.make
 CMakeFiles/FloorDetection.dir/FloorDetection.cpp.o: FloorDetection.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tudor/Desktop/AutonomousFlight/CV_scripts/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/FloorDetection.dir/FloorDetection.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/FloorDetection.dir/FloorDetection.cpp.o -c /home/tudor/Desktop/AutonomousFlight/CV_scripts/FloorDetection.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marek/Documents/AutonomousFlight/CV_scripts/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/FloorDetection.dir/FloorDetection.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/FloorDetection.dir/FloorDetection.cpp.o -c /home/marek/Documents/AutonomousFlight/CV_scripts/FloorDetection.cpp
 
 CMakeFiles/FloorDetection.dir/FloorDetection.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/FloorDetection.dir/FloorDetection.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/tudor/Desktop/AutonomousFlight/CV_scripts/FloorDetection.cpp > CMakeFiles/FloorDetection.dir/FloorDetection.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marek/Documents/AutonomousFlight/CV_scripts/FloorDetection.cpp > CMakeFiles/FloorDetection.dir/FloorDetection.cpp.i
 
 CMakeFiles/FloorDetection.dir/FloorDetection.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/FloorDetection.dir/FloorDetection.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/tudor/Desktop/AutonomousFlight/CV_scripts/FloorDetection.cpp -o CMakeFiles/FloorDetection.dir/FloorDetection.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marek/Documents/AutonomousFlight/CV_scripts/FloorDetection.cpp -o CMakeFiles/FloorDetection.dir/FloorDetection.cpp.s
 
 # Object files for target FloorDetection
 FloorDetection_OBJECTS = \
@@ -79,23 +79,23 @@ FloorDetection_EXTERNAL_OBJECTS =
 
 FloorDetection: CMakeFiles/FloorDetection.dir/FloorDetection.cpp.o
 FloorDetection: CMakeFiles/FloorDetection.dir/build.make
-FloorDetection: /home/tudor/build/lib/libopencv_gapi.so.4.5.5
-FloorDetection: /home/tudor/build/lib/libopencv_highgui.so.4.5.5
-FloorDetection: /home/tudor/build/lib/libopencv_ml.so.4.5.5
-FloorDetection: /home/tudor/build/lib/libopencv_objdetect.so.4.5.5
-FloorDetection: /home/tudor/build/lib/libopencv_photo.so.4.5.5
-FloorDetection: /home/tudor/build/lib/libopencv_stitching.so.4.5.5
-FloorDetection: /home/tudor/build/lib/libopencv_video.so.4.5.5
-FloorDetection: /home/tudor/build/lib/libopencv_videoio.so.4.5.5
-FloorDetection: /home/tudor/build/lib/libopencv_imgcodecs.so.4.5.5
-FloorDetection: /home/tudor/build/lib/libopencv_dnn.so.4.5.5
-FloorDetection: /home/tudor/build/lib/libopencv_calib3d.so.4.5.5
-FloorDetection: /home/tudor/build/lib/libopencv_features2d.so.4.5.5
-FloorDetection: /home/tudor/build/lib/libopencv_flann.so.4.5.5
-FloorDetection: /home/tudor/build/lib/libopencv_imgproc.so.4.5.5
-FloorDetection: /home/tudor/build/lib/libopencv_core.so.4.5.5
+FloorDetection: /usr/local/lib/libopencv_gapi.so.4.5.5
+FloorDetection: /usr/local/lib/libopencv_highgui.so.4.5.5
+FloorDetection: /usr/local/lib/libopencv_ml.so.4.5.5
+FloorDetection: /usr/local/lib/libopencv_objdetect.so.4.5.5
+FloorDetection: /usr/local/lib/libopencv_photo.so.4.5.5
+FloorDetection: /usr/local/lib/libopencv_stitching.so.4.5.5
+FloorDetection: /usr/local/lib/libopencv_video.so.4.5.5
+FloorDetection: /usr/local/lib/libopencv_videoio.so.4.5.5
+FloorDetection: /usr/local/lib/libopencv_imgcodecs.so.4.5.5
+FloorDetection: /usr/local/lib/libopencv_dnn.so.4.5.5
+FloorDetection: /usr/local/lib/libopencv_calib3d.so.4.5.5
+FloorDetection: /usr/local/lib/libopencv_features2d.so.4.5.5
+FloorDetection: /usr/local/lib/libopencv_flann.so.4.5.5
+FloorDetection: /usr/local/lib/libopencv_imgproc.so.4.5.5
+FloorDetection: /usr/local/lib/libopencv_core.so.4.5.5
 FloorDetection: CMakeFiles/FloorDetection.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/tudor/Desktop/AutonomousFlight/CV_scripts/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable FloorDetection"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/marek/Documents/AutonomousFlight/CV_scripts/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable FloorDetection"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/FloorDetection.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -108,6 +108,6 @@ CMakeFiles/FloorDetection.dir/clean:
 .PHONY : CMakeFiles/FloorDetection.dir/clean
 
 CMakeFiles/FloorDetection.dir/depend:
-	cd /home/tudor/Desktop/AutonomousFlight/CV_scripts && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/tudor/Desktop/AutonomousFlight/CV_scripts /home/tudor/Desktop/AutonomousFlight/CV_scripts /home/tudor/Desktop/AutonomousFlight/CV_scripts /home/tudor/Desktop/AutonomousFlight/CV_scripts /home/tudor/Desktop/AutonomousFlight/CV_scripts/CMakeFiles/FloorDetection.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/marek/Documents/AutonomousFlight/CV_scripts && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/marek/Documents/AutonomousFlight/CV_scripts /home/marek/Documents/AutonomousFlight/CV_scripts /home/marek/Documents/AutonomousFlight/CV_scripts /home/marek/Documents/AutonomousFlight/CV_scripts /home/marek/Documents/AutonomousFlight/CV_scripts/CMakeFiles/FloorDetection.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/FloorDetection.dir/depend
 

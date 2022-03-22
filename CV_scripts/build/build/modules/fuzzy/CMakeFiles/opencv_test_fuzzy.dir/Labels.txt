@@ -1,0 +1,25 @@
+# Target labels
+ Extra
+ opencv_fuzzy
+ AccuracyTest
+# Source files and their labels
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/fuzzy/test/test_f0.cpp
+ Extra
+ opencv_fuzzy
+ AccuracyTest
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/fuzzy/test/test_f1.cpp
+ Extra
+ opencv_fuzzy
+ AccuracyTest
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/fuzzy/test/test_image.cpp
+ Extra
+ opencv_fuzzy
+ AccuracyTest
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/fuzzy/test/test_main.cpp
+ Extra
+ opencv_fuzzy
+ AccuracyTest
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/fuzzy/test/test_precomp.hpp
+ Extra
+ opencv_fuzzy
+ AccuracyTest

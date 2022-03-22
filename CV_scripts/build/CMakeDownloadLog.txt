@@ -1,0 +1,585 @@
+#use_cache "/home/marek/Documents/AutonomousFlight/CV_scripts/opencv-4.x/.cache"
+#do_unpack "ippicv_2020_lnx_intel64_20191018_general.tgz" "7421de0095c7a39162ae13a6098782f9" "https://raw.githubusercontent.com/opencv/opencv_3rdparty/a56b6ac6f030c312b2dce17430eef13aed9af274/ippicv/ippicv_2020_lnx_intel64_20191018_general.tgz" "/home/marek/Documents/AutonomousFlight/CV_scripts/build/3rdparty/ippicv"
+#cmake_download "/home/marek/Documents/AutonomousFlight/CV_scripts/opencv-4.x/.cache/ippicv/7421de0095c7a39162ae13a6098782f9-ippicv_2020_lnx_intel64_20191018_general.tgz" "https://raw.githubusercontent.com/opencv/opencv_3rdparty/a56b6ac6f030c312b2dce17430eef13aed9af274/ippicv/ippicv_2020_lnx_intel64_20191018_general.tgz"
+#try 1
+#check_md5 "/home/marek/Documents/AutonomousFlight/CV_scripts/opencv-4.x/.cache/ippicv/7421de0095c7a39162ae13a6098782f9-ippicv_2020_lnx_intel64_20191018_general.tgz"
+#mkdir "/home/marek/Documents/AutonomousFlight/CV_scripts/build/3rdparty/ippicv"
+#unpack "/home/marek/Documents/AutonomousFlight/CV_scripts/build/3rdparty/ippicv" "/home/marek/Documents/AutonomousFlight/CV_scripts/opencv-4.x/.cache/ippicv/7421de0095c7a39162ae13a6098782f9-ippicv_2020_lnx_intel64_20191018_general.tgz"
+#do_unpack "v0.1.1f.zip" "b624b995ec9c439cbc2e9e6ee940d3a2" "https://github.com/opencv/ade/archive/v0.1.1f.zip" "/home/marek/Documents/AutonomousFlight/CV_scripts/build/3rdparty/ade"
+#cmake_download "/home/marek/Documents/AutonomousFlight/CV_scripts/opencv-4.x/.cache/ade/b624b995ec9c439cbc2e9e6ee940d3a2-v0.1.1f.zip" "https://github.com/opencv/ade/archive/v0.1.1f.zip"
+#try 1
+#   Trying 140.82.112.4:443...
+# TCP_NODELAY set
+# Connected to github.com (140.82.112.4) port 443 (#0)
+# ALPN, offering h2
+# ALPN, offering http/1.1
+# successfully set certificate verify locations:
+#   CAfile: /etc/ssl/certs/ca-certificates.crt
+#   CApath: /etc/ssl/certs
+# [5 bytes data]
+# TLSv1.3 (OUT), TLS handshake, Client hello (1):
+# [512 bytes data]
+# [5 bytes data]
+# TLSv1.3 (IN), TLS handshake, Server hello (2):
+# [122 bytes data]
+# [5 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
+# [19 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# TLSv1.3 (IN), TLS handshake, Certificate (11):
+# [2459 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# TLSv1.3 (IN), TLS handshake, CERT verify (15):
+# [80 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# TLSv1.3 (IN), TLS handshake, Finished (20):
+# [36 bytes data]
+# [5 bytes data]
+# TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):
+# [1 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# TLSv1.3 (OUT), TLS handshake, Finished (20):
+# [36 bytes data]
+# SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256
+# ALPN, server accepted to use h2
+# Server certificate:
+#  subject: C=US; ST=California; L=San Francisco; O=GitHub, Inc.; CN=github.com
+#  start date: Mar 15 00:00:00 2022 GMT
+#  expire date: Mar 15 23:59:59 2023 GMT
+#  subjectAltName: host "github.com" matched cert's "github.com"
+#  issuer: C=US; O=DigiCert Inc; CN=DigiCert TLS Hybrid ECC SHA384 2020 CA1
+#  SSL certificate verify ok.
+# Using HTTP2, server supports multi-use
+# Connection state changed (HTTP/2 confirmed)
+# Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+# [5 bytes data]
+# [1 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# Using Stream ID: 1 (easy handle 0x55ecc3217950)
+# [5 bytes data]
+# [1 bytes data]
+# GET /opencv/ade/archive/v0.1.1f.zip HTTP/2
+# Host: github.com
+# user-agent: curl/7.66.0
+# accept: */*
+# 
+# [5 bytes data]
+# [1 bytes data]
+# TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+# [57 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+# [57 bytes data]
+# old SSL session ID is stale, removing
+# [5 bytes data]
+# [1 bytes data]
+# Connection state changed (MAX_CONCURRENT_STREAMS == 100)!
+# [5 bytes data]
+# [1 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# HTTP/2 302 
+# server: GitHub.com
+# date: Tue, 22 Mar 2022 15:04:59 GMT
+# content-type: text/html; charset=utf-8
+# vary: X-PJAX, X-PJAX-Container, Accept-Encoding, Accept, X-Requested-With
+# permissions-policy: interest-cohort=()
+# location: https://codeload.github.com/opencv/ade/zip/refs/tags/v0.1.1f
+# cache-control: max-age=0, private
+# strict-transport-security: max-age=31536000; includeSubdomains; preload
+# x-frame-options: deny
+# x-content-type-options: nosniff
+# x-xss-protection: 0
+# referrer-policy: no-referrer-when-downgrade
+# expect-ct: max-age=2592000, report-uri="https://api.github.com/_private/browser/errors"
+# content-security-policy: default-src 'none'; base-uri 'self'; block-all-mixed-content; child-src github.com/assets-cdn/worker/ gist.github.com/assets-cdn/worker/; connect-src 'self' uploads.github.com objects-origin.githubusercontent.com www.githubstatus.com collector.githubapp.com collector.github.com api.github.com github-cloud.s3.amazonaws.com github-production-repository-file-5c1aeb.s3.amazonaws.com github-production-upload-manifest-file-7fdce7.s3.amazonaws.com github-production-user-asset-6210df.s3.amazonaws.com cdn.optimizely.com logx.optimizely.com/v1/events translator.github.com wss://alive.github.com *.actions.githubusercontent.com wss://*.actions.githubusercontent.com online.visualstudio.com/api/v1/locations raw.githubusercontent.com github-production-repository-image-32fea6.s3.amazonaws.com github-production-release-asset-2e65be.s3.amazonaws.com insights.github.com; font-src github.githubassets.com; form-action 'self' github.com gist.github.com objects-origin.githubusercontent.com; frame-ancestors 'none'; frame-src render.githubusercontent.com viewscreen.githubusercontent.com notebooks.githubusercontent.com; img-src 'self' data: github.githubassets.com identicons.github.com collector.githubapp.com collector.github.com github-cloud.s3.amazonaws.com secured-user-images.githubusercontent.com/ *.githubusercontent.com; manifest-src 'self'; media-src github.com user-images.githubusercontent.com/; script-src github.githubassets.com; style-src 'unsafe-inline' github.githubassets.com; worker-src github.com/assets-cdn/worker/ gist.github.com/assets-cdn/worker/
+# content-length: 126
+# x-github-request-id: 8D82:62A2:58AF9A:1164E1D:6239E5E1
+# 
+# Ignoring the response-body
+# [126 bytes data]
+# Connection #0 to host github.com left intact
+# Issue another request to this URL: 'https://codeload.github.com/opencv/ade/zip/refs/tags/v0.1.1f'
+#   Trying 140.82.114.9:443...
+# TCP_NODELAY set
+# Connected to codeload.github.com (140.82.114.9) port 443 (#1)
+# ALPN, offering h2
+# ALPN, offering http/1.1
+# successfully set certificate verify locations:
+#   CAfile: /etc/ssl/certs/ca-certificates.crt
+#   CApath: /etc/ssl/certs
+# [5 bytes data]
+# TLSv1.3 (OUT), TLS handshake, Client hello (1):
+# [512 bytes data]
+# [5 bytes data]
+# TLSv1.3 (IN), TLS handshake, Server hello (2):
+# [122 bytes data]
+# [5 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
+# [19 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# TLSv1.3 (IN), TLS handshake, Certificate (11):
+# [2456 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# TLSv1.3 (IN), TLS handshake, CERT verify (15):
+# [79 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# TLSv1.3 (IN), TLS handshake, Finished (20):
+# [36 bytes data]
+# [5 bytes data]
+# TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):
+# [1 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# TLSv1.3 (OUT), TLS handshake, Finished (20):
+# [36 bytes data]
+# SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256
+# ALPN, server accepted to use h2
+# Server certificate:
+#  subject: C=US; ST=California; L=San Francisco; O=GitHub, Inc.; CN=*.github.com
+#  start date: Mar 16 00:00:00 2022 GMT
+#  expire date: Mar 16 23:59:59 2023 GMT
+#  subjectAltName: host "codeload.github.com" matched cert's "*.github.com"
+#  issuer: C=US; O=DigiCert Inc; CN=DigiCert TLS Hybrid ECC SHA384 2020 CA1
+#  SSL certificate verify ok.
+# Using HTTP2, server supports multi-use
+# Connection state changed (HTTP/2 confirmed)
+# Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+# [5 bytes data]
+# [1 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# Using Stream ID: 1 (easy handle 0x55ecc3217950)
+# [5 bytes data]
+# [1 bytes data]
+# GET /opencv/ade/zip/refs/tags/v0.1.1f HTTP/2
+# Host: codeload.github.com
+# user-agent: curl/7.66.0
+# accept: */*
+# 
+# [5 bytes data]
+# [1 bytes data]
+# TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+# [57 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+# [57 bytes data]
+# old SSL session ID is stale, removing
+# [5 bytes data]
+# [1 bytes data]
+# Connection state changed (MAX_CONCURRENT_STREAMS == 100)!
+# [5 bytes data]
+# [1 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# HTTP/2 200 
+# access-control-allow-origin: https://render.githubusercontent.com
+# content-disposition: attachment; filename=ade-0.1.1f.zip
+# content-length: 166594
+# content-security-policy: default-src 'none'; style-src 'unsafe-inline'; sandbox
+# content-type: application/zip
+# etag: "d6c62c0c3b4dc6059be5fd41ab24d5e0b5d7968e0563d1c2f0e56f27d0f4a57f"
+# strict-transport-security: max-age=31536000
+# vary: Authorization,Accept-Encoding,Origin
+# x-content-type-options: nosniff
+# x-frame-options: deny
+# x-xss-protection: 1; mode=block
+# date: Tue, 22 Mar 2022 15:06:09 GMT
+# x-github-request-id: CA06:7A9F:8D6D1:1B3E30:6239E5E1
+# 
+# [512 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1361 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1323 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1361 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [879 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1361 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1323 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1361 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1323 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1361 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [81 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1361 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1323 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1361 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1361 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1361 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1361 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1126 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1361 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1370 bytes data]
+# [5 bytes data]
+# [1 bytes data]
+# [1253 bytes data]
+# Connection #1 to host codeload.github.com left intact
+# 
+
+#check_md5 "/home/marek/Documents/AutonomousFlight/CV_scripts/opencv-4.x/.cache/ade/b624b995ec9c439cbc2e9e6ee940d3a2-v0.1.1f.zip"
+#mkdir "/home/marek/Documents/AutonomousFlight/CV_scripts/build/3rdparty/ade"
+#unpack "/home/marek/Documents/AutonomousFlight/CV_scripts/build/3rdparty/ade" "/home/marek/Documents/AutonomousFlight/CV_scripts/opencv-4.x/.cache/ade/b624b995ec9c439cbc2e9e6ee940d3a2-v0.1.1f.zip"

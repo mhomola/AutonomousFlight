@@ -1,0 +1,42 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv-4.x/modules/flann/test/test_lshtable_badarg.cpp",
+			"labels" : 
+			[
+				"Main",
+				"opencv_flann",
+				"AccuracyTest"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv-4.x/modules/flann/test/test_main.cpp",
+			"labels" : 
+			[
+				"Main",
+				"opencv_flann",
+				"AccuracyTest"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv-4.x/modules/flann/test/test_precomp.hpp",
+			"labels" : 
+			[
+				"Main",
+				"opencv_flann",
+				"AccuracyTest"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Main",
+			"opencv_flann",
+			"AccuracyTest"
+		],
+		"name" : "opencv_test_flann"
+	}
+}

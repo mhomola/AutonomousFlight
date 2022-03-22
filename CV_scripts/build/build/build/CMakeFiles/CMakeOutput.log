@@ -1,0 +1,772 @@
+The system is: Linux - 5.11.0-27-generic - x86_64
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: /usr/bin/c++ 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+
+The CXX compiler identification is GNU, found in "/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/3.16.3/CompilerIdCXX/a.out"
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /usr/bin/cc 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+
+The C compiler identification is GNU, found in "/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/3.16.3/CompilerIdC/a.out"
+
+Determining if the CXX compiler works passed with the following output:
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_abe3a/fast && /usr/bin/make -f CMakeFiles/cmTC_abe3a.dir/build.make CMakeFiles/cmTC_abe3a.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_abe3a.dir/testCXXCompiler.cxx.o
+/usr/bin/c++    -fPIE   -o CMakeFiles/cmTC_abe3a.dir/testCXXCompiler.cxx.o -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTC_abe3a
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_abe3a.dir/link.txt --verbose=1
+/usr/bin/c++       CMakeFiles/cmTC_abe3a.dir/testCXXCompiler.cxx.o  -o cmTC_abe3a 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_51bbb/fast && /usr/bin/make -f CMakeFiles/cmTC_51bbb.dir/build.make CMakeFiles/cmTC_51bbb.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_51bbb.dir/CMakeCXXCompilerABI.cpp.o
+/usr/bin/c++    -fPIE   -v -o CMakeFiles/cmTC_51bbb.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.16/Modules/CMakeCXXCompilerABI.cpp
+Using built-in specs.
+COLLECT_GCC=/usr/bin/c++
+OFFLOAD_TARGET_NAMES=nvptx-none:hsa
+OFFLOAD_TARGET_DEFAULT=1
+Target: x86_64-linux-gnu
+Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.3.0-17ubuntu1~20.04' --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++,gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-HskZEa/gcc-9-9.3.0/debian/tmp-nvptx/usr,hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
+Thread model: posix
+gcc version 9.3.0 (Ubuntu 9.3.0-17ubuntu1~20.04) 
+COLLECT_GCC_OPTIONS='-fPIE' '-v' '-o' 'CMakeFiles/cmTC_51bbb.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/9/cc1plus -quiet -v -imultiarch x86_64-linux-gnu -D_GNU_SOURCE /usr/share/cmake-3.16/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_51bbb.dir/CMakeCXXCompilerABI.cpp.o -version -fPIE -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccpYKhfn.s
+GNU C++14 (Ubuntu 9.3.0-17ubuntu1~20.04) version 9.3.0 (x86_64-linux-gnu)
+	compiled by GNU C version 9.3.0, GMP version 6.2.0, MPFR version 4.0.2, MPC version 1.1.0, isl version isl-0.22.1-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring duplicate directory "/usr/include/x86_64-linux-gnu/c++/9"
+ignoring nonexistent directory "/usr/local/include/x86_64-linux-gnu"
+ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/9/include-fixed"
+ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/9/../../../../x86_64-linux-gnu/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ /usr/include/c++/9
+ /usr/include/x86_64-linux-gnu/c++/9
+ /usr/include/c++/9/backward
+ /usr/lib/gcc/x86_64-linux-gnu/9/include
+ /usr/local/include
+ /usr/include/x86_64-linux-gnu
+ /usr/include
+End of search list.
+GNU C++14 (Ubuntu 9.3.0-17ubuntu1~20.04) version 9.3.0 (x86_64-linux-gnu)
+	compiled by GNU C version 9.3.0, GMP version 6.2.0, MPFR version 4.0.2, MPC version 1.1.0, isl version isl-0.22.1-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: 466f818abe2f30ba03783f22bd12d815
+COLLECT_GCC_OPTIONS='-fPIE' '-v' '-o' 'CMakeFiles/cmTC_51bbb.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ as -v --64 -o CMakeFiles/cmTC_51bbb.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccpYKhfn.s
+GNU assembler version 2.34 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.34
+COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/
+LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS='-fPIE' '-v' '-o' 'CMakeFiles/cmTC_51bbb.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+Linking CXX executable cmTC_51bbb
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_51bbb.dir/link.txt --verbose=1
+/usr/bin/c++      -v CMakeFiles/cmTC_51bbb.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_51bbb 
+Using built-in specs.
+COLLECT_GCC=/usr/bin/c++
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper
+OFFLOAD_TARGET_NAMES=nvptx-none:hsa
+OFFLOAD_TARGET_DEFAULT=1
+Target: x86_64-linux-gnu
+Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.3.0-17ubuntu1~20.04' --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++,gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-HskZEa/gcc-9-9.3.0/debian/tmp-nvptx/usr,hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
+Thread model: posix
+gcc version 9.3.0 (Ubuntu 9.3.0-17ubuntu1~20.04) 
+COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/
+LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_51bbb' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/9/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/9/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper -plugin-opt=-fresolution=/tmp/ccduu3TO.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_51bbb /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/9/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/9 -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/9/../../.. CMakeFiles/cmTC_51bbb.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/9/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_51bbb' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+
+
+
+Parsed CXX implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [/usr/include/c++/9]
+    add: [/usr/include/x86_64-linux-gnu/c++/9]
+    add: [/usr/include/c++/9/backward]
+    add: [/usr/lib/gcc/x86_64-linux-gnu/9/include]
+    add: [/usr/local/include]
+    add: [/usr/include/x86_64-linux-gnu]
+    add: [/usr/include]
+  end of search list found
+  collapse include dir [/usr/include/c++/9] ==> [/usr/include/c++/9]
+  collapse include dir [/usr/include/x86_64-linux-gnu/c++/9] ==> [/usr/include/x86_64-linux-gnu/c++/9]
+  collapse include dir [/usr/include/c++/9/backward] ==> [/usr/include/c++/9/backward]
+  collapse include dir [/usr/lib/gcc/x86_64-linux-gnu/9/include] ==> [/usr/lib/gcc/x86_64-linux-gnu/9/include]
+  collapse include dir [/usr/local/include] ==> [/usr/local/include]
+  collapse include dir [/usr/include/x86_64-linux-gnu] ==> [/usr/include/x86_64-linux-gnu]
+  collapse include dir [/usr/include] ==> [/usr/include]
+  implicit include dirs: [/usr/include/c++/9;/usr/include/x86_64-linux-gnu/c++/9;/usr/include/c++/9/backward;/usr/lib/gcc/x86_64-linux-gnu/9/include;/usr/local/include;/usr/include/x86_64-linux-gnu;/usr/include]
+
+
+Parsed CXX implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command(s):/usr/bin/make cmTC_51bbb/fast && /usr/bin/make -f CMakeFiles/cmTC_51bbb.dir/build.make CMakeFiles/cmTC_51bbb.dir/build]
+  ignore line: [make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp']
+  ignore line: [Building CXX object CMakeFiles/cmTC_51bbb.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/usr/bin/c++    -fPIE   -v -o CMakeFiles/cmTC_51bbb.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.16/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/usr/bin/c++]
+  ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:hsa]
+  ignore line: [OFFLOAD_TARGET_DEFAULT=1]
+  ignore line: [Target: x86_64-linux-gnu]
+  ignore line: [Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.3.0-17ubuntu1~20.04' --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c ada c++ go brig d fortran objc obj-c++ gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32 m64 mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-HskZEa/gcc-9-9.3.0/debian/tmp-nvptx/usr hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 9.3.0 (Ubuntu 9.3.0-17ubuntu1~20.04) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-fPIE' '-v' '-o' 'CMakeFiles/cmTC_51bbb.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+  ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/9/cc1plus -quiet -v -imultiarch x86_64-linux-gnu -D_GNU_SOURCE /usr/share/cmake-3.16/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_51bbb.dir/CMakeCXXCompilerABI.cpp.o -version -fPIE -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccpYKhfn.s]
+  ignore line: [GNU C++14 (Ubuntu 9.3.0-17ubuntu1~20.04) version 9.3.0 (x86_64-linux-gnu)]
+  ignore line: [	compiled by GNU C version 9.3.0  GMP version 6.2.0  MPFR version 4.0.2  MPC version 1.1.0  isl version isl-0.22.1-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring duplicate directory "/usr/include/x86_64-linux-gnu/c++/9"]
+  ignore line: [ignoring nonexistent directory "/usr/local/include/x86_64-linux-gnu"]
+  ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/9/include-fixed"]
+  ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/9/../../../../x86_64-linux-gnu/include"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ /usr/include/c++/9]
+  ignore line: [ /usr/include/x86_64-linux-gnu/c++/9]
+  ignore line: [ /usr/include/c++/9/backward]
+  ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/9/include]
+  ignore line: [ /usr/local/include]
+  ignore line: [ /usr/include/x86_64-linux-gnu]
+  ignore line: [ /usr/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C++14 (Ubuntu 9.3.0-17ubuntu1~20.04) version 9.3.0 (x86_64-linux-gnu)]
+  ignore line: [	compiled by GNU C version 9.3.0  GMP version 6.2.0  MPFR version 4.0.2  MPC version 1.1.0  isl version isl-0.22.1-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: 466f818abe2f30ba03783f22bd12d815]
+  ignore line: [COLLECT_GCC_OPTIONS='-fPIE' '-v' '-o' 'CMakeFiles/cmTC_51bbb.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+  ignore line: [ as -v --64 -o CMakeFiles/cmTC_51bbb.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccpYKhfn.s]
+  ignore line: [GNU assembler version 2.34 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.34]
+  ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/]
+  ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../:/lib/:/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-fPIE' '-v' '-o' 'CMakeFiles/cmTC_51bbb.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+  ignore line: [Linking CXX executable cmTC_51bbb]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_51bbb.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/c++      -v CMakeFiles/cmTC_51bbb.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_51bbb ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/usr/bin/c++]
+  ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper]
+  ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:hsa]
+  ignore line: [OFFLOAD_TARGET_DEFAULT=1]
+  ignore line: [Target: x86_64-linux-gnu]
+  ignore line: [Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.3.0-17ubuntu1~20.04' --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c ada c++ go brig d fortran objc obj-c++ gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32 m64 mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-HskZEa/gcc-9-9.3.0/debian/tmp-nvptx/usr hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 9.3.0 (Ubuntu 9.3.0-17ubuntu1~20.04) ]
+  ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/]
+  ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../:/lib/:/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_51bbb' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/9/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/9/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper -plugin-opt=-fresolution=/tmp/ccduu3TO.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_51bbb /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/9/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/9 -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/9/../../.. CMakeFiles/cmTC_51bbb.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/9/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o]
+    arg [/usr/lib/gcc/x86_64-linux-gnu/9/collect2] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/9/liblto_plugin.so] ==> ignore
+    arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccduu3TO.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [--build-id] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-m] ==> ignore
+    arg [elf_x86_64] ==> ignore
+    arg [--hash-style=gnu] ==> ignore
+    arg [--as-needed] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+    arg [-pie] ==> ignore
+    arg [-znow] ==> ignore
+    arg [-zrelro] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_51bbb] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/Scrt1.o] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/9/crtbeginS.o] ==> ignore
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/9] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/9]
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu]
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib]
+    arg [-L/lib/x86_64-linux-gnu] ==> dir [/lib/x86_64-linux-gnu]
+    arg [-L/lib/../lib] ==> dir [/lib/../lib]
+    arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
+    arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/9/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../..]
+    arg [CMakeFiles/cmTC_51bbb.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [-lstdc++] ==> lib [stdc++]
+    arg [-lm] ==> lib [m]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lc] ==> lib [c]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [/usr/lib/gcc/x86_64-linux-gnu/9/crtendS.o] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o] ==> ignore
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/9] ==> [/usr/lib/gcc/x86_64-linux-gnu/9]
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu] ==> [/usr/lib/x86_64-linux-gnu]
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib] ==> [/usr/lib]
+  collapse library dir [/lib/x86_64-linux-gnu] ==> [/lib/x86_64-linux-gnu]
+  collapse library dir [/lib/../lib] ==> [/lib]
+  collapse library dir [/usr/lib/x86_64-linux-gnu] ==> [/usr/lib/x86_64-linux-gnu]
+  collapse library dir [/usr/lib/../lib] ==> [/usr/lib]
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../..] ==> [/usr/lib]
+  implicit libs: [stdc++;m;gcc_s;gcc;c;gcc_s;gcc]
+  implicit dirs: [/usr/lib/gcc/x86_64-linux-gnu/9;/usr/lib/x86_64-linux-gnu;/usr/lib;/lib/x86_64-linux-gnu;/lib]
+  implicit fwks: []
+
+
+Determining if the C compiler works passed with the following output:
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_d6a86/fast && /usr/bin/make -f CMakeFiles/cmTC_d6a86.dir/build.make CMakeFiles/cmTC_d6a86.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_d6a86.dir/testCCompiler.c.o
+/usr/bin/cc   -fPIE   -o CMakeFiles/cmTC_d6a86.dir/testCCompiler.c.o   -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_d6a86
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d6a86.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_d6a86.dir/testCCompiler.c.o  -o cmTC_d6a86 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_9c985/fast && /usr/bin/make -f CMakeFiles/cmTC_9c985.dir/build.make CMakeFiles/cmTC_9c985.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_9c985.dir/CMakeCCompilerABI.c.o
+/usr/bin/cc   -fPIE   -v -o CMakeFiles/cmTC_9c985.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.16/Modules/CMakeCCompilerABI.c
+Using built-in specs.
+COLLECT_GCC=/usr/bin/cc
+OFFLOAD_TARGET_NAMES=nvptx-none:hsa
+OFFLOAD_TARGET_DEFAULT=1
+Target: x86_64-linux-gnu
+Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.3.0-17ubuntu1~20.04' --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++,gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-HskZEa/gcc-9-9.3.0/debian/tmp-nvptx/usr,hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
+Thread model: posix
+gcc version 9.3.0 (Ubuntu 9.3.0-17ubuntu1~20.04) 
+COLLECT_GCC_OPTIONS='-fPIE' '-v' '-o' 'CMakeFiles/cmTC_9c985.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/9/cc1 -quiet -v -imultiarch x86_64-linux-gnu /usr/share/cmake-3.16/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_9c985.dir/CMakeCCompilerABI.c.o -version -fPIE -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccSq6jCi.s
+GNU C17 (Ubuntu 9.3.0-17ubuntu1~20.04) version 9.3.0 (x86_64-linux-gnu)
+	compiled by GNU C version 9.3.0, GMP version 6.2.0, MPFR version 4.0.2, MPC version 1.1.0, isl version isl-0.22.1-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring nonexistent directory "/usr/local/include/x86_64-linux-gnu"
+ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/9/include-fixed"
+ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/9/../../../../x86_64-linux-gnu/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ /usr/lib/gcc/x86_64-linux-gnu/9/include
+ /usr/local/include
+ /usr/include/x86_64-linux-gnu
+ /usr/include
+End of search list.
+GNU C17 (Ubuntu 9.3.0-17ubuntu1~20.04) version 9.3.0 (x86_64-linux-gnu)
+	compiled by GNU C version 9.3.0, GMP version 6.2.0, MPFR version 4.0.2, MPC version 1.1.0, isl version isl-0.22.1-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: bbf13931d8de1abe14040c9909cb6969
+COLLECT_GCC_OPTIONS='-fPIE' '-v' '-o' 'CMakeFiles/cmTC_9c985.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64'
+ as -v --64 -o CMakeFiles/cmTC_9c985.dir/CMakeCCompilerABI.c.o /tmp/ccSq6jCi.s
+GNU assembler version 2.34 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.34
+COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/
+LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS='-fPIE' '-v' '-o' 'CMakeFiles/cmTC_9c985.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64'
+Linking C executable cmTC_9c985
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9c985.dir/link.txt --verbose=1
+/usr/bin/cc     -v CMakeFiles/cmTC_9c985.dir/CMakeCCompilerABI.c.o  -o cmTC_9c985 
+Using built-in specs.
+COLLECT_GCC=/usr/bin/cc
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper
+OFFLOAD_TARGET_NAMES=nvptx-none:hsa
+OFFLOAD_TARGET_DEFAULT=1
+Target: x86_64-linux-gnu
+Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.3.0-17ubuntu1~20.04' --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++,gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-HskZEa/gcc-9-9.3.0/debian/tmp-nvptx/usr,hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
+Thread model: posix
+gcc version 9.3.0 (Ubuntu 9.3.0-17ubuntu1~20.04) 
+COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/
+LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_9c985' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/9/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/9/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper -plugin-opt=-fresolution=/tmp/cc6kNDMM.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_9c985 /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/9/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/9 -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/9/../../.. CMakeFiles/cmTC_9c985.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/9/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_9c985' '-mtune=generic' '-march=x86-64'
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+
+
+
+Parsed C implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [/usr/lib/gcc/x86_64-linux-gnu/9/include]
+    add: [/usr/local/include]
+    add: [/usr/include/x86_64-linux-gnu]
+    add: [/usr/include]
+  end of search list found
+  collapse include dir [/usr/lib/gcc/x86_64-linux-gnu/9/include] ==> [/usr/lib/gcc/x86_64-linux-gnu/9/include]
+  collapse include dir [/usr/local/include] ==> [/usr/local/include]
+  collapse include dir [/usr/include/x86_64-linux-gnu] ==> [/usr/include/x86_64-linux-gnu]
+  collapse include dir [/usr/include] ==> [/usr/include]
+  implicit include dirs: [/usr/lib/gcc/x86_64-linux-gnu/9/include;/usr/local/include;/usr/include/x86_64-linux-gnu;/usr/include]
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command(s):/usr/bin/make cmTC_9c985/fast && /usr/bin/make -f CMakeFiles/cmTC_9c985.dir/build.make CMakeFiles/cmTC_9c985.dir/build]
+  ignore line: [make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp']
+  ignore line: [Building C object CMakeFiles/cmTC_9c985.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/cc   -fPIE   -v -o CMakeFiles/cmTC_9c985.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.16/Modules/CMakeCCompilerABI.c]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/usr/bin/cc]
+  ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:hsa]
+  ignore line: [OFFLOAD_TARGET_DEFAULT=1]
+  ignore line: [Target: x86_64-linux-gnu]
+  ignore line: [Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.3.0-17ubuntu1~20.04' --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c ada c++ go brig d fortran objc obj-c++ gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32 m64 mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-HskZEa/gcc-9-9.3.0/debian/tmp-nvptx/usr hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 9.3.0 (Ubuntu 9.3.0-17ubuntu1~20.04) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-fPIE' '-v' '-o' 'CMakeFiles/cmTC_9c985.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64']
+  ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/9/cc1 -quiet -v -imultiarch x86_64-linux-gnu /usr/share/cmake-3.16/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_9c985.dir/CMakeCCompilerABI.c.o -version -fPIE -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccSq6jCi.s]
+  ignore line: [GNU C17 (Ubuntu 9.3.0-17ubuntu1~20.04) version 9.3.0 (x86_64-linux-gnu)]
+  ignore line: [	compiled by GNU C version 9.3.0  GMP version 6.2.0  MPFR version 4.0.2  MPC version 1.1.0  isl version isl-0.22.1-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring nonexistent directory "/usr/local/include/x86_64-linux-gnu"]
+  ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/9/include-fixed"]
+  ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/9/../../../../x86_64-linux-gnu/include"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/9/include]
+  ignore line: [ /usr/local/include]
+  ignore line: [ /usr/include/x86_64-linux-gnu]
+  ignore line: [ /usr/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C17 (Ubuntu 9.3.0-17ubuntu1~20.04) version 9.3.0 (x86_64-linux-gnu)]
+  ignore line: [	compiled by GNU C version 9.3.0  GMP version 6.2.0  MPFR version 4.0.2  MPC version 1.1.0  isl version isl-0.22.1-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: bbf13931d8de1abe14040c9909cb6969]
+  ignore line: [COLLECT_GCC_OPTIONS='-fPIE' '-v' '-o' 'CMakeFiles/cmTC_9c985.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64']
+  ignore line: [ as -v --64 -o CMakeFiles/cmTC_9c985.dir/CMakeCCompilerABI.c.o /tmp/ccSq6jCi.s]
+  ignore line: [GNU assembler version 2.34 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.34]
+  ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/]
+  ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../:/lib/:/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-fPIE' '-v' '-o' 'CMakeFiles/cmTC_9c985.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64']
+  ignore line: [Linking C executable cmTC_9c985]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9c985.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/cc     -v CMakeFiles/cmTC_9c985.dir/CMakeCCompilerABI.c.o  -o cmTC_9c985 ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/usr/bin/cc]
+  ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper]
+  ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:hsa]
+  ignore line: [OFFLOAD_TARGET_DEFAULT=1]
+  ignore line: [Target: x86_64-linux-gnu]
+  ignore line: [Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.3.0-17ubuntu1~20.04' --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c ada c++ go brig d fortran objc obj-c++ gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32 m64 mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-HskZEa/gcc-9-9.3.0/debian/tmp-nvptx/usr hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 9.3.0 (Ubuntu 9.3.0-17ubuntu1~20.04) ]
+  ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/]
+  ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../:/lib/:/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_9c985' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/9/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/9/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper -plugin-opt=-fresolution=/tmp/cc6kNDMM.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_9c985 /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/9/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/9 -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/9/../../.. CMakeFiles/cmTC_9c985.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/9/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o]
+    arg [/usr/lib/gcc/x86_64-linux-gnu/9/collect2] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/9/liblto_plugin.so] ==> ignore
+    arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/cc6kNDMM.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [--build-id] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-m] ==> ignore
+    arg [elf_x86_64] ==> ignore
+    arg [--hash-style=gnu] ==> ignore
+    arg [--as-needed] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+    arg [-pie] ==> ignore
+    arg [-znow] ==> ignore
+    arg [-zrelro] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_9c985] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/Scrt1.o] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/9/crtbeginS.o] ==> ignore
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/9] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/9]
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu]
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib]
+    arg [-L/lib/x86_64-linux-gnu] ==> dir [/lib/x86_64-linux-gnu]
+    arg [-L/lib/../lib] ==> dir [/lib/../lib]
+    arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
+    arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/9/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../..]
+    arg [CMakeFiles/cmTC_9c985.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [-lgcc] ==> lib [gcc]
+    arg [--push-state] ==> ignore
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--pop-state] ==> ignore
+    arg [-lc] ==> lib [c]
+    arg [-lgcc] ==> lib [gcc]
+    arg [--push-state] ==> ignore
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--pop-state] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/9/crtendS.o] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o] ==> ignore
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/9] ==> [/usr/lib/gcc/x86_64-linux-gnu/9]
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu] ==> [/usr/lib/x86_64-linux-gnu]
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib] ==> [/usr/lib]
+  collapse library dir [/lib/x86_64-linux-gnu] ==> [/lib/x86_64-linux-gnu]
+  collapse library dir [/lib/../lib] ==> [/lib]
+  collapse library dir [/usr/lib/x86_64-linux-gnu] ==> [/usr/lib/x86_64-linux-gnu]
+  collapse library dir [/usr/lib/../lib] ==> [/usr/lib]
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../..] ==> [/usr/lib]
+  implicit libs: [gcc;gcc_s;c;gcc;gcc_s]
+  implicit dirs: [/usr/lib/gcc/x86_64-linux-gnu/9;/usr/lib/x86_64-linux-gnu;/usr/lib;/lib/x86_64-linux-gnu;/lib]
+  implicit fwks: []
+
+
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_e70b8/fast && /usr/bin/make -f CMakeFiles/cmTC_e70b8.dir/build.make CMakeFiles/cmTC_e70b8.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e70b8.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG -fPIE   -o CMakeFiles/cmTC_e70b8.dir/CheckIncludeFile.c.o   -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_e70b8
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e70b8.dir/link.txt --verbose=1
+/usr/bin/cc    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_e70b8.dir/CheckIncludeFile.c.o  -o cmTC_e70b8 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the posix_memalign exist passed with the following output:
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_03b1b/fast && /usr/bin/make -f CMakeFiles/cmTC_03b1b.dir/build.make CMakeFiles/cmTC_03b1b.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_03b1b.dir/CheckSymbolExists.c.o
+/usr/bin/cc   -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG -fPIE   -o CMakeFiles/cmTC_03b1b.dir/CheckSymbolExists.c.o   -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_03b1b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_03b1b.dir/link.txt --verbose=1
+/usr/bin/cc    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_03b1b.dir/CheckSymbolExists.c.o  -o cmTC_03b1b 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+
+
+File /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <stdlib.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef posix_memalign
+  return ((int*)(&posix_memalign))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Determining if the include file malloc.h exists passed with the following output:
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_c18bb/fast && /usr/bin/make -f CMakeFiles/cmTC_c18bb.dir/build.make CMakeFiles/cmTC_c18bb.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_c18bb.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG -fPIE   -o CMakeFiles/cmTC_c18bb.dir/CheckIncludeFile.c.o   -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_c18bb
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c18bb.dir/link.txt --verbose=1
+/usr/bin/cc    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_c18bb.dir/CheckIncludeFile.c.o  -o cmTC_c18bb 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the memalign exist passed with the following output:
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_aef9d/fast && /usr/bin/make -f CMakeFiles/cmTC_aef9d.dir/build.make CMakeFiles/cmTC_aef9d.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_aef9d.dir/CheckSymbolExists.c.o
+/usr/bin/cc   -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG -fPIE   -o CMakeFiles/cmTC_aef9d.dir/CheckSymbolExists.c.o   -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_aef9d
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_aef9d.dir/link.txt --verbose=1
+/usr/bin/cc    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_aef9d.dir/CheckSymbolExists.c.o  -o cmTC_aef9d 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+
+
+File /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <malloc.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef memalign
+  return ((int*)(&memalign))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Determining if the include file sys/types.h exists passed with the following output:
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_62e8f/fast && /usr/bin/make -f CMakeFiles/cmTC_62e8f.dir/build.make CMakeFiles/cmTC_62e8f.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_62e8f.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG -fPIE   -o CMakeFiles/cmTC_62e8f.dir/CheckIncludeFile.c.o   -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_62e8f
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_62e8f.dir/link.txt --verbose=1
+/usr/bin/cc    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_62e8f.dir/CheckIncludeFile.c.o  -o cmTC_62e8f 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the include file stdint.h exists passed with the following output:
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_23379/fast && /usr/bin/make -f CMakeFiles/cmTC_23379.dir/build.make CMakeFiles/cmTC_23379.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_23379.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG -fPIE   -o CMakeFiles/cmTC_23379.dir/CheckIncludeFile.c.o   -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_23379
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_23379.dir/link.txt --verbose=1
+/usr/bin/cc    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_23379.dir/CheckIncludeFile.c.o  -o cmTC_23379 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the include file stddef.h exists passed with the following output:
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_ba081/fast && /usr/bin/make -f CMakeFiles/cmTC_ba081.dir/build.make CMakeFiles/cmTC_ba081.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ba081.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG -fPIE   -o CMakeFiles/cmTC_ba081.dir/CheckIncludeFile.c.o   -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_ba081
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ba081.dir/link.txt --verbose=1
+/usr/bin/cc    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_ba081.dir/CheckIncludeFile.c.o  -o cmTC_ba081 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+
+
+
+Determining size of unsigned short passed with the following output:
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_eda92/fast && /usr/bin/make -f CMakeFiles/cmTC_eda92.dir/build.make CMakeFiles/cmTC_eda92.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_eda92.dir/CMAKE_SIZEOF_UNSIGNED_SHORT.c.o
+/usr/bin/cc   -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG -fPIE   -o CMakeFiles/cmTC_eda92.dir/CMAKE_SIZEOF_UNSIGNED_SHORT.c.o   -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CheckTypeSize/CMAKE_SIZEOF_UNSIGNED_SHORT.c
+Linking C executable cmTC_eda92
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_eda92.dir/link.txt --verbose=1
+/usr/bin/cc    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_eda92.dir/CMAKE_SIZEOF_UNSIGNED_SHORT.c.o  -o cmTC_eda92 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the system is big endian passed with the following output:
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_ef500/fast && /usr/bin/make -f CMakeFiles/cmTC_ef500.dir/build.make CMakeFiles/cmTC_ef500.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ef500.dir/TestEndianess.c.o
+/usr/bin/cc   -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG -fPIE   -o CMakeFiles/cmTC_ef500.dir/TestEndianess.c.o   -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp/TestEndianess.c
+Linking C executable cmTC_ef500
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ef500.dir/link.txt --verbose=1
+/usr/bin/cc    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_ef500.dir/TestEndianess.c.o  -o cmTC_ef500 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+
+
+TestEndianess.c:
+/* A 16 bit integer is required. */
+typedef unsigned short cmakeint16;
+
+/* On a little endian machine, these 16bit ints will give "THIS IS LITTLE ENDIAN."
+   On a big endian machine the characters will be exchanged pairwise. */
+const cmakeint16 info_little[] =  {0x4854, 0x5349, 0x4920, 0x2053, 0x494c, 0x5454, 0x454c, 0x4520, 0x444e, 0x4149, 0x2e4e, 0x0000};
+
+/* on a big endian machine, these 16bit ints will give "THIS IS BIG ENDIAN."
+   On a little endian machine the characters will be exchanged pairwise. */
+const cmakeint16 info_big[] =     {0x5448, 0x4953, 0x2049, 0x5320, 0x4249, 0x4720, 0x454e, 0x4449, 0x414e, 0x2e2e, 0x0000};
+
+#ifdef __CLASSIC_C__
+int main(argc, argv) int argc; char *argv[];
+#else
+int main(int argc, char *argv[])
+#endif
+{
+  int require = 0;
+  require += info_little[argc];
+  require += info_big[argc];
+  (void)argv;
+  return require;
+}
+
+
+Determining if the include file /usr/include/libpng/png.h exists passed with the following output:
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_b29f0/fast && /usr/bin/make -f CMakeFiles/cmTC_b29f0.dir/build.make CMakeFiles/cmTC_b29f0.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_b29f0.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG -fPIE   -o CMakeFiles/cmTC_b29f0.dir/CheckIncludeFile.c.o   -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_b29f0
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b29f0.dir/link.txt --verbose=1
+/usr/bin/cc    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_b29f0.dir/CheckIncludeFile.c.o  -o cmTC_b29f0 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the include file semaphore.h exists passed with the following output:
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_1a6ad/fast && /usr/bin/make -f CMakeFiles/cmTC_1a6ad.dir/build.make CMakeFiles/cmTC_1a6ad.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_1a6ad.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG -fPIE   -o CMakeFiles/cmTC_1a6ad.dir/CheckIncludeFile.c.o   -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_1a6ad
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1a6ad.dir/link.txt --verbose=1
+/usr/bin/cc    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_1a6ad.dir/CheckIncludeFile.c.o  -o cmTC_1a6ad 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_42bc7/fast && /usr/bin/make -f CMakeFiles/cmTC_42bc7.dir/build.make CMakeFiles/cmTC_42bc7.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_42bc7.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG -fPIE   -o CMakeFiles/cmTC_42bc7.dir/CheckIncludeFile.c.o   -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_42bc7
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_42bc7.dir/link.txt --verbose=1
+/usr/bin/cc    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_42bc7.dir/CheckIncludeFile.c.o  -o cmTC_42bc7 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+
+
+
+Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD succeeded with the following output:
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_730b9/fast && /usr/bin/make -f CMakeFiles/cmTC_730b9.dir/build.make CMakeFiles/cmTC_730b9.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_730b9.dir/src.c.o
+/usr/bin/cc   -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -DCMAKE_HAVE_LIBC_PTHREAD -O3 -DNDEBUG  -DNDEBUG -fPIE   -o CMakeFiles/cmTC_730b9.dir/src.c.o   -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp/src.c
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp/src.c:3:7: warning: no previous prototype for ‘test_func’ [-Wmissing-prototypes]
+    3 | void* test_func(void* data)
+      |       ^~~~~~~~~
+Linking C executable cmTC_730b9
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_730b9.dir/link.txt --verbose=1
+/usr/bin/cc    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -DCMAKE_HAVE_LIBC_PTHREAD -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_730b9.dir/src.c.o  -o cmTC_730b9 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+#include <pthread.h>
+
+void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+
+Determining if the function sgemm_ exists passed with the following output:
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_169e1/fast && /usr/bin/make -f CMakeFiles/cmTC_169e1.dir/build.make CMakeFiles/cmTC_169e1.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_169e1.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -DCHECK_FUNCTION_EXISTS=sgemm_ -O3 -DNDEBUG  -DNDEBUG -fPIE   -o CMakeFiles/cmTC_169e1.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_169e1
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_169e1.dir/link.txt --verbose=1
+/usr/bin/cc    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -DCHECK_FUNCTION_EXISTS=sgemm_ -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_169e1.dir/CheckFunctionExists.c.o  -o cmTC_169e1  /usr/lib/x86_64-linux-gnu/libblas.so 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function cheev_ exists passed with the following output:
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_67dc7/fast && /usr/bin/make -f CMakeFiles/cmTC_67dc7.dir/build.make CMakeFiles/cmTC_67dc7.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_67dc7.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -DCHECK_FUNCTION_EXISTS=cheev_ -O3 -DNDEBUG  -DNDEBUG -fPIE   -o CMakeFiles/cmTC_67dc7.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_67dc7
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_67dc7.dir/link.txt --verbose=1
+/usr/bin/cc    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -DCHECK_FUNCTION_EXISTS=cheev_ -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_67dc7.dir/CheckFunctionExists.c.o  -o cmTC_67dc7  /usr/lib/x86_64-linux-gnu/liblapack.so /usr/lib/x86_64-linux-gnu/libblas.so 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function dlerror exists in the dl passed with the following output:
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_91265/fast && /usr/bin/make -f CMakeFiles/cmTC_91265.dir/build.make CMakeFiles/cmTC_91265.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_91265.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -DCHECK_FUNCTION_EXISTS=dlerror -O3 -DNDEBUG  -DNDEBUG -fPIE   -o CMakeFiles/cmTC_91265.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_91265
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_91265.dir/link.txt --verbose=1
+/usr/bin/cc    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -DCHECK_FUNCTION_EXISTS=dlerror -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_91265.dir/CheckFunctionExists.c.o  -o cmTC_91265  -ldl 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the include file linux/videodev2.h exists passed with the following output:
+Change Dir: /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_9874d/fast && /usr/bin/make -f CMakeFiles/cmTC_9874d.dir/build.make CMakeFiles/cmTC_9874d.dir/build
+make[1]: Entering directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_9874d.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG -fPIE   -o CMakeFiles/cmTC_9874d.dir/CheckIncludeFile.c.o   -c /home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_9874d
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9874d.dir/link.txt --verbose=1
+/usr/bin/cc    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG    -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_9874d.dir/CheckIncludeFile.c.o  -o cmTC_9874d 
+make[1]: Leaving directory '/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/build/CMakeFiles/CMakeTmp'
+
+
+

@@ -1,0 +1,83 @@
+# Target labels
+ Extra
+ opencv_barcode
+ Module
+# Source files and their labels
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/include/opencv2/barcode.hpp
+ Extra
+ opencv_barcode
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/barcode.cpp
+ Extra
+ opencv_barcode
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/abs_decoder.cpp
+ Extra
+ opencv_barcode
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/common/hybrid_binarizer.cpp
+ Extra
+ opencv_barcode
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/common/super_scale.cpp
+ Extra
+ opencv_barcode
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/common/utils.cpp
+ Extra
+ opencv_barcode
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/ean13_decoder.cpp
+ Extra
+ opencv_barcode
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/ean8_decoder.cpp
+ Extra
+ opencv_barcode
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/upcean_decoder.cpp
+ Extra
+ opencv_barcode
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/detector/bardetect.cpp
+ Extra
+ opencv_barcode
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/abs_decoder.hpp
+ Extra
+ opencv_barcode
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/common/hybrid_binarizer.hpp
+ Extra
+ opencv_barcode
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/common/super_scale.hpp
+ Extra
+ opencv_barcode
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/common/utils.hpp
+ Extra
+ opencv_barcode
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/ean13_decoder.hpp
+ Extra
+ opencv_barcode
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/ean8_decoder.hpp
+ Extra
+ opencv_barcode
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/upcean_decoder.hpp
+ Extra
+ opencv_barcode
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/detector/bardetect.hpp
+ Extra
+ opencv_barcode
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/precomp.hpp
+ Extra
+ opencv_barcode
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/cvconfig.h
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/opencv2/opencv_modules.hpp

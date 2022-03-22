@@ -1,0 +1,21 @@
+# Target labels
+ Extra
+ opencv_mcc
+ AccuracyTest
+# Source files and their labels
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/mcc/test/test_ccm.cpp
+ Extra
+ opencv_mcc
+ AccuracyTest
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/mcc/test/test_main.cpp
+ Extra
+ opencv_mcc
+ AccuracyTest
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/mcc/test/test_mcc.cpp
+ Extra
+ opencv_mcc
+ AccuracyTest
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/mcc/test/test_precomp.hpp
+ Extra
+ opencv_mcc
+ AccuracyTest

@@ -1,0 +1,19 @@
+# Target labels
+ Extra
+ opencv_dnn_objdetect
+ Module
+# Source files and their labels
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/dnn_objdetect/include/opencv2/core_detect.hpp
+ Extra
+ opencv_dnn_objdetect
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/dnn_objdetect/src/core_detect.cpp
+ Extra
+ opencv_dnn_objdetect
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/dnn_objdetect/src/precomp.hpp
+ Extra
+ opencv_dnn_objdetect
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/cvconfig.h
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/opencv2/opencv_modules.hpp

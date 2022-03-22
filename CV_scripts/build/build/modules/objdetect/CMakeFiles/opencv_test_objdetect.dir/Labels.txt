@@ -1,0 +1,33 @@
+# Target labels
+ Main
+ opencv_objdetect
+ AccuracyTest
+# Source files and their labels
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv-4.x/modules/objdetect/test/opencl/test_hogdetector.cpp
+ Main
+ opencv_objdetect
+ AccuracyTest
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv-4.x/modules/objdetect/test/test_cascadeandhog.cpp
+ Main
+ opencv_objdetect
+ AccuracyTest
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv-4.x/modules/objdetect/test/test_face.cpp
+ Main
+ opencv_objdetect
+ AccuracyTest
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv-4.x/modules/objdetect/test/test_main.cpp
+ Main
+ opencv_objdetect
+ AccuracyTest
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv-4.x/modules/objdetect/test/test_qrcode.cpp
+ Main
+ opencv_objdetect
+ AccuracyTest
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv-4.x/modules/objdetect/test/test_qrcode_encode.cpp
+ Main
+ opencv_objdetect
+ AccuracyTest
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv-4.x/modules/objdetect/test/test_precomp.hpp
+ Main
+ opencv_objdetect
+ AccuracyTest

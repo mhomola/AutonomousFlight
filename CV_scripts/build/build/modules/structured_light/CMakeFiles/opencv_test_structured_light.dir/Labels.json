@@ -1,0 +1,60 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/structured_light/test/test_faps.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_structured_light",
+				"AccuracyTest"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/structured_light/test/test_getProjPixel.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_structured_light",
+				"AccuracyTest"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/structured_light/test/test_main.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_structured_light",
+				"AccuracyTest"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/structured_light/test/test_plane.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_structured_light",
+				"AccuracyTest"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/structured_light/test/test_precomp.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_structured_light",
+				"AccuracyTest"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_structured_light",
+			"AccuracyTest"
+		],
+		"name" : "opencv_test_structured_light"
+	}
+}

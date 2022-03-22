@@ -56,6 +56,8 @@ struct u_traj   calc_control_and_trajectory(const x_vect& x, const Eigen::Vector
 float           calc_obstacle_cost(const x_vect& final_state,const obj_mat& ob, const struct Config& config);
 float           calc_to_goal_cost(const x_vect& final_state, const Eigen::Vector2f& goal);
 Eigen::Matrix<float, 1, RESOLUTION> linspace(float start, float stop);
+template<typename T>
+std::vector<T> arange(T start, T stop, T step = 1);
 
 struct Config{
     //simulation parameter class
@@ -91,7 +93,7 @@ Eigen::Matrix<float, 1, RESOLUTION> linspace(float start, float stop) {
 }
 
 template<typename T>
-std::vector<T> arange(T start, T stop, T step = 1) {
+std::vector<T> arange(T start, T stop, T step) {
     std::vector<T> values;
     for (T value = start; value < stop; value += step)
         values.push_back(value);

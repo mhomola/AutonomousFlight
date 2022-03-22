@@ -28,7 +28,7 @@
 #define NAV_C // needed to get the nav functions like Inside...
 #include "generated/flight_plan.h"
 
-#include "modules/dynamic_window_navigation/DWN.cpp"
+#include "modules/dynamic_window_navigation/DWN.h"
 
 #define ORANGE_AVOIDER_VERBOSE TRUE
 
@@ -110,12 +110,12 @@ void dynamic_window_periodic(void)
   }
 
   //float x, float y, float angle, float goal_x, float goal_y)
-  updt_dwn(stateGetPositionEnu_i()->x, stateGetPositionEnu_i()->y, stateGetNedToBodyEulers_f()->psi, 2.f, 2.f);
-  set
+  // updt_dwn(stateGetPositionEnu_i()->x, stateGetPositionEnu_i()->y, stateGetNedToBodyEulers_f()->psi, 2.f, 2.f);
+  // set
 
   // compute current color thresholds
 
-  VERBOSE_PRINT("Color_count: %d  threshold: %d state: %d \n", color_count, color_count_threshold, navigation_state);
+  // VERBOSE_PRINT("Color_count: %d  threshold: %d state: %d \n", color_count, color_count_threshold, navigation_state);
 
   // bound obstacle_free_confidence
   Bound(obstacle_free_confidence, 0, max_trajectory_confidence);
@@ -247,15 +247,15 @@ uint8_t chooseRandomIncrementAvoidance(void)
   return false;
 }
 
- Vector2f obs_pos(float heading_angle, int floor_pixels)
- {
-   (void)floor_pixels;
-   float angle = stateGetNedToBodyEulers_f()->psi + heading_angle;
-   //place object in that direction
-   float d = 1.0; //[m] //distance to object
-   float object_x = d*cosf(angle);
-   float object_y = d*sinf(angle);
-   Vector2f object_pos = {object_x, object_y};
+// Vector2f obs_pos(float heading_angle, int floor_pixels)
+// {
+//   (void)floor_pixels;
+//   float angle = stateGetNedToBodyEulers_f()->psi + heading_angle;
+//   //place object in that direction
+//   float d = 1.0; //[m] //distance to object
+//   float object_x = d*cosf(angle);
+//   float object_y = d*sinf(angle);
+//   Vector2f object_pos = {object_x, object_y};
 
-   return object_pos;
- }
+//   return object_pos;
+// }

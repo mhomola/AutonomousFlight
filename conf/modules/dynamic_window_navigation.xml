@@ -3,7 +3,7 @@
 <module name="dynamic_window_navigation">
   <doc>
     <description>
-This is based on the orange avoider module
+      This is based on the orange avoider module
     </description>
     <define name="ORANGE_AVOIDER_VISUAL_DETECTION_ID" value="ABI_BROADCAST" description="which VISUAL_DETECTION message to recieve for orange pole detection."/>
   </doc>
@@ -24,8 +24,10 @@ This is based on the orange avoider module
   <init fun="dynamic_window_init()"/>
   <periodic fun="dynamic_window_periodic()" freq="15"/>
   <makefile target="ap|nps">
-    <file name="dynamic_window.c"/>
+    <configure name="CXXSTANDARD" value="-std=c++14"/>
+    <flag name="CXXFLAGS" value="Wno-int-in-bool-context -Wno-deprecated-copy"/>
+    <include name="$(PAPARAZZI_SRC)/sw/ext/eigen"/>
+    <file name="dynamic_window.cpp"/>
     <file name="DWN.cpp"/>
-    <flag name="CXXFLAGS" value="I$(PAPARAZZI_SRC)/sw/ext/eigen"/>
   </makefile>
 </module>

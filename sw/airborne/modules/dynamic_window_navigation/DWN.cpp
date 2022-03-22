@@ -33,6 +33,9 @@ typedef Matrix<float, 1, 4> dw_vect;
 typedef Matrix<float, STEPS, 5> trajectory_mat;
 typedef Matrix<float, MAXOBJECTS, 2> obj_mat;
 
+// Declare functions
+Matrix<float, 1, RESOLUTION> linspace(float start, float stop);
+
 //creating custom bit to remove std::tuple requirements
 struct u_traj {
   Vector2f u;
@@ -74,7 +77,7 @@ struct Config{
 //arange equivelent function
 
 Matrix<float, 1, RESOLUTION> linspace(float start, float stop) {
-    Matrix<float, 1, RESOLUTION>  values;
+    Matrix<float, 1, RESOLUTION> values;
     int i = 0;
     for (float value = start; value < stop; value += (stop-start)/RESOLUTION)
         values(i) = value;
@@ -88,7 +91,7 @@ struct DWN_run {
     float best_yaw = 0.0;
     struct Config config;
     Vector2f goal = Vector2f(2,2);
-    obj_mat ob_lst; ob_lst <<   1.0, 1.0,
+    obj_mat ob_lst, ob_lst <<   1.0, 1.0,
                                 1.5, 1.5; //Just a basic list. Need to properly pass this in 
                                 //Error on line 80 due to Dynamic not being understood as a keyword from Eigen
     Vector2f best_u = Vector2f(0,0);
@@ -114,13 +117,13 @@ struct DWN_run {
 
 //C wrapper conversion function
 
-extern "C" void updt_dwn(float x, float y, float angle, float goal_x, float goal_y) {
+void updt_dwn(float x, float y, float angle, float goal_x, float goal_y) {
     return DWN_run->update_dwn( x, y, angle, goal_x, goal_y);
 }
-extern "C" float gt_spd(){
+float gt_spd(){
     return DWN_run->get_speed();
 }
-extern "C" float gt_ywrt(){
+float gt_ywrt(){
     return DWN_run->get_yawrate();
 }
 

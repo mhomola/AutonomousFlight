@@ -102,6 +102,79 @@ bool filter_color_square(cv::Mat sq, ushort y_low, ushort y_high, ushort u_low, 
     return cond;
 }
 
+bool is_carpet(int *pixel, cv::Mat image)
+{
+    cv::Mat new_image;
+    int height = (int) (image.cols * 0.4);
+    int index = pixel[0];
+    bool status = 0, cond;
+    while ((index > height) and (status == 0))
+    {
+        index -= 10;
+        new_image = image(cv::Range(index, index + pixel[2]), cv::Range(pixel[1], pixel[1] + pixel[2]));
+        cond = filter_color_square(new_image, 70, 90, 100, 130, 100, 135, 1, 0.5);
+        if cond
+        {
+            status = 1
+        }
+    }
+    return status;
+}
+
+int **gen_squares(int rows, int cols, int img_per_row)
+{
+    int base_dim1_t, base_dim2_t;
+    double base_dim2;
+    int row_num = 4;
+    int sq_size = (int) (cols / 40);
+    std::vector<vector<int>> dimensions(rows * cols, vector<int>(3,0));
+    for (int i=0; i<row_num; i++)
+    {
+        base_dim1_t = rows - 2 * (i + 1) * sq_size;
+        base_dim2 = (double) (cols / (img_per_row + 2));
+        for (int j=0; j < img_per_row - 2 * i; j++)
+        {
+            base_dim2_t = (int) ((j + i + 1.5) * base_dim2 - sq_size / 2);
+            dimensions[i][0] = base_dim1_t;
+            dimensions[i][1] = base_dim2_t;
+            dimensions[i][2] = sq_size;
+        }
+    }
+    return dimensions;
+}
+
+bool *square_mesh(int **dims, cv::Mat image)
+{
+    int size = dims[0][2];
+    int length_array = sizeof(dims);
+    int *go_zone = new int[length_array];
+    for (int i=0; i<length_array; i++)
+    {
+        square = image(cv::Range(dims[i][0], dims[i][0] + size), cv::Range(dims[i][1], dims[i][1] + size));
+        outcome = (filter_color_square(square, 70, 90, 100, 130, 100, 135, 1, 0.5) or is_carpet(dims[i], image))
+        go_zone[i] = outcome;
+    }
+    return go_zone;
+}
+
+cv::Mat show_square_mesh(int **dims, cv::Mat image)
+{
+    array_squares = square_mesh(dims, image);
+    for (int i=0, i<sizeof(array_squares), i++)
+    int size = dims[0][2];
+    {
+        if (go_zone)
+        {
+            image(cv::Range(dims[i][0], dims[i][0] + size), cv::Range(dims[i][1], dims[i][1] + size)).setTo(cv::Scalar(0, 255, 0))
+        }
+        else
+        {
+            image(cv::Range(dims[i][0], dims[i][0] + size), cv::Range(dims[i][1], dims[i][1] + size)).setTo(cv::Scalar(255, 0, 0))
+        }
+    }
+    return image;
+}
+
 int main()
 {
     cv::Mat image, filtered_image;
@@ -109,6 +182,9 @@ int main()
     // std::cout<<"Size before:"<<cv::Size(round(image.cols / 3), round(image.rows / 3));
 
     filtered_image = filter_color(image, 70, 90, 100, 130, 100, 135, 1);
+
+    squares = gen_squares(image.rows, image.cols, 20);
+    std::cout<<"This should be around 30:" << squares[0][2];
  
     cv::namedWindow("Display Image", cv::WINDOW_AUTOSIZE);
     cv::imshow("Display Image", image);

@@ -1,6 +1,6 @@
 <!DOCTYPE module SYSTEM "module.dtd">
 
-<module name="cv_opticflow_mav_exercise" dir="computer_vision">
+<module name="cv_opticflow_mav_exercise" dir="modules">
   <doc>
     <description>
       Compute optical flow.
@@ -73,6 +73,7 @@
       <!-- General optical flow calculation parameters for camera 2-->
       <define name="METHOD_CAMERA2" value="0" description="Method used to calculate optical flow"/>
       <define name="WINDOW_SIZE_CAMERA2" value="10" description="Window size used for block matching (pixels)"/>
+      <define name="ALPHA" value="0.8" description="Low-pass parameter"/>
       <define name="SEARCH_DISTANCE_CAMERA2" value="10" description="Maximum search distance for blockmatching (pixels)"/>
       <define name="SUBPIXEL_FACTOR_CAMERA2" value="10" description="Amount of subpixels per pixel, used for more precise (subpixel) calculations of the flow"/>
       <define name="RESOLUTION_FACTOR_CAMERA2" value="1000" description="The resolution factor needed to calculate the divergence without floats"/>
@@ -110,10 +111,11 @@
   <settings>
 	<dl_settings name="Vision stabilization">
       <!-- Optical flow calculations parameters -->
-      <!-- TODO: Change paths -->
+
       <dl_settings name="vision_calc camera1">
         <dl_setting var="opticflow[0].method" min="0" step="1" max="1" module="course_CV/opticflow_module" shortname="method" values="LK_Fast9|EdgeFlow" param="METHOD"/>
         <dl_setting var="opticflow[0].corner_method" min="0" step="1" max="1" module="course_CV/opticflow_module" shortname="corner_method" values="exhaustive-FAST|ACT-FAST" param="CORNER_METHOD"/>
+        <dl_setting var="opticflow[0].alpha" module="course_CV/opticflow_module" min="0.01" step="0.01" max="0.99" shortname="alpha" param="ALPHA"/>
         <dl_setting var="opticflow[0].window_size" module="course_CV/opticflow_module" min="0" step="1" max="20" shortname="window_size" param="OPTICFLOW_WINDOW_SIZE"/>
         <dl_setting var="opticflow[0].search_distance" module="course_CV/opticflow_module" min="0" step="1" max="50" shortname="search_distance" param="SEARCH_DISTANCE"/>
         <dl_setting var="opticflow[0].subpixel_factor" module="course_CV/opticflow_module" min="0" step="10" max="1000" shortname="subpixel_factor" param="OPTICFLOW_SUBPIXEL_FACTOR"/>
@@ -146,9 +148,9 @@
       </dl_settings>
 
       <dl_settings name="vision_calc camera2">
-        <!-- TODO: Change paths -->
         <dl_setting var="opticflow[1].method" min="0" step="1" max="1" module="course_CV/opticflow_module" shortname="method" values="LK_Fast9|EdgeFlow" param="METHOD_CAMERA2"/>
         <dl_setting var="opticflow[1].corner_method" min="0" step="1" max="2" module="course_CV/opticflow_module" shortname="corner_method" values="GRID|exhaustive-FAST|ACT-FAST" param="CORNER_METHOD_CAMERA2"/>
+        <dl_setting var="opticflow[1].alpha" module="course_CV/opticflow_module" min="0.01" step="0.01" max="0.99" shortname="alpha" param="ALPHA"/>
         <dl_setting var="opticflow[1].window_size" module="course_CV/opticflow_module" min="0" step="1" max="20" shortname="window_size" param="OPTICFLOW_WINDOW_SIZE_CAMERA2"/>
         <dl_setting var="opticflow[1].search_distance" module="course_CV/opticflow_module" min="0" step="1" max="50" shortname="search_distance" param="SEARCH_DISTANCE_CAMERA2"/>
         <dl_setting var="opticflow[1].subpixel_factor" module="course_CV/opticflow_module" min="0" step="10" max="1000" shortname="subpixel_factor" param="OPTICFLOW_SUBPIXEL_FACTOR_CAMERA2"/>
@@ -188,7 +190,7 @@
   </dep>
 
   <header>
-    <file name="opticflow_module.h"/>
+    <file name="course_CV/opticflow_module.h"/>
   </header>
 
   <init fun="opticflow_module_init()"/>
@@ -196,7 +198,7 @@
 
   <makefile target="ap|nps">
     <!-- Include the needed Computer Vision files -->
-    <include name="modules/course_CV"/>
+    <include name="course_CV"/>
     <file name="image.c" dir="modules/computer_vision/lib/vision"/>
     <file name="jpeg.c" dir="modules/computer_vision/lib/encoding"/>
     <file name="rtp.c" dir="modules/computer_vision/lib/encoding"/>
@@ -210,11 +212,10 @@
     <file name="pprz_matrix_decomp_float.c" dir="math"/> -->
       
     <!-- Changed path -->
-    <!-- TODO: Change paths -->
     <file name="opticflow_module.c" dir="modules/course_CV"/>
     <file name="opticflow_calculator.c" dir="modules/course_CV"/>
     <file name="size_divergence.c" dir="modules/course_CV"/>
-    <file name="linear_flow_fit.c" dir="modules/course_CV"/>
+
     <file name="pprz_algebra_float.c" dir="math"/>
     <file name="pprz_matrix_decomp_float.c" dir="math"/>
 

@@ -15,6 +15,7 @@ Thijs Verkade
 #include <math.h>
 #include <eigen3/Eigen/Core> 
 #include "modules/dynamic_window_navigation/vector"
+#include "generated/flight_plan.h"
 
 using namespace Eigen;
 //using Eigen::placeholders::last;
@@ -220,6 +221,11 @@ float calc_obstacle_cost(const trajectory_mat& trajectory,const obj_mat& ob, con
         if (r <= config.robot_radius){
 				return INFINITY;
 		}
+        //if not inside obstacle zone return infinite cost; uses last entry of trajectory
+        //consider using "trajectory.col(0).back(), trajectory.col(1)).back()", dont know what is faster
+        else if (!InsideObstacleZone(trajectory(0,STEPS-1), trajectory(1, STEPS-1)){
+            return INFINITY;
+        }
         //DEFine edges of square (four coners)
         //Do some fancy vector math to closest point to any of the square walls
         //TODO add cost to going near wall

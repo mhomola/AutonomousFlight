@@ -36,7 +36,7 @@
 /* The result calculated from the opticflow */
 struct opticflow_result_t {
   float fps;              ///< Frames per second of the optical flow calculation
-  uint16_t corner_cnt;    ///< The amount of coners found by FAST9
+  uint16_t corner_cnt;    ///< The amount of corners found by FAST9
   uint16_t tracked_cnt;   ///< The amount of tracked corners
 
   // Camera frame with the origin in the top left corner of the image
@@ -49,11 +49,9 @@ struct opticflow_result_t {
   // struct FloatVect3 vel_body;     ///< The velocity in body frame (m/s) with X positive to the front of the aircraft, Y positive to the right and Z positive downwards to the ground
   // struct FloatVect3 fast9_ret_corners;
   // float div_size;         ///< Divergence as determined with the size_divergence script
-  float yaw_command; 
+  float yaw_command;          // Yaw command
 
-  
-  float surface_roughness; ///< Surface roughness as determined with a linear optical flow fit
-  float divergence;       ///< Divergence as determined with a linear flow fit
+
   uint8_t camera_id;      ///< Camera id as passed to cv_add_to_device
 
   float noise_measurement;  ///< noise of measurement, for state filter

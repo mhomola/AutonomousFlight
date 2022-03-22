@@ -79,6 +79,10 @@ uint16_t n_agents[2] = {25, 25};
 #define OPTICFLOW_CORNER_METHOD_CAMERA2 GRID    // Change here the method
 #endif
 
+#ifndef ALPHA
+#define ALPHA 0.8   // Change here the method
+#endif
+
 #ifndef SUBSAMPLING_FACTOR
 #define SUBSAMPLING_FACTOR 20
 #endif
@@ -419,6 +423,7 @@ void opticflow_calc_init(struct opticflow_t opticflow[])
   /* Set the default values */
   opticflow[0].method = OPTICFLOW_METHOD; //0 = LK_fast9, 1 = Edgeflow
   opticflow[0].window_size = OPTICFLOW_WINDOW_SIZE;
+  opticflow[0].alpha = ALPHA;
   opticflow[0].search_distance = OPTICFLOW_SEARCH_DISTANCE;
   opticflow[0].derotation = OPTICFLOW_DEROTATION; //0 = OFF, 1 = ON
   opticflow[0].derotation_correction_factor_x = OPTICFLOW_DEROTATION_CORRECTION_FACTOR_X;
@@ -461,6 +466,7 @@ void opticflow_calc_init(struct opticflow_t opticflow[])
 #ifdef OPTICFLOW_CAMERA2
   opticflow[1].method = OPTICFLOW_METHOD_CAMERA2; //0 = LK_fast9, 1 = Edgeflow
   opticflow[1].window_size = OPTICFLOW_WINDOW_SIZE_CAMERA2;
+  opticflow[1].alpha = ALPHA;
   opticflow[1].search_distance = OPTICFLOW_SEARCH_DISTANCE_CAMERA2;
   opticflow[1].derotation = OPTICFLOW_DEROTATION_CAMERA2; //0 = OFF, 1 = ON
   opticflow[1].derotation_correction_factor_x = OPTICFLOW_DEROTATION_CORRECTION_FACTOR_X_CAMERA2;
@@ -535,12 +541,13 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
     return false;
   }
 
-  // variables for linear flow fit:
-  float error_threshold;
-  int n_iterations_RANSAC, n_samples_RANSAC, success_fit;
-  struct linear_flow_fit_info fit_info;
+  // // variables for linear flow fit:
+  // float error_threshold;
+  // int n_iterations_RANSAC, n_samples_RANSAC, success_fit;
+  // struct linear_flow_fit_info fit_info;
 
   // Update FPS for information
+  float cur_yaw_command = 0.0;
   float dt = timeval_diff(&(opticflow->prev_img_gray.ts), &(img->ts));
   if (dt > 1e-5) {
     result->fps = 1000.f / dt;
@@ -581,7 +588,7 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
             opticflow->fast9_ret_corners[result->corner_cnt].x = i;
             opticflow->fast9_ret_corners[result->corner_cnt].y = j;
             result->corner_cnt++;  // update corner counter
-
+            printf("x, y corners: %d %d \n",opticflow->fast9_ret_corners[result->corner_cnt].x,opticflow->fast9_ret_corners[result->corner_cnt].y);
           }
     }
 
@@ -629,7 +636,7 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
     if (result->corner_cnt < 1) {
 
       result->yaw_command = 0;
-      result->divergence = 0;
+ 
       result->noise_measurement = 5.0;
 
       image_switch(&opticflow->img_gray, &opticflow->prev_img_gray);
@@ -705,41 +712,7 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
     image_show_flow_color(img, vectors, result->tracked_cnt, opticflow->subpixel_factor, color, bad_color);
   }
 
-  if (strcmp(opticflow->camera->dev_name, front_camera.dev_name) == 0)
-  { 
-    
-    // printf("W,H: %d, %d", opticflow->prev_img_gray.w, opticflow->prev_img_gray.h);
-    result->yaw_command = get_heading_command(vectors, result->tracked_cnt, opticflow->prev_img_gray.h);
-    printf("Yaw command: %f \n", result->yaw_command);
-    
-    // TODO: the iamge is for soem reason roated so the width shoudl be height ...
-    // printf("Tracked corners: %d by camera %s \n", result->tracked_cnt, opticflow->camera->dev_name);
-  // Estimate size divergence:
-  }
 
-  if (strcmp(opticflow->camera->dev_name, bottom_camera.dev_name) == 0){
-      if (LINEAR_FIT) {
-        // Linear flow fit (normally derotation should be performed before):
-        // printf("Doing the expensive lienar fit for camera %s! \n",opticflow->camera->dev_name);
-        error_threshold = 10.0f;
-        n_iterations_RANSAC = 20;
-        n_samples_RANSAC = 5;
-        success_fit = analyze_linear_flow_field(vectors, result->tracked_cnt, error_threshold, n_iterations_RANSAC,
-                                                n_samples_RANSAC, img->w, img->h, &fit_info);
-
-        if (!success_fit) {
-          fit_info.divergence = 0.0f;
-          fit_info.surface_roughness = 0.0f;
-        }
-
-        result->divergence = fit_info.divergence;
-        result->surface_roughness = fit_info.surface_roughness;
-      } else {
-        result->divergence = 0.0f;
-        result->surface_roughness = 0.0f;
-      }
-  }
-  
   // Get the median flow -WHy??
   qsort(vectors, result->tracked_cnt, sizeof(struct flow_t), cmp_flow);
   if (result->tracked_cnt == 0) {
@@ -750,6 +723,7 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
     free(vectors);
     image_switch(&opticflow->img_gray, &opticflow->prev_img_gray);
     return false;
+
   } else if (result->tracked_cnt % 2) {
     // Take the median point
     result->flow_x = vectors[result->tracked_cnt / 2].flow_x;
@@ -798,11 +772,11 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
         // frontal cam, predict individual flow vectors:
         struct flow_t *predicted_flow_vectors = predict_flow_vectors(vectors, result->tracked_cnt, phi_diff, theta_diff,
                                                 psi_diff, opticflow);
-        if (opticflow->show_flow) {
-          uint8_t color[4] = {255, 255, 255, 255};
-          uint8_t bad_color[4] = {255, 255, 0, 255};
-          image_show_flow_color(img, predicted_flow_vectors, result->tracked_cnt, opticflow->subpixel_factor, color, bad_color);
-        }
+        // if (opticflow->show_flow) {
+        //   uint8_t color[4] = {255, 255, 255, 255};
+        //   uint8_t bad_color[4] = {255, 255, 0, 255};
+        //   image_show_flow_color(img, predicted_flow_vectors, result->tracked_cnt, opticflow->subpixel_factor, color, bad_color);
+        // }
 
         for (int i = 0; i < result->tracked_cnt; i++) {
           // subtract the flow:
@@ -828,6 +802,21 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
   }
   result->camera_id = opticflow->id;
   result->noise_measurement = 0.25;
+  // *************************************************************************************
+  //                              Calculate yaw Command
+  // *************************************************************************************
+
+
+    if (strcmp(opticflow->camera->dev_name, front_camera.dev_name) == 0)
+  { 
+    // printf("W,H: %d, %d", opticflow->prev_img_gray.w, opticflow->prev_img_gray.h);
+    cur_yaw_command = get_heading_command(vectors, result->tracked_cnt, opticflow->prev_img_gray.h, opticflow->subpixel_factor);
+    result->yaw_command = opticflow->alpha * cur_yaw_command + (1-opticflow->alpha) * result->yaw_command;
+
+    // printf("Yaw command: %f \n", result->yaw_command);
+    // printf("Tracked corners: %d by camera %s \n", result->tracked_cnt, opticflow->camera->dev_name);
+  // Estimate size divergence:
+  }
 
   // *************************************************************************************
   //                              Next Loop Preparation

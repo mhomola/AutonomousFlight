@@ -33,7 +33,7 @@
 #define OPTICFLOW_CALCULATOR_H
 
 #include "std.h"
-#include "inter_thread_data.h"
+#include "course_CV/inter_thread_data.h"
 #include "lib/vision/image.h"
 #include "lib/v4l/v4l2.h"
 
@@ -45,6 +45,7 @@ struct opticflow_t {
 
   uint8_t method;                   ///< Method to use to calculate the optical flow
   uint8_t corner_method;            ///< Method to use for determining where the corners are
+  float alpha;
   uint16_t window_size;               ///< Window size for the blockmatching algorithm (general value for all methods)
   uint16_t search_distance;           ///< Search distance for blockmatching alg.
   bool derotation;                    ///< Derotation switched on or off (depended on the quality of the gyroscope measurement)

@@ -194,17 +194,26 @@ int get_green_row(cv::Mat go_zone_state, int first_row_len)
 
     if (go_zone_state[-1:-first_row_len])
     {
-        return 0;
+        return 3;
     }
     else if (go_zone_state[-(first_row_len+1):-(2*first_row_len+2)])
     {
-        return 1;
+        return 2;
     }
     else if (go_zone_state[-(2*first_row_len+3):-(2*first_row_len+4)])
     {
-        return 2;
+        return 1;
     }
-    return 3;
+    return 0;
+}
+
+std::tuple<int,cv::Mat> objectDetection(cv::Mat im, cv:Mat squares, int first_row_len, int screen_width)
+{
+    bool *go_zone = new bool[sizeof(squares)]];
+    go_zone = square_mesh(squares, im)
+    int closest_green = get_green_row(go_zone, first_row_len)
+    cv::Mat angles = getAngle(go_zone, irst_row_len, squares[0][2], squares[0][1], screen_width, squares[1][1]-squares[0][1])
+    return closest_green, angles
 }
 
 int main()

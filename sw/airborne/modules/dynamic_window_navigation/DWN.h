@@ -36,15 +36,16 @@ extern "C" {
 #include "modules/ahrs/ahrs.h"
 #include "modules/ins/ins.h"
 
-extern Matrix<float, 1, RESOLUTION> linspace(float start, float stop);
-extern void updt_dwn(float x, float y, float angle, float goal_x, float goal_y);
-extern struct u_traj   dwa_control(x_vect& x, const struct Config& config, const Vector2f& goal, const obj_mat& ob);
-extern x_vect          motion(x_vect& x, const Vector2f& u, const float dt);
-extern dw_vect         calc_dynamic_window(x_vect& x,const struct Config& config);
-extern trajectory_mat  predict_trajectory(const x_vect& x_init, float v, float y, const struct Config& config);
-extern struct u_traj   calc_control_and_trajectory(const x_vect& x, const Vector4f& dw, const struct Config& config, const Vector2f& goal, const obj_mat& ob);
-extern float           calc_obstacle_cost(const trajectory_mat& trajectory,const obj_mat& ob, const struct Config& config);
-extern float           calc_to_goal_cost(const trajectory_mat& trajectory, const Vector2f& goal);
+
+// extern Matrix<float, 1, RESOLUTION> linspace(float start, float stop);
+// extern void updt_dwn(float x, float y, float angle, float goal_x, float goal_y);
+// extern struct u_traj   dwa_control(x_vect& x, const struct Config& config, const Vector2f& goal, const obj_mat& ob);
+// extern x_vect          motion(x_vect& x, const Vector2f& u, const float dt);
+// extern dw_vect         calc_dynamic_window(x_vect& x,const struct Config& config);
+// extern trajectory_mat  predict_trajectory(const x_vect& x_init, float v, float y, const struct Config& config);
+// extern struct u_traj   calc_control_and_trajectory(const x_vect& x, const Vector4f& dw, const struct Config& config, const Vector2f& goal, const obj_mat& ob);
+// extern float           calc_obstacle_cost(const trajectory_mat& trajectory,const obj_mat& ob, const struct Config& config);
+// extern float           calc_to_goal_cost(const trajectory_mat& trajectory, const Vector2f& goal);
 
 
 #ifdef __cplusplus

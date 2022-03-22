@@ -44,10 +44,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/tudor/Desktop/AutonomousFlight/CV_scripts
+CMAKE_SOURCE_DIR = /home/tudor/Desktop/AutonomousFlight/CV_scripts/AutonomousFlight/CV_scripts
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/tudor/Desktop/AutonomousFlight/CV_scripts
+CMAKE_BINARY_DIR = /home/tudor/Desktop/AutonomousFlight/CV_scripts/AutonomousFlight/CV_scripts
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -74,14 +74,14 @@ clean: CMakeFiles/FloorDetection.dir/clean
 CMakeFiles/FloorDetection.dir/all:
 	$(MAKE) -f CMakeFiles/FloorDetection.dir/build.make CMakeFiles/FloorDetection.dir/depend
 	$(MAKE) -f CMakeFiles/FloorDetection.dir/build.make CMakeFiles/FloorDetection.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/tudor/Desktop/AutonomousFlight/CV_scripts/CMakeFiles --progress-num=1,2 "Built target FloorDetection"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/tudor/Desktop/AutonomousFlight/CV_scripts/AutonomousFlight/CV_scripts/CMakeFiles --progress-num=1,2 "Built target FloorDetection"
 .PHONY : CMakeFiles/FloorDetection.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/FloorDetection.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/tudor/Desktop/AutonomousFlight/CV_scripts/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/tudor/Desktop/AutonomousFlight/CV_scripts/AutonomousFlight/CV_scripts/CMakeFiles 2
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/FloorDetection.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/tudor/Desktop/AutonomousFlight/CV_scripts/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/tudor/Desktop/AutonomousFlight/CV_scripts/AutonomousFlight/CV_scripts/CMakeFiles 0
 .PHONY : CMakeFiles/FloorDetection.dir/rule
 
 # Convenience name for target.

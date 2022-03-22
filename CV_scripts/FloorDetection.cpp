@@ -12,6 +12,10 @@
 using namespace std;
 using namespace cv;
 
+int row_num=4;
+int img_per_row=20;
+int nr_squares = 68;
+
 cv::Mat filter_color(cv::Mat im, ushort y_low, ushort y_high, ushort u_low, ushort u_high, ushort v_low, ushort v_high, ushort resize_factor)
 {
     cv::Mat image, YUV, croppedImage, FilteredImage;
@@ -66,7 +70,7 @@ cv::Mat filter_color(cv::Mat im, ushort y_low, ushort y_high, ushort u_low, usho
     return FilteredImage;
 }
 
-bool filter_color_square(cv::Mat sq, ushort y_low, ushort y_high, ushort u_low, ushort u_high, ushort v_low, ushort v_high, ushort resize_factor, ushort passFactor)
+bool filter_color_square(cv::Mat sq, ushort y_low, ushort y_high, ushort u_low, ushort u_high, ushort v_low, ushort v_high, ushort resize_factor, float passFactor)
 {
     cv::Mat image_sq, YUV_sq;
     cv::resize(sq, image_sq, cv::Size(round(sq.cols / resize_factor), round(sq.rows / resize_factor)));
@@ -91,21 +95,20 @@ bool filter_color_square(cv::Mat sq, ushort y_low, ushort y_high, ushort u_low, 
         }
     }
 
+
     double average_sq = (double) sum_sq / total_size_sq;
     bool cond = 0;
-    
     if (average_sq >= passFactor)
     {
         cond = 1;
     }
-
     return cond;
 }
 
 bool is_carpet(int *pixel, cv::Mat image)
 {
     cv::Mat new_image;
-    int height = (int) (image.cols * 0.4);
+    int height = (int) (image.rows * 0.4);
     int index = pixel[0];
     bool status = 0, cond;
     while ((index > height) and (status == 0))
@@ -113,21 +116,25 @@ bool is_carpet(int *pixel, cv::Mat image)
         index -= 10;
         new_image = image(cv::Range(index, index + pixel[2]), cv::Range(pixel[1], pixel[1] + pixel[2]));
         cond = filter_color_square(new_image, 70, 90, 100, 130, 100, 135, 1, 0.5);
-        if cond
+        if (cond)
         {
-            status = 1
+            status = 1;
         }
     }
     return status;
 }
 
-int **gen_squares(int rows, int cols, int img_per_row)
+int **gen_squares(int rows, int cols)
 {
     int base_dim1_t, base_dim2_t;
     double base_dim2;
-    int row_num = 4;
     int sq_size = (int) (cols / 40);
-    std::vector<vector<int>> dimensions(rows * cols, vector<int>(3,0));
+    int **dimensions = new int*[nr_squares];
+    for (size_t h = 0; h < nr_squares; h++)
+      {
+            dimensions[h] = new int[3];
+      }
+    int sum=0;
     for (int i=0; i<row_num; i++)
     {
         base_dim1_t = rows - 2 * (i + 1) * sq_size;
@@ -135,10 +142,11 @@ int **gen_squares(int rows, int cols, int img_per_row)
         for (int j=0; j < img_per_row - 2 * i; j++)
         {
             base_dim2_t = (int) ((j + i + 1.5) * base_dim2 - sq_size / 2);
-            dimensions[i][0] = base_dim1_t;
-            dimensions[i][1] = base_dim2_t;
-            dimensions[i][2] = sq_size;
+            dimensions[i*img_per_row - (2 * sum) + j][0] = base_dim1_t;
+            dimensions[i*img_per_row - (2 * sum) + j][1] = base_dim2_t;
+            dimensions[i*img_per_row - (2 * sum) + j][2] = sq_size;
         }
+        sum += i;
     }
     return dimensions;
 }
@@ -146,12 +154,14 @@ int **gen_squares(int rows, int cols, int img_per_row)
 bool *square_mesh(int **dims, cv::Mat image)
 {
     int size = dims[0][2];
-    int length_array = sizeof(dims);
-    int *go_zone = new int[length_array];
-    for (int i=0; i<length_array; i++)
+    cv::Mat square;
+    bool outcome;
+    bool *go_zone = new bool[nr_squares];
+    for (int i=0; i<nr_squares; i++)
     {
         square = image(cv::Range(dims[i][0], dims[i][0] + size), cv::Range(dims[i][1], dims[i][1] + size));
-        outcome = (filter_color_square(square, 70, 90, 100, 130, 100, 135, 1, 0.5) or is_carpet(dims[i], image))
+        outcome = (filter_color_square(square, 70, 90, 100, 130, 100, 135, 1, 0.5) or is_carpet(dims[i], image));
+        // 
         go_zone[i] = outcome;
     }
     return go_zone;
@@ -159,17 +169,17 @@ bool *square_mesh(int **dims, cv::Mat image)
 
 cv::Mat show_square_mesh(int **dims, cv::Mat image)
 {
-    array_squares = square_mesh(dims, image);
-    for (int i=0, i<sizeof(array_squares), i++)
+    bool *array_squares = square_mesh(dims, image);
     int size = dims[0][2];
+    for (int i=0; i<nr_squares; i++)
     {
-        if (go_zone)
+        if (array_squares[i])
         {
-            image(cv::Range(dims[i][0], dims[i][0] + size), cv::Range(dims[i][1], dims[i][1] + size)).setTo(cv::Scalar(0, 255, 0))
+            image(cv::Range(dims[i][0], dims[i][0] + size), cv::Range(dims[i][1], dims[i][1] + size)).setTo(cv::Scalar(0, 255, 0));
         }
         else
         {
-            image(cv::Range(dims[i][0], dims[i][0] + size), cv::Range(dims[i][1], dims[i][1] + size)).setTo(cv::Scalar(255, 0, 0))
+            image(cv::Range(dims[i][0], dims[i][0] + size), cv::Range(dims[i][1], dims[i][1] + size)).setTo(cv::Scalar(0, 0, 255));
         }
     }
     return image;
@@ -177,19 +187,40 @@ cv::Mat show_square_mesh(int **dims, cv::Mat image)
 
 int main()
 {
-    cv::Mat image, filtered_image;
-    image = cv::imread("./../Data/cyberzoo_poles/2_original.jpg", 1);
+    cv::Mat image, filtered_image, squares_image;
+    image = cv::imread("./../../../Data/cyberzoo_poles/2_original.jpg", 1);
     // std::cout<<"Size before:"<<cv::Size(round(image.cols / 3), round(image.rows / 3));
 
-    filtered_image = filter_color(image, 70, 90, 100, 130, 100, 135, 1);
+    filtered_image = filter_color(image, 70, 90, 100, 130, 100, 135, 3);
 
-    squares = gen_squares(image.rows, image.cols, 20);
-    std::cout<<"This should be around 30:" << squares[0][2];
+    int **squares = new int*[nr_squares];
+    for (int h = 0; h < nr_squares; h++)
+    {
+        squares[h] = new int[3];
+    }
+    squares = gen_squares(image.rows, image.cols);
+
+    // for (int i=0; i<nr_squares; i++)
+    // {
+    //     for (int j=0; j<3; j++)
+    //     {
+    //         std::cout<<squares[i][j]<<"  ";
+    //     }
+    //     std::cout<<"\n";
+    // }
+
+    bool *go_zone = new bool[nr_squares];
+    go_zone = square_mesh(squares, filtered_image);
+
+    squares_image = show_square_mesh(squares, filtered_image);
+
  
-    cv::namedWindow("Display Image", cv::WINDOW_AUTOSIZE);
-    cv::imshow("Display Image", image);
-    cv::namedWindow("Filtered Image", cv::WINDOW_AUTOSIZE);
-    cv::imshow("Filtered Image", filtered_image);
+    // cv::namedWindow("Display Image", cv::WINDOW_AUTOSIZE);
+    // cv::imshow("Display Image", image);
+    // cv::namedWindow("Filtered Image", cv::WINDOW_AUTOSIZE);
+    // cv::imshow("Filtered Image", filtered_image);
+    cv::namedWindow("Squares Image", cv::WINDOW_AUTOSIZE);
+    cv::imshow("Squares Image", squares_image);
     cv::waitKey(0);
     return 0;
 }

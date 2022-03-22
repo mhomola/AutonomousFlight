@@ -33,8 +33,9 @@ Thijs Verkade
 //Declare matrix sizes for clarity and reducing read complexity
 typedef Eigen::Matrix<float, 1, 5> x_vect;
 typedef Eigen::Matrix<float, 1, 4> dw_vect;
-typedef Eigen::Matrix<float, STEPS, 5> trajectory_mat;
+//typedef Eigen::Matrix<float, STEPS, 5> trajectory_mat;
 typedef Eigen::Matrix<float, MAXOBJECTS, 2> obj_mat;
+typedef Eigen::Array<float, MAXOBJECTS, 1> obj_arr;
 
 // Declare functions
 
@@ -42,7 +43,7 @@ typedef Eigen::Matrix<float, MAXOBJECTS, 2> obj_mat;
 //creating custom bit to remove std::tuple requirements
 struct u_traj {
   Eigen::Vector2f u;
-  trajectory_mat traj;
+  x_vect traj;
 };
 
 
@@ -52,8 +53,8 @@ x_vect          motion(x_vect& x, const Eigen::Vector2f& u, const float dt);
 dw_vect         calc_dynamic_window(x_vect& x,const struct Config& config);
 x_vect          predict_trajectory(const x_vect& x_init, float v, float y, const struct Config& config);
 struct u_traj   calc_control_and_trajectory(const x_vect& x, const Eigen::Vector4f& dw, const struct Config& config, const Eigen::Vector2f& goal, const obj_mat& ob);
-float           calc_obstacle_cost(const trajectory_mat& trajectory,const obj_mat& ob, const struct Config& config);
-float           calc_to_goal_cost(const trajectory_mat& trajectory, const Eigen::Vector2f& goal);
+float           calc_obstacle_cost(const x_vect& final_state,const obj_mat& ob, const struct Config& config);
+float           calc_to_goal_cost(const x_vect& final_state, const Eigen::Vector2f& goal);
 Eigen::Matrix<float, 1, RESOLUTION> linspace(float start, float stop);
 
 struct Config{
@@ -232,13 +233,14 @@ struct u_traj calc_control_and_trajectory(const x_vect& x, const Eigen::Vector4f
     for (auto v_it = v_range.begin(); v_it != v_range.end(); ++v_it) {
         for (auto y_it = y_range.begin(); y_it != y_range.end(); ++y_it) {
 
-            auto final_state    = predict_trajectory(x_init, *v_it, *y_it, config);
+            x_vect final_state  = predict_trajectory(x_init, *v_it, *y_it, config);
             //Calculate the cost
             float to_goal_cost  = config.to_goal_cost_gain  * calc_to_goal_cost(final_state, goal);
             float speed_cost    = config.speed_cost_gain    * (config.max_speed - final_state(3));
             float ob_cost       = config.obstacle_cost_gain * calc_obstacle_cost(final_state, ob, config);
 
             float final_cost    = to_goal_cost + speed_cost + ob_cost;
+
 
             // Search for minimum trajectory
             if (min_cost >= final_cost) {
@@ -256,20 +258,26 @@ struct u_traj calc_control_and_trajectory(const x_vect& x, const Eigen::Vector4f
 
 float calc_obstacle_cost( x_vect& final_state, obj_mat& ob, const struct Config& config) {
 		//calc obstacle cost inf: collision
-        obj_mat dx;
-        obj_mat dy;
+        obj_arr dx;
+        obj_arr dy;
+
         for (int ob_num = 0; ob_num != MAXOBJECTS; ++ob_num){
             dx(ob_num) = ob(ob_num, 0) - final_state(0);
             dy(ob_num) = ob(ob_num, 1) - final_state(1);
         }
 		// auto dx = ob.col(0) - Eigen::Matrix<float, MAXOBJECTS, 2>()trajectory(0); //need to repeat trajectory for 
-		// auto dy = ob.col(1) - trajectory(1);
-        //I would much prefer for this to be a 
-        obj_mat r = (dx.pow(2)+dy.pow(2)).sqrt();
-        // obj_mat dxx = dx.pow(2);
-        // obj_mat dyy =dy.pow(2);
-        // obj_mat dxy = dxx+dyy;
-		// obj_mat r  = dxy.sqrt();
+		// auto dy = ob.col(1) - trajectory(1);//Eigen says this should work but it don't
+
+        
+        
+        obj_arr r = (dx.pow(2)+dy.pow(2)).sqrt();
+
+        // Eigen::Array<float, MAXOBJECTS,1>  dxx = dx.pow(2);
+        // Eigen::Array<float, MAXOBJECTS,1>  dyy =dy.pow(2);
+        // Eigen::Array<float, MAXOBJECTS,1>  dxy = dxx+dyy;
+		// Eigen::Array<float, MAXOBJECTS,1>  r  = dxy.sqrt();
+
+
         for (int ob_num = 0; ob_num != MAXOBJECTS; ++ob_num){
             if (r(ob_num) <= config.robot_radius){
                     return INFINITY;
@@ -293,10 +301,16 @@ float calc_obstacle_cost( x_vect& final_state, obj_mat& ob, const struct Config&
 
 float calc_to_goal_cost(const x_vect& final_state, const Eigen::Vector2f& goal){
     //calc to goal cost with angle difference
-    auto dx             = goal(0) - final_state(0);
-    auto dy             = goal(1) - final_state(1);
-    auto error_angle    = atan2(dy, dx);
+    float goalx = goal(0);
+    float goaly = goal(1);
+    float finalx = final_state(0);
+    float finaly = final_state(1);
+    // float dx             = goal(0) - final_state(0);
+    // float dy             = goal(1) - final_state(1);
+    float dx = goalx - finalx;
+    float dy = goaly - finaly;
+    auto error_angle    = std::atan2(dy, dx);
     auto cost_angle     = error_angle - final_state(2);
-    float cost          = abs(atan2(sin(cost_angle),cos(cost_angle)));
+    float cost          = std::abs(std::atan2(std::sin(cost_angle),std::cos(cost_angle)));
     return cost;
 }

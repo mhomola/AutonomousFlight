@@ -13,7 +13,7 @@ Thijs Verkade
 //#include <iostream>
 
 #include <math.h>
-#include <Eigen/Core> 
+#include <Eigen/Dense> 
 using namespace Eigen;
 
 //using Eigen::placeholders::last;
@@ -83,7 +83,7 @@ Matrix<float, 1, RESOLUTION> linspace(float start, float stop) {
 }
 
 //C++ wrapper function
-struct DWN_run{
+struct DWN_run {
     float best_v = 0.0;
     float best_yaw = 0.0;
     struct Config config;
@@ -110,7 +110,7 @@ struct DWN_run{
     float get_yawrate(){
         return best_u(1);
     }
-}
+};
 
 //C wrapper conversion function
 
@@ -195,6 +195,8 @@ struct u_traj calc_control_and_trajectory(const x_vect& x, const Vector4f& dw, c
     auto v_range = linspace(dw(0), dw(1));
     auto y_range = linspace(dw(2), dw(3));
     //Maybe can do a for each?
+
+    //THIS DOESNT WORK ANYMORE as we used to use std::vector but I was unable to import the standard library.
     for (auto v_it = v_range.begin(); v_it != v_range.end(); ++v_it) {
         for (auto y_it = y_range.begin(); y_it != y_range.end(); ++y_it) {
 
@@ -231,9 +233,11 @@ float calc_obstacle_cost(const trajectory_mat& trajectory,const obj_mat& ob, con
 		}
         //if not inside obstacle zone return infinite cost; uses last entry of trajectory
         //consider using "trajectory.col(0).back(), trajectory.col(1)).back()", dont know what is faster
+        //Need to use external C here to get this function to work
+        /*
         else if (!InsideObstacleZone(trajectory(0,STEPS-1), trajectory(1, STEPS-1)){
             return INFINITY;
-        }
+        }*/
         //DEFine edges of square (four coners)
         //Do some fancy vector math to closest point to any of the square walls
         //TODO add cost to going near wall

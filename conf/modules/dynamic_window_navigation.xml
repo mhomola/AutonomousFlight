@@ -26,6 +26,6 @@ This is based on the orange avoider module
   <makefile target="ap|nps">
     <file name="dynamic_window.c"/>
     <file name="DWN.cpp"/>
-     <flag name="CXXFLAGS" value="I$(PAPARAZZI_SRC)/sw/ext/eigen"/>
+    <flag name="CXXFLAGS" value="I$(PAPARAZZI_SRC)/sw/ext/eigen"/>
   </makefile>
 </module>

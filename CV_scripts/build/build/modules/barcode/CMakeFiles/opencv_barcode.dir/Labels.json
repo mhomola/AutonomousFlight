@@ -1,0 +1,192 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/include/opencv2/barcode.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_barcode",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/barcode.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_barcode",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/abs_decoder.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_barcode",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/common/hybrid_binarizer.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_barcode",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/common/super_scale.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_barcode",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/common/utils.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_barcode",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/ean13_decoder.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_barcode",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/ean8_decoder.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_barcode",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/upcean_decoder.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_barcode",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/detector/bardetect.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_barcode",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/abs_decoder.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_barcode",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/common/hybrid_binarizer.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_barcode",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/common/super_scale.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_barcode",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/common/utils.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_barcode",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/ean13_decoder.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_barcode",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/ean8_decoder.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_barcode",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/decoder/upcean_decoder.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_barcode",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/detector/bardetect.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_barcode",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/src/precomp.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_barcode",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/cvconfig.h"
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/opencv2/opencv_modules.hpp"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_barcode",
+			"Module"
+		],
+		"name" : "opencv_barcode"
+	}
+}

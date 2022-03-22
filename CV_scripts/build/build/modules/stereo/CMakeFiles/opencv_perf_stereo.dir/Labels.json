@@ -1,0 +1,51 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/stereo/perf/perf_bm.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_stereo",
+				"PerfTest"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/stereo/perf/perf_descriptor.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_stereo",
+				"PerfTest"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/stereo/perf/perf_main.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_stereo",
+				"PerfTest"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/stereo/perf/perf_precomp.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_stereo",
+				"PerfTest"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_stereo",
+			"PerfTest"
+		],
+		"name" : "opencv_perf_stereo"
+	}
+}

@@ -1,0 +1,102 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/ccalib/include/opencv2/ccalib.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_ccalib",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/ccalib/include/opencv2/ccalib/multicalib.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_ccalib",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/ccalib/include/opencv2/ccalib/omnidir.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_ccalib",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/ccalib/include/opencv2/ccalib/randpattern.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_ccalib",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/ccalib/src/ccalib.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_ccalib",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/ccalib/src/multicalib.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_ccalib",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/ccalib/src/omnidir.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_ccalib",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/ccalib/src/randpattern.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_ccalib",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/ccalib/src/precomp.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_ccalib",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/cvconfig.h"
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/opencv2/opencv_modules.hpp"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_ccalib",
+			"Module"
+		],
+		"name" : "opencv_ccalib"
+	}
+}

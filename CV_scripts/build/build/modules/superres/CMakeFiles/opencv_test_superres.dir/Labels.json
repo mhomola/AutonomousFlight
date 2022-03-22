@@ -1,0 +1,42 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/superres/test/test_main.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_superres",
+				"AccuracyTest"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/superres/test/test_superres.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_superres",
+				"AccuracyTest"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/superres/test/test_precomp.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_superres",
+				"AccuracyTest"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_superres",
+			"AccuracyTest"
+		],
+		"name" : "opencv_test_superres"
+	}
+}

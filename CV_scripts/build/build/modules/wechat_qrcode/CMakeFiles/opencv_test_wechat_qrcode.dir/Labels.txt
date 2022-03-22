@@ -1,0 +1,17 @@
+# Target labels
+ Extra
+ opencv_wechat_qrcode
+ AccuracyTest
+# Source files and their labels
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/wechat_qrcode/test/test_main.cpp
+ Extra
+ opencv_wechat_qrcode
+ AccuracyTest
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/wechat_qrcode/test/test_qrcode.cpp
+ Extra
+ opencv_wechat_qrcode
+ AccuracyTest
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/wechat_qrcode/test/test_precomp.hpp
+ Extra
+ opencv_wechat_qrcode
+ AccuracyTest

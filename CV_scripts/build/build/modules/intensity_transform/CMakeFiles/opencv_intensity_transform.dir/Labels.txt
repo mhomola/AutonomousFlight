@@ -1,0 +1,23 @@
+# Target labels
+ Extra
+ opencv_intensity_transform
+ Module
+# Source files and their labels
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/intensity_transform/include/opencv2/intensity_transform.hpp
+ Extra
+ opencv_intensity_transform
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/intensity_transform/src/bimef.cpp
+ Extra
+ opencv_intensity_transform
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/intensity_transform/src/intensity_transform.cpp
+ Extra
+ opencv_intensity_transform
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/intensity_transform/src/precomp.hpp
+ Extra
+ opencv_intensity_transform
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/cvconfig.h
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/opencv2/opencv_modules.hpp

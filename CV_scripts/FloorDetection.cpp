@@ -185,6 +185,47 @@ cv::Mat show_square_mesh(int **dims, cv::Mat image)
     return image;
 }
 
+double *getAngle(bool *go_zone_state, int first_row_len, int sq_size, int sq_margin, int screen_width, int sq_spacing)
+{
+
+    double *angles = new double[first_row_len+4];
+    for (int i = 0; i<(first_row_len-4); i++)
+    {
+        if (((int)(go_zone_state[2+i])+(int)(go_zone_state[2+i+first_row_len-1])+(int)(go_zone_state[2+i+2*first_row_len-4])) <= 1)
+        {
+            angles[i] = -90+((sq_margin+sq_size/2)+sq_spacing*(2+i))*180/screen_width;
+        }
+    }
+    return angles;
+}
+
+int get_green_row(bool *go_zone_state, int first_row_len)
+{
+
+    if (go_zone_state[-1:-first_row_len])
+    {
+        return 3;
+    }
+    else if (go_zone_state[-(first_row_len+1):-(2*first_row_len+2)])
+    {
+        return 2;
+    }
+    else if (go_zone_state[-(2*first_row_len+3):-(2*first_row_len+4)])
+    {
+        return 1;
+    }
+    return 0;
+}
+
+std::tuple<int,double *> objectDetection(cv::Mat im, int **squares, int first_row_len, int screen_width)
+{
+    bool *go_zone = new bool[nr_squares];
+    go_zone = square_mesh(squares, im);
+    int closest_green = get_green_row(go_zone, first_row_len);
+    double *angles = getAngle(go_zone, first_row_len, squares[0][2], squares[0][1], screen_width, squares[1][1]-squares[0][1]);
+    return std::make_tuple(closest_green, angles);
+}
+
 int main()
 {
     cv::Mat image, filtered_image, squares_image;
@@ -213,6 +254,7 @@ int main()
     go_zone = square_mesh(squares, filtered_image);
 
     squares_image = show_square_mesh(squares, filtered_image);
+
 
  
     // cv::namedWindow("Display Image", cv::WINDOW_AUTOSIZE);

@@ -12,6 +12,7 @@ Thijs Verkade
 
 //#include <iostream>
 
+
 #include <math.h>
 #include <Eigen/Dense> 
 using namespace Eigen;
@@ -21,24 +22,24 @@ using namespace Eigen;
 
 //for simplicity we will just do it manually:
 #define DT 0.1
-#define HORIZON 3
+#define HORIZON (int)3
 //horizon time/dt = 3/0.1 = 30 + 1 (+1 for the current time)
-#define STEPS 31
-#define MAXOBJECTS 3
-#define RESOLUTION 50
+#define STEPS (int)31
+#define MAXOBJECTS (int)3
+#define RESOLUTION (int)50
 
 //Declare matrix sizes for clarity and reducing read complexity
-typedef Matrix<float, 1, 5> x_vect;
-typedef Matrix<float, 1, 4> dw_vect;
-typedef Matrix<float, STEPS, 5> trajectory_mat;
-typedef Matrix<float, MAXOBJECTS, 2> obj_mat;
+typedef Eigen::Matrix<float, 1, 5> x_vect;
+typedef Eigen::Matrix<float, 1, 4> dw_vect;
+typedef Eigen::Matrix<float, STEPS, 5> trajectory_mat;
+typedef Eigen::Matrix<float, 2, 2> obj_mat;
 
 // Declare functions
-Matrix<float, 1, RESOLUTION> linspace(float start, float stop);
+
 
 //creating custom bit to remove std::tuple requirements
 struct u_traj {
-  Vector2f u;
+  Eigen::Vector2f u;
   trajectory_mat traj;
 };
 
@@ -51,6 +52,7 @@ trajectory_mat  predict_trajectory(const x_vect& x_init, float v, float y, const
 struct u_traj   calc_control_and_trajectory(const x_vect& x, const Vector4f& dw, const struct Config& config, const Vector2f& goal, const obj_mat& ob);
 float           calc_obstacle_cost(const trajectory_mat& trajectory,const obj_mat& ob, const struct Config& config);
 float           calc_to_goal_cost(const trajectory_mat& trajectory, const Vector2f& goal);
+Eigen::Matrix<float, 1, RESOLUTION> linspace(float start, float stop);
 
 struct Config{
     //simulation parameter class
@@ -91,8 +93,9 @@ struct DWN_run {
     float best_yaw = 0.0;
     struct Config config;
     Vector2f goal = Vector2f(2,2);
-    obj_mat ob_lst, ob_lst <<   1.0, 1.0,
-                                1.5, 1.5; //Just a basic list. Need to properly pass this in 
+    obj_mat ob_lst; 
+    ob_lst.col(0) =  {1.0, 1.0};
+    ob_lst.col(1) = {1.5, 1.5}; //Just a basic list. Need to properly pass this in 
                                 //Error on line 80 due to Dynamic not being understood as a keyword from Eigen
     Vector2f best_u = Vector2f(0,0);
     x_vect best_trajectory;
@@ -139,7 +142,7 @@ struct u_traj dwa_control(x_vect& x, const struct Config& config, const Vector2f
 // initial state [x(m), y(m), yaw(rad), v(m/s), omega(rad/s)]
 //X0 x pos
 //X1 y pos
-//X2 flight path in rad from horizontal
+//X2 flight path in rad from horizontal // maybe? look at motion
 //X3/U0 velocity
 //X4/U1 angular rate
 x_vect motion(x_vect& x, const Vector2f& u, const float dt) {
@@ -172,16 +175,16 @@ dw_vect calc_dynamic_window(x_vect& x,const struct Config& config){
 		return dw;
 }
 
-trajectory_mat predict_trajectory(const x_vect& x_init, float v, float y, const struct Config& config){
+x_vect predict_trajectory(const x_vect& x_init, float v, float y, const struct Config& config){
 		// predict trajectory with an input
-        x_vect                x;
-		trajectory_mat        trajectory;
-        trajectory.row(0)   = x_init;
-        Vector2f              u(v,y);
+        x_vect      x;
+		x_vect      trajectory;
+        trajectory  = x_init;
+        Vector2f    u = Vector2f(v,y);
 
         for (int step = 1; step != STEPS; ++step){   
-            x                       =  trajectory.row(step - 1);        
-            trajectory.row(step)    =  motion(x, u, config.dt);
+            x           =  trajectory;        
+            trajectory  =  motion(x, u, config.dt);
         }
 		return trajectory;
 }
@@ -203,11 +206,11 @@ struct u_traj calc_control_and_trajectory(const x_vect& x, const Vector4f& dw, c
     for (auto v_it = v_range.begin(); v_it != v_range.end(); ++v_it) {
         for (auto y_it = y_range.begin(); y_it != y_range.end(); ++y_it) {
 
-            auto trajectory     = predict_trajectory(x_init, *v_it, *y_it, config);
+            auto final_state    = predict_trajectory(x_init, *v_it, *y_it, config);
             //Calculate the cost
-            float to_goal_cost  = config.to_goal_cost_gain  * calc_to_goal_cost(trajectory, goal);
-            float speed_cost    = config.speed_cost_gain    * (config.max_speed - trajectory(-1, 3));
-            float ob_cost       = config.obstacle_cost_gain * calc_obstacle_cost(trajectory, ob, config);
+            float to_goal_cost  = config.to_goal_cost_gain  * calc_to_goal_cost(final_state, goal);
+            float speed_cost    = config.speed_cost_gain    * (config.max_speed - final_state(3));
+            float ob_cost       = config.obstacle_cost_gain * calc_obstacle_cost(final_state, ob, config);
 
             float final_cost    = to_goal_cost + speed_cost + ob_cost;
 
@@ -215,7 +218,7 @@ struct u_traj calc_control_and_trajectory(const x_vect& x, const Vector4f& dw, c
             if (min_cost >= final_cost) {
                 min_cost = final_cost;
                 best_u = Vector2f(*v_it, *y_it);
-                best_trajectory = trajectory;
+                best_trajectory = final_state;
                 if (abs(best_u[0]) < config.robot_stuck_flag_cons & abs(x[3]) < config.robot_stuck_flag_cons){
                     best_u[1]   = -config.max_delta_yaw_rate;
                 }
@@ -225,10 +228,10 @@ struct u_traj calc_control_and_trajectory(const x_vect& x, const Vector4f& dw, c
     return {best_u, best_trajectory};
 }
 
-float calc_obstacle_cost(const trajectory_mat& trajectory,const obj_mat& ob, const struct Config& config) {
+float calc_obstacle_cost( x_vect& trajectory, obj_mat& ob, const struct Config& config) {
 		//calc obstacle cost inf: collision
-		auto dx = trajectory.col(0) - ob.col(0);
-		auto dy = trajectory.col(1) - ob.col(1);
+		auto dx = ob.col(0) - Matrix<float, MAXOBJECTS, 2>()trajectory(0); //need to repeat trajectory for 
+		auto dy = ob.col(1) - trajectory(1);
 		auto r  = sqrt(dx.pow(2)+dy.pow(2));
 
         if (r <= config.robot_radius){

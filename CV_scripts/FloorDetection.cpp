@@ -175,6 +175,38 @@ cv::Mat show_square_mesh(int **dims, cv::Mat image)
     return image;
 }
 
+cv::Mat getAngle(cv::Mat go_zone_state, int first_row_len, int sq_size, int sq_margin, int screen_width, int sq_spacing)
+{
+
+    cv::Mat angles = new int[first_row_len+4];
+    for (int i = 0, i<(first_row_len-4), i++)
+    {
+        if (((int)(go_zone_state[2+i])+(int)(go_zone_state[2+i+first_row_len-1])+(int)(go_zone_state[2+i+2*first_row_len-4])) <= 1)
+        {
+            angles[i] = -90+((sq_margin+sq_size/2)+sq_spacing*(2+i))*180/screen_width;
+        }
+    }
+    return angles;
+}
+
+int get_green_row(cv::Mat go_zone_state, int first_row_len)
+{
+
+    if (go_zone_state[-1:-first_row_len])
+    {
+        return 0;
+    }
+    else if (go_zone_state[-(first_row_len+1):-(2*first_row_len+2)])
+    {
+        return 1;
+    }
+    else if (go_zone_state[-(2*first_row_len+3):-(2*first_row_len+4)])
+    {
+        return 2;
+    }
+    return 3;
+}
+
 int main()
 {
     cv::Mat image, filtered_image;

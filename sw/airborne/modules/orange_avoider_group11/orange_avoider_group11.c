@@ -68,7 +68,7 @@ int32_t color_count = 0;                // orange color count from color filter 
 int16_t obstacle_free_confidence = 0;   // a measure of how certain we are that the way ahead is safe.
 float heading_increment = 5.f;          // heading angle increment [deg]
 float maxDistance = 2.25;               // max waypoint displacement [m]
-
+float yaw_command_group11;
 const int16_t max_trajectory_confidence = 5; // number of consecutive negative object detections to be sure we are obstacle free
 
 /*
@@ -81,13 +81,34 @@ const int16_t max_trajectory_confidence = 5; // number of consecutive negative o
 #ifndef ORANGE_AVOIDER_VISUAL_DETECTION_ID
 #define ORANGE_AVOIDER_VISUAL_DETECTION_ID ABI_BROADCAST
 #endif
+
+#ifndef OPTICAL_FLOW_ID
+#define OPTICAL_FLOW_ID ABI_BROADCAST
+#endif
+
 static abi_event color_detection_ev;
 static void color_detection_cb(uint8_t __attribute__((unused)) sender_id,
                                int16_t __attribute__((unused)) pixel_x, int16_t __attribute__((unused)) pixel_y,
                                int16_t __attribute__((unused)) pixel_width, int16_t __attribute__((unused)) pixel_height,
                                int32_t quality, int16_t __attribute__((unused)) extra)
+                      
 {
   color_count = quality;
+}
+
+
+static abi_event optical_flow_ev;
+static void optical_flow_cb(uint8_t __attribute__((unused)) sender_id,
+                            int16_t __attribute__((unused)) now_ts,
+                            int16_t __attribute__((unused)) flow_x,
+                            int16_t __attribute__((unused)) flow_y,
+                            int16_t __attribute__((unused)) flow_der_x,
+                            int16_t __attribute__((unused)) flow_der_y,
+                            float __attribute__((unused)) noise_measurement,
+                            float __attribute__((unused)) yaw_command)
+{
+  yaw_command_group11 = yaw_command;
+
 }
 
 /*
@@ -101,6 +122,7 @@ void orange_avoider_init(void)
 
   // bind our colorfilter callbacks to receive the color filter outputs
   AbiBindMsgVISUAL_DETECTION(ORANGE_AVOIDER_VISUAL_DETECTION_ID, &color_detection_ev, color_detection_cb);
+  AbiBindMsgOPTICAL_FLOW(OPTICAL_FLOW_ID, &optical_flow_ev, optical_flow_cb);
 }
 
 /*
@@ -113,31 +135,15 @@ void orange_avoider_periodic(void)
     return;
   }
 
-  // compute current color thresholds
-  int32_t color_count_threshold = oa_color_count_frac * front_camera.output_size.w * front_camera.output_size.h;
-
-  // VERBOSE_PRINT("Color_count: %d  threshold: %d state: %d \n", color_count, color_count_threshold, navigation_state);
-
-  // // update our safe confidence using color threshold
-  // if(color_count < color_count_threshold){
-  //   obstacle_free_confidence++;
-  // } else {
-  //   obstacle_free_confidence -= 2;  // be more cautious with positive obstacle detections
-  // }
-
-  // // bound obstacle_free_confidence
-  // Bound(obstacle_free_confidence, 0, max_trajectory_confidence);
-
-  
   
   // group11
-  float yaw_command;
-  yaw_command = yaw_command_group11;
-  fprintf(stderr, "Yaw command - navigation = %f \n", yaw_command);
+  // float yaw_command;
+  // yaw_command = yaw_command_group11;
+  fprintf(stderr, "Yaw command - navigation = %f \n", yaw_command_group11);
   increase_nav_heading(yaw_command_group11 * GAIN_YAW);
 
   // Calculate future position of WP:
-  float moveDistance = 0.2 * (1 - fabs(yaw_command));
+  float moveDistance =  (1 - fabs(yaw_command_group11));
   moveWaypointForward(WP_TRAJECTORY, moveDistance);
   
   if (!InsideObstacleZone(WaypointX(WP_TRAJECTORY),WaypointY(WP_TRAJECTORY))){
@@ -147,7 +153,6 @@ void orange_avoider_periodic(void)
   }
   
   
-
   switch (navigation_state){
     case SAFE:
       // Move waypoint forward
@@ -163,7 +168,7 @@ void orange_avoider_periodic(void)
       increase_nav_heading(heading_increment);
       moveWaypointForward(WP_TRAJECTORY, 1.5f);
 
-      printf("entered the OUT_OF_BOUNDS_LOOP!!!!!!!!!");
+      printf("OUT_OF_BOUNDS_LOOP\n");
 
       if (InsideObstacleZone(WaypointX(WP_TRAJECTORY),WaypointY(WP_TRAJECTORY))){
         // add offset to head back into arena

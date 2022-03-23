@@ -75,12 +75,12 @@ bool filter_color_square(cv::Mat sq, ushort y_low, ushort y_high, ushort u_low, 
     cv::Mat image_sq, YUV_sq;
     cv::resize(sq, image_sq, cv::Size(round(sq.cols / resize_factor), round(sq.rows / resize_factor)));
     cv::cvtColor(image_sq, YUV_sq, cv::COLOR_BGR2YUV);
-    int rows_sq = (int) YUV_sq.rows;
-    int cols_sq = (int) YUV_sq.cols;
+    ushort rows_sq = (int) YUV_sq.rows;
+    ushort cols_sq = (int) YUV_sq.cols;
 
     cv::Vec3b color_sq;
 
-    int sum_sq = 0;
+    ushort sum_sq = 0;
     int total_size_sq = rows_sq * cols_sq;
 
     for(int y=0; y<cols_sq; y++)
@@ -161,15 +161,14 @@ bool *square_mesh(int **dims, cv::Mat image)
     {
         square = image(cv::Range(dims[i][0], dims[i][0] + size), cv::Range(dims[i][1], dims[i][1] + size));
         outcome = (filter_color_square(square, 70, 90, 100, 130, 100, 135, 1, 0.5) or is_carpet(dims[i], image));
-        // 
         go_zone[i] = outcome;
     }
     return go_zone;
 }
 
-cv::Mat show_square_mesh(int **dims, cv::Mat image)
+cv::Mat show_square_mesh(int **dims, bool *array_squares, cv::Mat image)
 {
-    bool *array_squares = square_mesh(dims, image);
+    // bool *array_squares = square_mesh(dims, image);
     int size = dims[0][2];
     for (int i=0; i<nr_squares; i++)
     {
@@ -228,46 +227,46 @@ int get_green_row(bool *go_zone_state, int first_row_len)
     return 0;
 }
 
-std::tuple<int,double *> objectDetection(cv::Mat im, int **squares, int first_row_len, int screen_width)
+std::tuple<int,double *> objectDetection(cv::Mat im)
 {
-    bool *go_zone = new bool[nr_squares];
-    go_zone = square_mesh(squares, im);
-    int closest_green = get_green_row(go_zone, first_row_len);
-    double *angles = getAngle(go_zone, first_row_len, squares[0][2], squares[0][1], screen_width, squares[1][1]-squares[0][1]);
-    return std::make_tuple(closest_green, angles);
-}
+    cv::Mat filtered_image, squares_image;
 
-int main()
-{
-    cv::Mat image, filtered_image, squares_image;
-    image = cv::imread("./../../../Data/cyberzoo_poles/2_original.jpg", 1);
-    // std::cout<<"Size before:"<<cv::Size(round(image.cols / 3), round(image.rows / 3));
+    // image = cv::imread("./../Data/cyberzoo_poles/2_original.jpg", 1);
 
-    filtered_image = filter_color(image, 70, 90, 100, 130, 100, 135, 1);
+    // filtered_image = filter_color(im, 70, 90, 100, 130, 100, 135, 1);
 
     int **squares = new int*[nr_squares];
     for (int h = 0; h < nr_squares; h++)
     {
         squares[h] = new int[3];
     }
-    squares = gen_squares(image.rows, image.cols);
-
-    // for (int i=0; i<nr_squares; i++)
-    // {
-    //     for (int j=0; j<3; j++)
-    //     {
-    //         std::cout<<squares[i][j]<<"  ";
-    //     }
-    //     std::cout<<"\n";
-    // }
+    squares = gen_squares(im.rows, im.cols);
 
     bool *go_zone = new bool[nr_squares];
-    go_zone = square_mesh(squares, image);
+    go_zone = square_mesh(squares, im);
+    // for (int i=0; i<nr_squares; i++)
+    // {
+    //     std::cout<<go_zone[i]<<" ";
+    // }
 
-    squares_image = show_square_mesh(squares, image);
+    int closest_green = get_green_row(go_zone, img_per_row);
+    double *angles = getAngle(go_zone, img_per_row, squares[0][2], squares[0][1], im.cols, squares[1][1]-squares[0][1]);
 
+    squares_image = show_square_mesh(squares, go_zone, im);
+
+    cv::namedWindow("Squares Image", cv::WINDOW_AUTOSIZE);
+    cv::imshow("Squares Image", squares_image);
+    cv::waitKey(0);
+
+    return std::make_tuple(closest_green, angles);
+}
+
+int main()
+{
+    cv::Mat image;
+    image = cv::imread("./../Data/cyberzoo_poles/2_original.jpg", 1);
     std::tuple<int, double*> test;
-    test = objectDetection(image, squares, img_per_row, image.cols);
+    test = objectDetection(image);
     double *angles = std::get<1>(test);
     std::cout<<"The get_green_row:"<<std::get<0>(test);
     std::cout<<"\n Angles:";
@@ -275,13 +274,51 @@ int main()
     {
         std::cout<<angles[i]<<" ";
     }
+    // std::cout<<"Size before:"<<cv::Size(round(image.cols / 3), round(image.rows / 3));
+
+    // filtered_image = filter_color(image, 70, 90, 100, 130, 100, 135, 1);
+
+    // int **squares = new int*[nr_squares];
+    // for (int h = 0; h < nr_squares; h++)
+    // {
+    //     squares[h] = new int[3];
+    // }
+    // squares = gen_squares(image.rows, image.cols);
+
+    // // for (int i=0; i<nr_squares; i++)
+    // // {
+    // //     for (int j=0; j<3; j++)
+    // //     {
+    // //         std::cout<<squares[i][j]<<"  ";
+    // //     }
+    // //     std::cout<<"\n";
+    // // }
+
+    // bool *go_zone = new bool[nr_squares];
+    // go_zone = square_mesh(squares, image);
+    // for (int i=0; i<nr_squares; i++)
+    // {
+    //     std::cout<<go_zone[i]<<" ";
+    // }
+
+    // squares_image = show_square_mesh(squares, go_zone, image);
+
+    // std::tuple<int, double*> test;
+    // test = objectDetection(image, go_zone, squares, img_per_row, image.cols);
+    // double *angles = std::get<1>(test);
+    // std::cout<<"The get_green_row:"<<std::get<0>(test);
+    // std::cout<<"\n Angles:";
+    // for (int i=0; i<(img_per_row-4); i++)
+    // {
+    //     std::cout<<angles[i]<<" ";
+    // }
  
-    // cv::namedWindow("Display Image", cv::WINDOW_AUTOSIZE);
-    // cv::imshow("Display Image", image);
-    // cv::namedWindow("Filtered Image", cv::WINDOW_AUTOSIZE);
-    // cv::imshow("Filtered Image", filtered_image);
-    cv::namedWindow("Squares Image", cv::WINDOW_AUTOSIZE);
-    cv::imshow("Squares Image", squares_image);
-    cv::waitKey(0);
+    // // cv::namedWindow("Display Image", cv::WINDOW_AUTOSIZE);
+    // // cv::imshow("Display Image", image);
+    // // cv::namedWindow("Filtered Image", cv::WINDOW_AUTOSIZE);
+    // // cv::imshow("Filtered Image", filtered_image);
+    // cv::namedWindow("Squares Image", cv::WINDOW_AUTOSIZE);
+    // cv::imshow("Squares Image", squares_image);
+    // cv::waitKey(0);
     return 0;
 }

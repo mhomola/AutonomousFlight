@@ -6,5 +6,5 @@ CXX_FLAGS =
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -isystem /home/tudor/build -isystem /home/tudor/opencv-4.x/include -isystem /home/tudor/opencv-4.x/modules/core/include -isystem /home/tudor/opencv-4.x/modules/flann/include -isystem /home/tudor/opencv-4.x/modules/imgproc/include -isystem /home/tudor/opencv-4.x/modules/ml/include -isystem /home/tudor/opencv-4.x/modules/photo/include -isystem /home/tudor/opencv-4.x/modules/dnn/include -isystem /home/tudor/opencv-4.x/modules/features2d/include -isystem /home/tudor/opencv-4.x/modules/imgcodecs/include -isystem /home/tudor/opencv-4.x/modules/videoio/include -isystem /home/tudor/opencv-4.x/modules/calib3d/include -isystem /home/tudor/opencv-4.x/modules/highgui/include -isystem /home/tudor/opencv-4.x/modules/objdetect/include -isystem /home/tudor/opencv-4.x/modules/stitching/include -isystem /home/tudor/opencv-4.x/modules/ts/include -isystem /home/tudor/opencv-4.x/modules/video/include -isystem /home/tudor/opencv-4.x/modules/gapi/include 
+CXX_INCLUDES = -isystem /usr/local/include/opencv4 
 

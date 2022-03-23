@@ -188,7 +188,7 @@ cv::Mat show_square_mesh(int **dims, cv::Mat image)
 double *getAngle(bool *go_zone_state, int first_row_len, int sq_size, int sq_margin, int screen_width, int sq_spacing)
 {
 
-    double *angles = new double[first_row_len+4];
+    double *angles = new double[first_row_len-4];
     for (int i = 0; i<(first_row_len-4); i++)
     {
         if (((int)(go_zone_state[2+i])+(int)(go_zone_state[2+i+first_row_len-1])+(int)(go_zone_state[2+i+2*first_row_len-4])) <= 1)
@@ -201,28 +201,45 @@ double *getAngle(bool *go_zone_state, int first_row_len, int sq_size, int sq_mar
 
 int get_green_row(bool *go_zone_state, int first_row_len)
 {
+    int count = 0;
     for (int i=nr_squares - 1; i >= nr_squares - first_row_len; i--)
     {
         if (go_zone_state[i])
         {
-            return 3;
+            count++;
         }
     }
 
+    if (count == first_row_len){
+        return 3;
+    }
+
+    count = 0;
+
     for (int i=nr_squares - (first_row_len+1); i >= nr_squares - (2*first_row_len+2); i--)
     {
-        if (go_zone_state[i])
+       if (go_zone_state[i])
         {
-            return 2;
+            count++;
         }
     }
+
+    if (count == (first_row_len+2)){
+        return 2;
+    }
+
+    count = 0;
 
     for (int i=nr_squares - (2*first_row_len+3); i >= 0; i--)
     {
         if (go_zone_state[i])
         {
-            return 1;
+            count++;
         }
+    }
+
+    if (count == (first_row_len+4)){
+        return 1;
     }
 
     return 0;
@@ -232,15 +249,20 @@ std::tuple<int,double *> objectDetection(cv::Mat im, int **squares, int first_ro
 {
     bool *go_zone = new bool[nr_squares];
     go_zone = square_mesh(squares, im);
-    int closest_green = get_green_row(go_zone, first_row_len);
+    int closest_green = get_green_row(go_zone, first_row_len-6);
     double *angles = getAngle(go_zone, first_row_len, squares[0][2], squares[0][1], screen_width, squares[1][1]-squares[0][1]);
+    std::cout<<"\n go_zone: ";
+    for (int i=0; i<(nr_squares); i++)
+    {
+        std::cout<<go_zone[i]<<" ";
+    }
     return std::make_tuple(closest_green, angles);
 }
 
 int main()
 {
     cv::Mat image, filtered_image, squares_image;
-    image = cv::imread("./../../../Data/cyberzoo_poles/2_original.jpg", 1);
+    image = cv::imread("./../Data/cyberzoo_poles/2_original.jpg", 1);
     // std::cout<<"Size before:"<<cv::Size(round(image.cols / 3), round(image.rows / 3));
 
     filtered_image = filter_color(image, 70, 90, 100, 130, 100, 135, 1);
@@ -261,20 +283,22 @@ int main()
     //     std::cout<<"\n";
     // }
 
-    bool *go_zone = new bool[nr_squares];
-    go_zone = square_mesh(squares, image);
+    //bool *go_zone = new bool[nr_squares];
+    //go_zone = square_mesh(squares, image);
 
-    squares_image = show_square_mesh(squares, image);
+    //squares_image = show_square_mesh(squares, image);
 
     std::tuple<int, double*> test;
     test = objectDetection(image, squares, img_per_row, image.cols);
     double *angles = std::get<1>(test);
-    std::cout<<"The get_green_row:"<<std::get<0>(test);
+    std::cout<<"The get_green_row: "<<std::get<0>(test);
     std::cout<<"\n Angles:";
     for (int i=0; i<(img_per_row-4); i++)
     {
         std::cout<<angles[i]<<" ";
     }
+
+    squares_image = show_square_mesh(squares, image);
  
     // cv::namedWindow("Display Image", cv::WINDOW_AUTOSIZE);
     // cv::imshow("Display Image", image);

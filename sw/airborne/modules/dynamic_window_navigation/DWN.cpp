@@ -37,7 +37,6 @@ typedef Eigen::Matrix<float, 1, 4> dw_vect;
 typedef Eigen::Matrix<float, MAXOBJECTS, 2> obj_mat;
 typedef Eigen::Array<float, MAXOBJECTS, 1> obj_arr;
 
-// Declare functions
 
 
 //creating custom bit to remove std::tuple requirements
@@ -84,6 +83,63 @@ struct Config{
 
 //arange equivelent function
 
+
+//C++ wrapper function
+
+float best_v = 0.0;
+float best_yaw = 0.0;
+struct Config config;
+Eigen::Vector2f goal; 
+obj_mat ob_lst; //Just a basic list. Need to properly pass this in 
+                            //Error on line 80 due to Dynamic not being understood as a keyword from Eigen
+
+x_vect best_trajectory;
+x_vect x_vector;
+
+Eigen::Vector2f best_u;
+
+void DWN_wrapper_init() {
+    ob_lst <<   1.f, 1.f,
+                1.5f, 1.5f,
+                2.5f, 2.5f;
+    goal        = Eigen::Vector2f(2,2);
+    best_u      = Eigen::Vector2f(0,0);
+}
+
+
+void update_dwn(float x, float y, float angle, float goal_x, float goal_y){
+    x_vector << x, y, angle, best_u(0), best_u(1);
+    goal(0) = goal_x;
+    goal(1) = goal_y;
+    dw_vect dw_update = calc_dynamic_window(x_vector,config);
+    auto [best_u, best_trajectory] = calc_control_and_trajectory(x_vector, dw_update, config, goal, ob_lst);
+}
+
+float get_speed(){
+return best_u(0);
+}
+
+float get_yawrate(){
+    return best_u(1);
+}
+
+
+
+
+//C wrapper conversion function
+/*
+void DWN_wrapper_init()
+
+void updt_dwn(float x, float y, float angle, float goal_x, float goal_y) {
+    return DWN_wrapper.update_dwn( x, y, angle, goal_x, goal_y);
+}
+float gt_spd(){
+    return DWN_wrapper.get_speed();
+}
+float gt_ywrt(){
+    return DWN_wrapper.get_yawrate();
+}*/
+
 Eigen::Matrix<float, 1, RESOLUTION> linspace(float start, float stop) {
     Eigen::Matrix<float, 1, RESOLUTION> values;
     int i = 0;
@@ -101,60 +157,6 @@ std::vector<T> arange(T start, T stop, T step) {
     return values;
 }
 
-//C++ wrapper function
-struct DWN_run {
-    float best_v = 0.0;
-    float best_yaw = 0.0;
-    struct Config config;
-    Eigen::Vector2f goal; 
-    obj_mat ob_lst; //Just a basic list. Need to properly pass this in 
-                                //Error on line 80 due to Dynamic not being understood as a keyword from Eigen
-
-    x_vect best_trajectory;
-    x_vect x_vector;
-
-    Eigen::Vector2f best_u;
-
-    void DWN_wrapper_init() {
-            ob_lst(0,0) = 1.0f;
-            ob_lst(0,1) = 1.0f;
-            ob_lst(1,0) = 1.5f;
-            ob_lst(1,1) = 1.5f;
-            ob_lst(2,0) = 2.5f;
-            ob_lst(2,1) = 2.5f;
-            goal        = Eigen::Vector2f(2,2);
-            best_u      = Eigen::Vector2f(0,0);
-    }
-    
-
-    void update_dwn(float x, float y, float angle, float goal_x, float goal_y){
-        x_vector << x, y, angle, best_u(0), best_u(1);
-        goal(0) = goal_x;
-        goal(1) = goal_y;
-        dw_vect dw_update = calc_dynamic_window(x_vector,config);
-        auto [best_u, best_trajectory] = calc_control_and_trajectory(x_vector, dw_update, config, goal, ob_lst);
-    }
-
-    float get_speed(){
-        return best_u(0);
-    }
-
-    float get_yawrate(){
-        return best_u(1);
-    }
-};
-
-//C wrapper conversion function
-/*
-void updt_dwn(float x, float y, float angle, float goal_x, float goal_y) {
-    return DWN_run->update_dwn( x, y, angle, goal_x, goal_y);
-}
-float gt_spd(){
-    return DWN_run->get_speed();
-}
-float gt_ywrt(){
-    return DWN_run->get_yawrate();
-}*/
 
 struct u_traj dwa_control(x_vect& x, const struct Config& config, const Eigen::Vector2f& goal, const obj_mat& ob) {
     //Top level control function
@@ -196,7 +198,6 @@ dw_vect calc_dynamic_window(x_vect& x,const struct Config& config){
 		};
 
 		// [v_min, v_max, yaw_rate_min, yaw_rate_max]
-        //TODO check that std works
 		dw_vect dw(std::max(Vs(0), Vd(0)), std::min(Vs(1), Vd(1)), std::max(Vs(2), Vd(2)), std::min(Vs(3), Vd(3)));
 
 		return dw;
@@ -267,19 +268,8 @@ float calc_obstacle_cost(const x_vect& final_state,const obj_mat& ob, const stru
         for (int ob_num = 0; ob_num != MAXOBJECTS; ++ob_num){
             dx(ob_num) = ob(ob_num, 0) - final_state(0);
             dy(ob_num) = ob(ob_num, 1) - final_state(1);
-        }
-		// auto dx = ob.col(0) - Eigen::Matrix<float, MAXOBJECTS, 2>()trajectory(0); //need to repeat trajectory for 
-		// auto dy = ob.col(1) - trajectory(1);//Eigen says this should work but it don't
-
-        
-        
+        }     
         obj_arr r = (dx.pow(2)+dy.pow(2)).sqrt();
-
-        // Eigen::Array<float, MAXOBJECTS,1>  dxx = dx.pow(2);
-        // Eigen::Array<float, MAXOBJECTS,1>  dyy =dy.pow(2);
-        // Eigen::Array<float, MAXOBJECTS,1>  dxy = dxx+dyy;
-		// Eigen::Array<float, MAXOBJECTS,1>  r  = dxy.sqrt();
-
 
         for (int ob_num = 0; ob_num != MAXOBJECTS; ++ob_num){
             if (r(ob_num) <= config.robot_radius){

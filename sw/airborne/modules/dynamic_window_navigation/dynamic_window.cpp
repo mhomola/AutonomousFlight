@@ -52,7 +52,7 @@ enum navigation_state_t {
 
 // define and initialise global variables
 enum navigation_state_t navigation_state = NAVIGATING;
-
+//struct DWN_wrapper DWNhost;
 
 /*
  * This next section defines an ABI messaging event (http://wiki.paparazziuav.org/wiki/ABI), necessary

@@ -26,29 +26,22 @@
  *
  */
 
+
 #ifndef DWN_H
 #define DWN_H
+//#include "modules/dynamic_window_navigation/DWN.cpp"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "modules/ahrs/ahrs.h"
-#include "modules/ins/ins.h"
+//DWN_wrapper DWNhost;
 
 extern void DWN_wrapper_init();
 extern void update_dwn(float x, float y, float angle, float goal_x, float goal_y);
 extern float get_speed();
 extern float get_yawrate();
-// extern struct u_traj   dwa_control(x_vect& x, const struct Config& config, const Eigen::Vector2f& goal, const obj_mat& ob);
-// extern x_vect          motion(x_vect& x, const Eigen::Vector2f& u, const float dt);
-// extern dw_vect         calc_dynamic_window(x_vect& x,const struct Config& config);
-// extern x_vect          predict_trajectory(const x_vect& x_init, float v, float y, const struct Config& config);
-// extern struct u_traj   calc_control_and_trajectory(const x_vect& x, const Eigen::Vector4f& dw, const struct Config& config, const Eigen::Vector2f& goal, const obj_mat& ob);
-// extern float           calc_obstacle_cost(const x_vect& final_state,const obj_mat& ob, const struct Config& config);
-// extern float           calc_to_goal_cost(const x_vect& final_state, const Eigen::Vector2f& goal);
-// extern Eigen::Matrix<float, 1, RESOLUTION> linspace(float start, float stop);
-// extern std::vector<T> arange(T start, T stop, T step = 1);
+
 
 
 #ifdef __cplusplus

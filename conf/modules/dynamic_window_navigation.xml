@@ -6,11 +6,11 @@
       This is based on the orange avoider module
     </description>
   </doc>
-    <settings>
-  </settings>
-  
+  <!-- <settings>
+  </settings> -->
+<!--   
   <dep>
-  </dep>
+  </dep> -->
   <header>
     <file name="dynamic_window.h"/>
   </header>

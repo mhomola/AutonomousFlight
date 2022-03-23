@@ -155,7 +155,7 @@ float get_heading_command(struct flow_t *vectors, int count, int img_size, int s
      (float)vectors[i].flow_y * (float)vectors[i].flow_y;
 
     //first check that local_flow_sq is not huge
-    if (local_flow_sq < local_threshold && vectors[i].error < 1E3) {
+    if (local_flow_sq < local_threshold && vectors[i].error < 5E2) {
 
       // printf("(%d, %d): flow error: %d \n", vectors[i].pos.x, vectors[i].pos.y, vectors[i].error);
 
@@ -178,11 +178,11 @@ float get_heading_command(struct flow_t *vectors, int count, int img_size, int s
   yaw_command = (flow_l - flow_r)/(flow_l + flow_r);
   // printf(" %d + %d (l/r) samples\n", count_l, count_r);
 
-  if (isnan(yaw_command) || (fabs(yaw_command) < YAW_THRESHOLD) || flow_l < 10.0  || flow_r < 10.0)
+  if (isnan(yaw_command) || (fabs(yaw_command) < YAW_THRESHOLD) || flow_l < 10.0 || flow_r < 10.0)
     return 0.0;
 
   // printf(">>>>>>>>> l:%f r%f   Yaw command: %f \n\n\n",flow_l, flow_r, yaw_command);
-  fprintf(stderr, ">>>>>>>>> l:%f r%f   Yaw command: %f \n\n\n",flow_l, flow_r, yaw_command);
+  fprintf(stderr, ">>>>>>>>> l:%f r%f   Yaw command -- vision: %f \n\n\n",flow_l, flow_r, yaw_command);
   return yaw_command;
 
 }

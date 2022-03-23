@@ -14,7 +14,6 @@
 #define DYNAMIC_WINDOW_H
 
 // settings
-extern float oa_color_count_frac;
 
 // functions
 extern void dynamic_window_init(void);

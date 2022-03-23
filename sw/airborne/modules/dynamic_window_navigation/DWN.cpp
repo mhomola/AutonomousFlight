@@ -57,7 +57,8 @@ float           calc_obstacle_cost(const x_vect& final_state,const obj_mat& ob, 
 float           calc_to_goal_cost(const x_vect& final_state, const Eigen::Vector2f& goal);
 Eigen::Matrix<float, 1, RESOLUTION> linspace(float start, float stop);
 template<typename T>
-std::vector<T> arange(T start, T stop, T step = 1);
+std::vector<T>  arange(T start, T stop, T step = 1);
+Eigen::Vector2f obs_pos(float heading_angle, int floor_pixels, float psi);
 
 struct Config{
     //simulation parameter class
@@ -258,7 +259,7 @@ struct u_traj calc_control_and_trajectory(const x_vect& x, const Eigen::Vector4f
     return {best_u, best_trajectory};
 }
 
-float calc_obstacle_cost( x_vect& final_state, obj_mat& ob, const struct Config& config) {
+float calc_obstacle_cost(const x_vect& final_state,const obj_mat& ob, const struct Config& config) {
 		//calc obstacle cost inf: collision
         obj_arr dx;
         obj_arr dy;
@@ -303,16 +304,25 @@ float calc_obstacle_cost( x_vect& final_state, obj_mat& ob, const struct Config&
 
 float calc_to_goal_cost(const x_vect& final_state, const Eigen::Vector2f& goal){
     //calc to goal cost with angle difference
-    float goalx = goal(0);
-    float goaly = goal(1);
-    float finalx = final_state(0);
-    float finaly = final_state(1);
-    // float dx             = goal(0) - final_state(0);
-    // float dy             = goal(1) - final_state(1);
-    float dx = goalx - finalx;
-    float dy = goaly - finaly;
+
+    float dx            = goal(0) - final_state(0);
+    float dy            = goal(1) - final_state(1);
     auto error_angle    = std::atan2(dy, dx);
     auto cost_angle     = error_angle - final_state(2);
     float cost          = std::abs(std::atan2(std::sin(cost_angle),std::cos(cost_angle)));
     return cost;
+}
+
+
+Eigen::Vector2f obs_pos(float heading_angle, int floor_pixels, float psi)
+{
+  (void)floor_pixels;
+  float angle = psi + heading_angle;
+  //place object in that direction
+  float d = 1.0; //[m] //distance to object
+  float object_x = d*cos(angle);
+  float object_y = d*sin(angle);
+  Eigen::Vector2f object_pos = {object_x, object_y};
+
+  return object_pos;
 }

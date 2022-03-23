@@ -5,24 +5,17 @@
     <description>
       This is based on the orange avoider module
     </description>
-    <define name="ORANGE_AVOIDER_VISUAL_DETECTION_ID" value="ABI_BROADCAST" description="which VISUAL_DETECTION message to recieve for orange pole detection."/>
   </doc>
     <settings>
-    <dl_settings>
-      <dl_settings name="OrangeAvoider">
-         <dl_setting var="oa_color_count_frac" min="0" step="0.01" max="0.5"/>
-      </dl_settings>
-    </dl_settings>
   </settings>
   
   <dep>
-    <depends>cv_detect_color_object</depends>
   </dep>
   <header>
     <file name="dynamic_window.h"/>
   </header>
   <init fun="dynamic_window_init()"/>
-  <periodic fun="dynamic_window_periodic()" freq="15"/>
+  <periodic fun="dynamic_window_periodic()" freq="4"/>
   <makefile target="ap|nps">
     <configure name="CXXSTANDARD" value="-std=c++17"/>
     <flag name="CXXFLAGS" value="Wno-int-in-bool-context -Wno-deprecated-copy"/>

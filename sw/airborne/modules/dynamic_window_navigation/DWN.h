@@ -36,6 +36,10 @@ extern "C" {
 #include "modules/ahrs/ahrs.h"
 #include "modules/ins/ins.h"
 
+extern void DWN_wrapper_init();
+extern void update_dwn(float x, float y, float angle, float goal_x, float goal_y);
+extern float get_speed();
+extern float get_yawrate();
 // extern struct u_traj   dwa_control(x_vect& x, const struct Config& config, const Eigen::Vector2f& goal, const obj_mat& ob);
 // extern x_vect          motion(x_vect& x, const Eigen::Vector2f& u, const float dt);
 // extern dw_vect         calc_dynamic_window(x_vect& x,const struct Config& config);

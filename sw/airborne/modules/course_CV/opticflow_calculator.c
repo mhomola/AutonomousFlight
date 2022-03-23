@@ -591,8 +591,6 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
 
           }
     }
-
-    
   }
 
   // Show corners on the video recording:
@@ -779,7 +777,7 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
           vectors[i].flow_x -= predicted_flow_vectors[i].flow_x;
           vectors[i].flow_y -= predicted_flow_vectors[i].flow_y;
         }
-        // printf("Opticflow vectors: %d \n", vectors[0].flow_x);
+
 
         // vectors have to be re-sorted after derotation:
         qsort(vectors, result->tracked_cnt, sizeof(struct flow_t), cmp_flow);
@@ -805,7 +803,8 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
 
     if (strcmp(opticflow->camera->dev_name, front_camera.dev_name) == 0)
   { 
-    // printf("W,H: %d, %d", opticflow->prev_img_gray.w, opticflow->prev_img_gray.h);
+
+
     cur_yaw_command = get_heading_command(vectors, result->tracked_cnt, opticflow->prev_img_gray.h, opticflow->subpixel_factor);
     result->yaw_command = opticflow->alpha * cur_yaw_command + (1-opticflow->alpha) * result->yaw_command;
 

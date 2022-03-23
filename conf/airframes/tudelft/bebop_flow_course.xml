@@ -85,7 +85,7 @@
         <define name="OPTICFLOW_CAMERA2" value="front_camera"/>
         <define name="OPTICFLOW_DEROTATION_CORRECTION_FACTOR_X_CAMERA2" value="0.8"/> <!--Obtained from a linefit-->
         <define name="OPTICFLOW_DEROTATION_CORRECTION_FACTOR_Y_CAMERA2" value="0.85"/> <!--Obtained from a linefit-->
-        <define name="OPTICFLOW_MAX_TRACK_CORNERS_CAMERA2" value="30"/>
+        <!-- <define name="OPTICFLOW_MAX_TRACK_CORNERS_CAMERA2" value="100"/> -->
         <define name="OPTICFLOW_FEATURE_MANAGEMENT_CAMERA2" value="0"/>
         <define name="OPTICFLOW_FPS_CAMERA2" value="30"/>
         <define name="OPTICFLOW_SHOW_FLOW_CAMERA2" value="1"/>

@@ -33,7 +33,7 @@
 #include <stdlib.h>
 #include <state.h>
 
-// Own Header
+// Own Header group 11
 #include "opticflow_calculator.h"
 
 // Computer Vision
@@ -808,7 +808,7 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
     cur_yaw_command = get_heading_command(vectors, result->tracked_cnt, opticflow->prev_img_gray.h, opticflow->subpixel_factor);
     result->yaw_command = opticflow->alpha * cur_yaw_command + (1-opticflow->alpha) * result->yaw_command;
 
-    
+    yaw_command_group11 = result->yaw_command;
 
   }
 

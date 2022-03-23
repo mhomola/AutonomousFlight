@@ -184,15 +184,17 @@ cv::Mat show_square_mesh(int **dims, bool *array_squares, cv::Mat image)
     return image;
 }
 
-double *getAngle(bool *go_zone_state, int first_row_len, int sq_size, int sq_margin, int screen_width, int sq_spacing)
+std::vector<float> getAngle(bool *go_zone_state, int first_row_len, int sq_size, int sq_margin, int screen_width, int sq_spacing)
 {
 
-    double *angles = new double[first_row_len+4];
+    std::vector<float> angles;
+    int angle;
     for (int i = 0; i<(first_row_len-4); i++)
     {
         if (((int)(go_zone_state[2+i])+(int)(go_zone_state[2+i+first_row_len-1])+(int)(go_zone_state[2+i+2*first_row_len-4])) <= 1)
         {
-            angles[i] = -90+((sq_margin+sq_size/2)+sq_spacing*(2+i))*180/screen_width;
+            angle = -90+((sq_margin+sq_size/2)+sq_spacing*(2+i))*180/screen_width;
+            angles.push_back(angle);
         }
     }
     return angles;
@@ -227,7 +229,7 @@ int get_green_row(bool *go_zone_state, int first_row_len)
     return 0;
 }
 
-std::tuple<int,double *> objectDetection(cv::Mat im)
+std::tuple<int,std::vector<float>> objectDetection(cv::Mat im)
 {
     cv::Mat filtered_image, squares_image;
 
@@ -250,7 +252,7 @@ std::tuple<int,double *> objectDetection(cv::Mat im)
     // }
 
     int closest_green = get_green_row(go_zone, img_per_row);
-    double *angles = getAngle(go_zone, img_per_row, squares[0][2], squares[0][1], im.cols, squares[1][1]-squares[0][1]);
+    std::vector<float> angles = getAngle(go_zone, img_per_row, squares[0][2], squares[0][1], im.cols, squares[1][1]-squares[0][1]);
 
     squares_image = show_square_mesh(squares, go_zone, im);
 
@@ -265,12 +267,12 @@ int main()
 {
     cv::Mat image;
     image = cv::imread("./../Data/cyberzoo_poles/2_original.jpg", 1);
-    std::tuple<int, double*> test;
+    std::tuple<int, std::vector<float>> test;
     test = objectDetection(image);
-    double *angles = std::get<1>(test);
+    std::vector<float> angles = std::get<1>(test);
     std::cout<<"The get_green_row:"<<std::get<0>(test);
     std::cout<<"\n Angles:";
-    for (int i=0; i<(img_per_row-4); i++)
+    for (int i=0; i<(angles.size()); i++)
     {
         std::cout<<angles[i]<<" ";
     }

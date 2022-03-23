@@ -36,12 +36,12 @@
 
 // TODO: Check this threshold of outputting a yaw command
 #ifndef THRESHOLD
-#define YAW_THRESHOLD 0.15
+#define YAW_THRESHOLD 0.1f
 #endif
 
 //Ignore noise threshold
 #ifndef FLOW_THRESHOLD
-#define FLOW_THRESHOLD 4.f
+#define FLOW_THRESHOLD 5.f
 #endif
 
 
@@ -147,16 +147,18 @@ float get_heading_command(struct flow_t *vectors, int count, int img_size, int s
   float flow_l =0.f, flow_r =0.f, yaw_command=0.f, local_flow_sq =0.f;
   float local_threshold = FLOW_THRESHOLD * (float)subpixel_factor;
   
-  for(i=0; i < count; i++)
+  for(i = 1; i < count; i++)
   { 
     // Calculate the squarred flow:
     local_flow_sq = (float)vectors[i].flow_x * (float)vectors[i].flow_x +\
      (float)vectors[i].flow_y * (float)vectors[i].flow_y;
 
     //first check that local_flow_sq is not huge
-    if (local_flow_sq < local_threshold) {
-      printf("(%d, %d): local flow sq: %f \n", vectors[i].pos.x, vectors[i].pos.y,local_flow_sq);
-      if (vectors[i].pos.y < img_size/2 *subpixel_factor){
+    if (local_flow_sq < local_threshold && vectors[i].error < 1E3) {
+
+      // printf("(%d, %d): flow error: %d \n", vectors[i].pos.x, vectors[i].pos.y, vectors[i].error);
+
+      if (vectors[i].pos.y < img_size/2 * subpixel_factor){
         count_l++;
         flow_l+= local_flow_sq ; 
       }
@@ -166,7 +168,7 @@ float get_heading_command(struct flow_t *vectors, int count, int img_size, int s
       }
     }
     else
-        break;  // vectors are in ascending order
+        break;  // vectors are in ascending order of their magnitude
   }
   count_l = (float)(count_l);
   count_r = (float)(count_r);
@@ -175,7 +177,7 @@ float get_heading_command(struct flow_t *vectors, int count, int img_size, int s
   yaw_command = (flow_l - flow_r)/(flow_l + flow_r);
   // printf(" %d + %d (l/r) samples\n", count_l, count_r);
 
-  if (isnan(yaw_command) || (fabs(yaw_command) < YAW_THRESHOLD) || flow_l < 20.0  || flow_r < 20.0)
+  if (isnan(yaw_command) || (fabs(yaw_command) < YAW_THRESHOLD) || flow_l < 10.0  || flow_r < 10.0)
     return 0.0;
 
   printf(">>>>>>>>> l:%f r%f   Yaw command: %f \n\n\n",flow_l, flow_r, yaw_command);

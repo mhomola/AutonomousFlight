@@ -201,19 +201,30 @@ double *getAngle(bool *go_zone_state, int first_row_len, int sq_size, int sq_mar
 
 int get_green_row(bool *go_zone_state, int first_row_len)
 {
+    for (int i=nr_squares - 1; i >= nr_squares - first_row_len; i--)
+    {
+        if (go_zone_state[i])
+        {
+            return 3;
+        }
+    }
 
-    if (go_zone_state[-1:-first_row_len])
+    for (int i=nr_squares - (first_row_len+1); i >= nr_squares - (2*first_row_len+2); i--)
     {
-        return 3;
+        if (go_zone_state[i])
+        {
+            return 2;
+        }
     }
-    else if (go_zone_state[-(first_row_len+1):-(2*first_row_len+2)])
+
+    for (int i=nr_squares - (2*first_row_len+3); i >= 0; i--)
     {
-        return 2;
+        if (go_zone_state[i])
+        {
+            return 1;
+        }
     }
-    else if (go_zone_state[-(2*first_row_len+3):-(2*first_row_len+4)])
-    {
-        return 1;
-    }
+
     return 0;
 }
 
@@ -232,7 +243,7 @@ int main()
     image = cv::imread("./../../../Data/cyberzoo_poles/2_original.jpg", 1);
     // std::cout<<"Size before:"<<cv::Size(round(image.cols / 3), round(image.rows / 3));
 
-    filtered_image = filter_color(image, 70, 90, 100, 130, 100, 135, 3);
+    filtered_image = filter_color(image, 70, 90, 100, 130, 100, 135, 1);
 
     int **squares = new int*[nr_squares];
     for (int h = 0; h < nr_squares; h++)
@@ -251,11 +262,19 @@ int main()
     // }
 
     bool *go_zone = new bool[nr_squares];
-    go_zone = square_mesh(squares, filtered_image);
+    go_zone = square_mesh(squares, image);
 
-    squares_image = show_square_mesh(squares, filtered_image);
+    squares_image = show_square_mesh(squares, image);
 
-
+    std::tuple<int, double*> test;
+    test = objectDetection(image, squares, img_per_row, image.cols);
+    double *angles = std::get<1>(test);
+    std::cout<<"The get_green_row:"<<std::get<0>(test);
+    std::cout<<"\n Angles:";
+    for (int i=0; i<(img_per_row-4); i++)
+    {
+        std::cout<<angles[i]<<" ";
+    }
  
     // cv::namedWindow("Display Image", cv::WINDOW_AUTOSIZE);
     // cv::imshow("Display Image", image);

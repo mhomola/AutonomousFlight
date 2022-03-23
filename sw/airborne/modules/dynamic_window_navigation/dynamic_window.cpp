@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Roland Meertens
+ * Copyright (C) Team X
  *
  * This file is part of paparazzi
  *
@@ -17,22 +17,18 @@
  * so you have to define which filter to use with the ORANGE_AVOIDER_VISUAL_DETECTION_ID setting.
  */
 
-
 //#include "firmwares/rotorcraft/navigation.h"
-#include "firmwares/rotorcraft/guidance/guidance_h.h"
 #include "generated/airframe.h"
+#include "modules/dynamic_window_navigation/dynamic_window.h"
+#include "modules/dynamic_window_navigation/dwn.h"
+#include "firmwares/rotorcraft/guidance/guidance_h.h"
 #include "state.h"
 #include "modules/core/abi.h"
 #include <time.h>
 #include <stdio.h>
 
-#include "modules/dynamic_window_navigation/DWN.h"
-#include "modules/dynamic_window_navigation/dynamic_window.h"
-
 #define NAV_C // needed to get the nav functions like Inside...
 #include "generated/flight_plan.h"
-
-
 
 #define ORANGE_AVOIDER_VERBOSE TRUE
 
@@ -43,9 +39,8 @@
 #define VERBOSE_PRINT(...)
 #endif
 
-
 enum navigation_state_t {
-  NAVIGATING,
+  NAVIGATING
 };
 
 // define settings
@@ -82,8 +77,7 @@ void dynamic_window_init(void)
 {
   // Initialise random values
   srand(time(NULL));
-  DWN_wrapper_init();
-
+  //dwn_wrapper_init();
 }
 
 /*
@@ -97,13 +91,12 @@ void dynamic_window_periodic(void) {
   }
   //Do the computation and return a 
   //TODO implement goal system
-  update_dwn( stateGetPositionEnu_i()->x,  stateGetPositionEnu_i()->y,  stateGetNedToBodyEulers_f()->psi,  3.f,  3.f);
+//  update_dwn( stateGetPositionEnu_i()->x,  stateGetPositionEnu_i()->y,  stateGetNedToBodyEulers_f()->psi,  3.f,  3.f);
 
   switch (navigation_state){
     case NAVIGATING:
       guidance_h_set_guided_heading_rate(get_yawrate());
       guidance_h_set_guided_body_vel(get_speed(), 0);
-
       break;
     default:
       break;

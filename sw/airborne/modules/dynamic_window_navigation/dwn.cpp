@@ -10,14 +10,16 @@ Thijs Verkade
 
 """*/
 
-//#include <iostream>
-
-
+#include "modules/dynamic_window_navigation/dynamic_window.h"
+#include "modules/dynamic_window_navigation/dwn.h"
 #include <math.h>
 #include <Eigen/Dense> 
 #include <vector>
 #include <unsupported/Eigen/MatrixFunctions>
 //using namespace Eigen;
+
+float get_speed();
+float get_yawrate();
 
 //using Eigen::placeholders::last;
 //Replaced the call of last with STEPS. not ideal but its not working...
@@ -25,6 +27,7 @@ Thijs Verkade
 //for simplicity we will just do it manually:
 #define DT 0.1
 #define HORIZON (int)3
+
 //horizon time/dt = 3/0.1 = 30 + 1 (+1 for the current time)
 #define STEPS (int)31
 #define MAXOBJECTS (int)3
@@ -37,14 +40,11 @@ typedef Eigen::Matrix<float, 1, 4> dw_vect;
 typedef Eigen::Matrix<float, MAXOBJECTS, 2> obj_mat;
 typedef Eigen::Array<float, MAXOBJECTS, 1> obj_arr;
 
-
-
 //creating custom bit to remove std::tuple requirements
 struct u_traj {
   Eigen::Vector2f u;
   x_vect traj;
 };
-
 
 //Functions in this file:
 struct u_traj   dwa_control(x_vect& x, const struct Config& config, const Eigen::Vector2f& goal, const obj_mat& ob);
@@ -81,11 +81,6 @@ struct Config{
     float robot_radius          = 1.0;  // [m] for collision check
 };
 
-//arange equivelent function
-
-
-//C++ wrapper function
-
 float best_v = 0.0;
 float best_yaw = 0.0;
 struct Config config;
@@ -106,7 +101,6 @@ void DWN_wrapper_init() {
     best_u      = Eigen::Vector2f(0,0);
 }
 
-
 void update_dwn(float x, float y, float angle, float goal_x, float goal_y){
     x_vector << x, y, angle, best_u(0), best_u(1);
     goal(0) = goal_x;
@@ -116,16 +110,12 @@ void update_dwn(float x, float y, float angle, float goal_x, float goal_y){
 }
 
 float get_speed(){
-return best_u(0);
+    return best_u(0);
 }
 
 float get_yawrate(){
     return best_u(1);
 }
-
-
-
-
 //C wrapper conversion function
 /*
 void DWN_wrapper_init()
@@ -156,7 +146,6 @@ std::vector<T> arange(T start, T stop, T step) {
         values.push_back(value);
     return values;
 }
-
 
 struct u_traj dwa_control(x_vect& x, const struct Config& config, const Eigen::Vector2f& goal, const obj_mat& ob) {
     //Top level control function
@@ -260,6 +249,8 @@ struct u_traj calc_control_and_trajectory(const x_vect& x, const Eigen::Vector4f
     return {best_u, best_trajectory};
 }
 
+
+
 float calc_obstacle_cost(const x_vect& final_state,const obj_mat& ob, const struct Config& config) {
 		//calc obstacle cost inf: collision
         obj_arr dx;
@@ -302,7 +293,6 @@ float calc_to_goal_cost(const x_vect& final_state, const Eigen::Vector2f& goal){
     float cost          = std::abs(std::atan2(std::sin(cost_angle),std::cos(cost_angle)));
     return cost;
 }
-
 
 Eigen::Vector2f obs_pos(float heading_angle, int floor_pixels, float psi)
 {

@@ -26,23 +26,18 @@
  *
  */
 
-
 #ifndef DWN_H
 #define DWN_H
-//#include "modules/dynamic_window_navigation/DWN.cpp"
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-//DWN_wrapper DWNhost;
-
-extern void DWN_wrapper_init();
-extern void update_dwn(float x, float y, float angle, float goal_x, float goal_y);
-extern float get_speed();
-extern float get_yawrate();
-
-
+  extern void dwn_wrapper_init(void);
+  extern void update_dwn(float x, float y, float angle, float goal_x, float goal_y);
+  extern float get_speed(void);
+  extern float get_yawrate(void);
 
 #ifdef __cplusplus
 }

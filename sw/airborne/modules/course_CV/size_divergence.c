@@ -31,6 +31,7 @@
 
 #include "size_divergence.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 
 
@@ -180,7 +181,8 @@ float get_heading_command(struct flow_t *vectors, int count, int img_size, int s
   if (isnan(yaw_command) || (fabs(yaw_command) < YAW_THRESHOLD) || flow_l < 10.0  || flow_r < 10.0)
     return 0.0;
 
-  printf(">>>>>>>>> l:%f r%f   Yaw command: %f \n\n\n",flow_l, flow_r, yaw_command);
+  // printf(">>>>>>>>> l:%f r%f   Yaw command: %f \n\n\n",flow_l, flow_r, yaw_command);
+  fprintf(stderr, ">>>>>>>>> l:%f r%f   Yaw command: %f \n\n\n",flow_l, flow_r, yaw_command);
   return yaw_command;
 
 }

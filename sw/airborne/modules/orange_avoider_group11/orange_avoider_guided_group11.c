@@ -25,7 +25,7 @@
  * define which filter to use.
  */
 
-#include "modules/orange_avoider/orange_avoider_guided.h"
+#include "orange_avoider_guided.h"
 #include "firmwares/rotorcraft/guidance/guidance_h.h"
 #include "generated/airframe.h"
 #include "state.h"

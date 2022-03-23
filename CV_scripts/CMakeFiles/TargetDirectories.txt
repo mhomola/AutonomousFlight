@@ -1,3 +1,3 @@
-/home/tudor/Desktop/AutonomousFlight/CV_scripts/AutonomousFlight/CV_scripts/CMakeFiles/rebuild_cache.dir
-/home/tudor/Desktop/AutonomousFlight/CV_scripts/AutonomousFlight/CV_scripts/CMakeFiles/edit_cache.dir
-/home/tudor/Desktop/AutonomousFlight/CV_scripts/AutonomousFlight/CV_scripts/CMakeFiles/FloorDetection.dir
+/home/marek/Documents/AutonomousFlight/CV_scripts/CMakeFiles/rebuild_cache.dir
+/home/marek/Documents/AutonomousFlight/CV_scripts/CMakeFiles/edit_cache.dir
+/home/marek/Documents/AutonomousFlight/CV_scripts/CMakeFiles/FloorDetection.dir

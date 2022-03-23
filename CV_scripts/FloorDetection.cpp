@@ -186,9 +186,9 @@ cv::Mat show_square_mesh(int **dims, bool *array_squares, cv::Mat image)
 
 std::vector<float> getAngle(bool *go_zone_state, int first_row_len, int sq_size, int sq_margin, int screen_width, int sq_spacing)
 {
-
     std::vector<float> angles;
     int angle;
+
     for (int i = 0; i<(first_row_len-4); i++)
     {
         if (((int)(go_zone_state[2+i])+(int)(go_zone_state[2+i+first_row_len-1])+(int)(go_zone_state[2+i+2*first_row_len-4])) <= 1)
@@ -202,28 +202,45 @@ std::vector<float> getAngle(bool *go_zone_state, int first_row_len, int sq_size,
 
 int get_green_row(bool *go_zone_state, int first_row_len)
 {
+    int count = 0;
     for (int i=nr_squares - 1; i >= nr_squares - first_row_len; i--)
     {
         if (go_zone_state[i])
         {
-            return 3;
+            count++;
         }
     }
 
+    if (count == first_row_len){
+        return 3;
+    }
+
+    count = 0;
+
     for (int i=nr_squares - (first_row_len+1); i >= nr_squares - (2*first_row_len+2); i--)
     {
-        if (go_zone_state[i])
+       if (go_zone_state[i])
         {
-            return 2;
+            count++;
         }
     }
+
+    if (count == (first_row_len+2)){
+        return 2;
+    }
+
+    count = 0;
 
     for (int i=nr_squares - (2*first_row_len+3); i >= 0; i--)
     {
         if (go_zone_state[i])
         {
-            return 1;
+            count++;
         }
+    }
+
+    if (count == (first_row_len+4)){
+        return 1;
     }
 
     return 0;
@@ -234,6 +251,7 @@ std::tuple<int,std::vector<float>> objectDetection(cv::Mat im)
     cv::Mat filtered_image, squares_image;
 
     // image = cv::imread("./../Data/cyberzoo_poles/2_original.jpg", 1);
+
 
     // filtered_image = filter_color(im, 70, 90, 100, 130, 100, 135, 1);
 
@@ -250,7 +268,6 @@ std::tuple<int,std::vector<float>> objectDetection(cv::Mat im)
     // {
     //     std::cout<<go_zone[i]<<" ";
     // }
-
     int closest_green = get_green_row(go_zone, img_per_row);
     std::vector<float> angles = getAngle(go_zone, img_per_row, squares[0][2], squares[0][1], im.cols, squares[1][1]-squares[0][1]);
 

@@ -80,7 +80,7 @@ uint16_t n_agents[2] = {25, 25};
 #endif
 
 #ifndef ALPHA
-#define ALPHA 0.8   // Change here the method
+#define ALPHA 1.0   // Change here the method: 1. for no averaging 
 #endif
 
 #ifndef SUBSAMPLING_FACTOR
@@ -808,7 +808,7 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
     cur_yaw_command = get_heading_command(vectors, result->tracked_cnt, opticflow->prev_img_gray.h, opticflow->subpixel_factor);
     result->yaw_command = opticflow->alpha * cur_yaw_command + (1-opticflow->alpha) * result->yaw_command;
 
-    yaw_command_group11 = result->yaw_command;
+    // yaw_command_group11 = result->yaw_command;
 
   }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Freek van Tienen <freek.v.tienen@gmail.com>
+ * Copyright (C) 
  *
  * This file is part of paparazzi.
  *
@@ -20,9 +20,7 @@
  */
 
 /**
- * @file modules/ins/ins_ekf2.h
- *
- * INS based in the EKF2 of PX4
+ * @file modules/dynamic_window_navigation/dwn.h
  *
  */
 

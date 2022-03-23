@@ -18,7 +18,6 @@ extern "C" {
 
 extern void dynamic_window_init(void);
 extern void dynamic_window_periodic(void);
-//extern float get_yawrate(void);
 
 #ifdef __cplusplus
 }

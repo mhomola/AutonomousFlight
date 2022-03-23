@@ -93,13 +93,7 @@ x_vect x_vector;
 
 Eigen::Vector2f best_u;
 
-void DWN_wrapper_init() {
-    ob_lst <<   1.f, 1.f,
-                1.5f, 1.5f,
-                2.5f, 2.5f;
-    goal        = Eigen::Vector2f(2,2);
-    best_u      = Eigen::Vector2f(0,0);
-}
+
 
 void update_dwn(float x, float y, float angle, float goal_x, float goal_y){
     x_vector << x, y, angle, best_u(0), best_u(1);
@@ -117,9 +111,18 @@ float get_yawrate(){
     return best_u(1);
 }
 //C wrapper conversion function
-/*
-void DWN_wrapper_init()
 
+void dwn_wrapper_init();
+
+void dwn_wrapper_init() {
+    ob_lst <<   1.f, 1.f,
+                1.5f, 1.5f,
+                2.5f, 2.5f;
+    goal        = Eigen::Vector2f(2,2);
+    best_u      = Eigen::Vector2f(0,0);
+}
+
+/*
 void updt_dwn(float x, float y, float angle, float goal_x, float goal_y) {
     return DWN_wrapper.update_dwn( x, y, angle, goal_x, goal_y);
 }

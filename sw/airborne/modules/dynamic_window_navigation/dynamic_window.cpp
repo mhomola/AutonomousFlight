@@ -19,8 +19,8 @@
 
 //#include "firmwares/rotorcraft/navigation.h"
 #include "generated/airframe.h"
-#include "modules/dynamic_window_navigation/dynamic_window.h"
 #include "modules/dynamic_window_navigation/dwn.h"
+#include "modules/dynamic_window_navigation/dynamic_window.h"
 #include "firmwares/rotorcraft/guidance/guidance_h.h"
 #include "state.h"
 #include "modules/core/abi.h"
@@ -77,7 +77,7 @@ void dynamic_window_init(void)
 {
   // Initialise random values
   srand(time(NULL));
-  //dwn_wrapper_init();
+  dwn_wrapper_init();
 }
 
 /*

@@ -150,6 +150,7 @@ void opticflow_module_run(void)
       //   );
       // }
       opticflow_got_result[idx_camera] = false;
+      // printf("Message id: %d",FLOW_OPTICFLOW_ID + idx_camera);
     }
   }
   pthread_mutex_unlock(&opticflow_mutex);
@@ -166,7 +167,7 @@ void opticflow_module_run(void)
 struct image_t *opticflow_module_calc(struct image_t *img, uint8_t camera_id)
 {
   // Copy the state
-  // TODO : put accelerometer values at pose of img timestamp
+  // TODO: put accelerometer values at pose of img timestamp
   //struct opticflow_state_t temp_state;
   struct pose_t pose = get_rotation_at_timestamp(img->pprz_ts);
   img->eulers = pose.eulers;

@@ -179,7 +179,7 @@ float get_heading_command(struct flow_t *vectors, int count, int img_size, int s
   // printf(" %d + %d (l/r) samples\n", count_l, count_r);
 
   if (isnan(yaw_command) || (fabs(yaw_command) < YAW_THRESHOLD) || flow_l < 10.0 || flow_r < 10.0)
-    return 0.0;
+    return 10.0;
 
   // printf(">>>>>>>>> l:%f r%f   Yaw command: %f \n\n\n",flow_l, flow_r, yaw_command);
   fprintf(stderr, ">>>>>>>>> l:%f r%f   Yaw command -- vision: %f \n\n\n",flow_l, flow_r, yaw_command);

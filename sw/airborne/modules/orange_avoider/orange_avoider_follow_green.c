@@ -54,6 +54,13 @@ float maxDistance = 2.25;               // max waypoint displacement [m]
 
 float heading_angle = 4;      //TODO insert here where we have to go
 
+enum navigation_state_t {
+  SAFE,
+  OBSTACLE_FOUND,
+  SEARCH_FOR_SAFE_HEADING,
+  OUT_OF_BOUNDS
+};
+
 /*
  * This next section defines an ABI messaging event (http://wiki.paparazziuav.org/wiki/ABI), necessary
  * any time data calculated in another module needs to be accessed. Including the file where this external
@@ -92,26 +99,63 @@ void orange_avoider_periodic(void)
     return;
   }
 
+  //Do calculations to find out if we need to change direction. If we do. set obstacle_free_confidence to 0;
+
   //TODO get percentage of green pixels instead of rand
   obstacle_free_confidence = rand() % (5 - 0 + 1) + 0;      //rand number between 0 and 5, (upper - lower + 1)) + lower
   // following if els is for turn randomly left right deg
-  if (rand() % 2 == 0) {
-    heading_angle= rand() % 60;
-    VERBOSE_PRINT("Set avoidance increment to: %f\n", heading_increment);
-  } else {
-    heading_increment = -rand() % 60;
-    VERBOSE_PRINT("Set avoidance increment to: %f\n", heading_increment);
-  }
-  if (!InsideObstacleZone(WaypointX(WP_TRAJECTORY),WaypointY(WP_TRAJECTORY))){
-        increase_nav_heading(180);
+  switch (navigation_state){
+    case SAFE:
+      // Move waypoint forward
+      moveWaypointForward(WP_TRAJECTORY, 1.5f * moveDistance);
+      if (!InsideObstacleZone(WaypointX(WP_TRAJECTORY),WaypointY(WP_TRAJECTORY))){
+        navigation_state = OUT_OF_BOUNDS;
+      } else if (obstacle_free_confidence == 0){
+        navigation_state = OBSTACLE_FOUND;
+      } else {
+        moveWaypointForward(WP_GOAL, moveDistance);
       }
-  else {
-  increase_nav_heading(heading_angle);
-  float moveDistance = fminf(maxDistance, 0.2f * 5);//obstacle_free_confidence); TODO: 5 is only here to make larger steps, ADJUST!
-  moveWaypointForward(WP_TRAJECTORY, 1.5f * moveDistance);
-  moveWaypointForward(WP_GOAL, moveDistance);
-  }
+      break;
+    case OBSTACLE_FOUND:
+      // stop
+      waypoint_move_here_2d(WP_GOAL);
+      waypoint_move_here_2d(WP_TRAJECTORY);
 
+      // Choose a good way to go.
+      //Set heading incriment based on closest green direction??
+      //heading_increment = 4.f; 
+
+      navigation_state = SEARCH_FOR_SAFE_HEADING;
+
+      break;
+    case SEARCH_FOR_SAFE_HEADING:
+      increase_nav_heading(heading_increment);
+
+      // make sure we have a couple of good readings before declaring the way safe
+      //TODO make better logic to detemine we are safe
+      if (obstacle_free_confidence >= 2){
+        navigation_state = SAFE;
+      }
+      break;
+    case OUT_OF_BOUNDS:
+      increase_nav_heading(heading_increment);
+      moveWaypointForward(WP_TRAJECTORY, 1.5f);
+
+      if (InsideObstacleZone(WaypointX(WP_TRAJECTORY),WaypointY(WP_TRAJECTORY))){
+        // add offset to head back into arena
+        increase_nav_heading(heading_increment);
+
+        // reset safe counter
+        obstacle_free_confidence = 0;
+
+        // ensure direction is safe before continuing
+        navigation_state = SEARCH_FOR_SAFE_HEADING;
+      }
+      break;
+    default:
+      break;
+  }
+  return;
 }
 
 /*

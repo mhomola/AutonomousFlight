@@ -301,6 +301,12 @@ void objectDetection(char *im, int rows, int cols, float *output)
     std::vector<float> angles = getAngle(go_zone, img_per_row, squares[0][2], squares[0][1], cols, squares[1][1]-squares[0][1]);
 
     // TODO Fill output vec
+    output[0] = closest_green;
+
+    for (int i=0; i<angles.size();i++)
+    {
+        output[i+1] = angles[i];
+    }
 
     
 

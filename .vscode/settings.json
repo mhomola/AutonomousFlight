@@ -13,6 +13,9 @@
         "stdlib.h": "c",
         "iterator": "cpp",
         "tensor": "cpp",
-        "opticflow_module.h": "c"
+        "opticflow_module.h": "c",
+        "*.expression": "cpp",
+        "alignedvector3": "cpp",
+        "fft": "cpp"
     },
 }

@@ -176,7 +176,7 @@ void orange_avoider_periodic(void)
   }
 
   // Detect Floor:
-  // printf("Output: ", output[0]);
+  printf("Output: %f\n", output[0]);
 
 
   // Calculate future position of WP:

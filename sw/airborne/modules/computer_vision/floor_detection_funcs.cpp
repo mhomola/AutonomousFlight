@@ -368,11 +368,17 @@ void objectDetection(char *im, int rows, int cols, float *output)
     cv::Mat old_image(rows, cols, CV_8UC2, im);
     cv::Mat image = rotate_image(image);
 
+    int **squares = new int*[nr_squares];
+    for (int h = 0; h < nr_squares; h++)
+    {
+        squares[h] = new int[3];
+    }
+    squares = gen_squares(image.rows, image.cols);
 
+    bool *go_zone = new bool[nr_squares];
+    go_zone = square_mesh(squares, image);
 
-    
     bool goright = go_right(go_zone);
-
 
     int closest_green = get_green_row(go_zone, img_per_row-6);
     std::vector<float> angles = getAngle(go_zone, img_per_row, squares[0][2], squares[0][1], cols, squares[1][1]-squares[0][1]);

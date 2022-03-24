@@ -67,7 +67,7 @@ float get_heading_command(struct flow_t *vectors, int count, int img_size, int s
   float flow_l =0.f, flow_r =0.f, yaw_command=0.f, local_flow_sq =0.f;
   float local_threshold = FLOW_THRESHOLD * (float)subpixel_factor;
   
-  for(i = 1; i < count; i++)
+  for(i = 0; i < count; i++)
   { 
     // Calculate the squarred flow:
     local_flow_sq = (float)vectors[i].flow_x * (float)vectors[i].flow_x +\

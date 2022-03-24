@@ -394,7 +394,6 @@ void objectDetection(char *im, int rows, int cols, float *output)
     {
         output[i+2] = angles[i];
     }
-
     
 
     // squares_image = show_square_mesh(squares, go_zone, im);

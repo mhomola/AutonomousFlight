@@ -275,6 +275,67 @@ std::tuple<int,std::vector<float>> objectDetection(cv::Mat im)
 }
 */
 
+bool go_right(bool *go_zone_state){
+
+	
+
+	int green_right = 0;
+	int green_left = 0;
+	
+	for (int i = 0; i < (int)((img_per_row)/2); i++){
+		if (go_zone_state[i]){
+			green_left++;
+		}
+	}
+	
+	for (int i = img_per_row; i < (int)(img_per_row + ((img_per_row-2))/2); i++){
+		if (go_zone_state[i]){
+			green_left++;
+		}
+	}
+	
+	for (int i = 2*img_per_row-2; i < (int)(2*img_per_row-2 + (img_per_row-4)/2); i++){
+		if (go_zone_state[i]){
+			green_left++;
+		}
+	}
+	
+	for (int i = 3*img_per_row-6; i < (int)(3*img_per_row-6 + (img_per_row-6)/2); i++){
+		if (go_zone_state[i]){
+			green_left++;
+		}
+	}
+	
+	for (int i = (int)((img_per_row)/2); i < img_per_row; i++){
+		if (go_zone_state[i]){
+			green_right++;
+		}
+	}
+	
+	for (int i = (int)(img_per_row + (img_per_row-2)/2); i < 2*img_per_row-2; i++){
+		if (go_zone_state[i]){
+			green_right++;
+		}
+	}
+	
+	for (int i = (int)(2*img_per_row-2 + (img_per_row-4)/2); i < 3*img_per_row-6; i++){
+		if (go_zone_state[i]){
+			green_right++;
+		}
+	}
+	
+	for (int i = (int)(3*img_per_row-6 + (img_per_row-6)/2); i < nr_squares; i++){
+		if (go_zone_state[i]){
+			green_right++;
+		}
+	}
+
+	if (green_right >= green_left){
+		return 1;
+	}
+	return 0;
+}
+
 cv::Mat rotate_image(cv::Mat non_rotated_image)
 {
     cv::Mat new_image;
@@ -300,7 +361,6 @@ cv::Mat rotate_image(cv::Mat non_rotated_image)
     return new_image;
 }
 
-
 void objectDetection(char *im, int rows, int cols, float *output)
 {
     cv::Mat old_image(rows, cols, CV_8UC2, im);
@@ -320,16 +380,19 @@ void objectDetection(char *im, int rows, int cols, float *output)
 
     bool *go_zone = new bool[nr_squares];
     go_zone = square_mesh(squares, image);
+    
+    bool goright = go_right(go_zone);
 
     int closest_green = get_green_row(go_zone, img_per_row-6);
     std::vector<float> angles = getAngle(go_zone, img_per_row, squares[0][2], squares[0][1], cols, squares[1][1]-squares[0][1]);
 
     // TODO Fill output vec
-    output[0] = closest_green;
+    output[0] = goright;
+    output[1] = closest_green;
 
     for (int i=0; i<angles.size();i++)
     {
-        output[i+1] = angles[i];
+        output[i+2] = angles[i];
     }
 
     

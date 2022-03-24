@@ -366,10 +366,6 @@ void objectDetection(char *im, int rows, int cols, float *output)
     cv::Mat old_image(rows, cols, CV_8UC2, im);
     cv::Mat image = rotate_image(image);
 
-    // image = cv::imread("./../Data/cyberzoo_poles/2_original.jpg", 1);
-
-
-    // filtered_image = filter_color(im, 70, 90, 100, 130, 100, 135, 1);
 
     int **squares = new int*[nr_squares];
     for (int h = 0; h < nr_squares; h++)

@@ -138,17 +138,7 @@ void opticflow_module_run(void)
                              opticflow_result[idx_camera].flow_der_y,
                              opticflow_result[idx_camera].noise_measurement,
                              opticflow_result[idx_camera].yaw_command);
-      //TODO Find an appropriate quality measure for the noise model in the state filter, for now it is tracked_cnt
-      // if (opticflow_result[idx_camera].noise_measurement < 0.8) {
-      //   AbiSendMsgVELOCITY_ESTIMATE(VEL_OPTICFLOW_ID + idx_camera, now_ts,
-      //                               opticflow_result[idx_camera].vel_body.x,
-      //                               opticflow_result[idx_camera].vel_body.y,
-      //                               0.0f, //opticflow_result.vel_body.z,
-      //                               opticflow_result[idx_camera].noise_measurement,
-      //                               opticflow_result[idx_camera].noise_measurement,
-      //                               -1.0f //opticflow_result.noise_measurement // negative value disables filter updates with OF-based vertical velocity.
-      //   );
-      // }
+    
       opticflow_got_result[idx_camera] = false;
       // printf("Message id: %d",FLOW_OPTICFLOW_ID + idx_camera);
     }

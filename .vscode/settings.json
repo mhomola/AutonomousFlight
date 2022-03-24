@@ -13,6 +13,7 @@
         "stdlib.h": "c",
         "iterator": "cpp",
         "tensor": "cpp",
-        "opticflow_module.h": "c"
+        "opticflow_module.h": "c",
+        "random": "c"
     },
 }

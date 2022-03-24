@@ -35,7 +35,11 @@
 
 
 #ifndef GAIN_YAW
-#define GAIN_YAW 100
+#define GAIN_YAW 10
+#endif
+
+#ifndef VELOCITY
+#define VELOCITY 0.5  // << KEEP LOWER THAN 1
 #endif
 
 
@@ -68,7 +72,7 @@ int32_t color_count = 0;                // orange color count from color filter 
 int16_t obstacle_free_confidence = 0;   // a measure of how certain we are that the way ahead is safe.
 float heading_increment = 5.f;          // heading angle increment [deg]
 float maxDistance = 2.25;               // max waypoint displacement [m]
-float yaw_command_group11;
+// float yaw_command_group11;
 const int16_t max_trajectory_confidence = 5; // number of consecutive negative object detections to be sure we are obstacle free
 
 /*
@@ -98,17 +102,17 @@ static void color_detection_cb(uint8_t __attribute__((unused)) sender_id,
 
 
 static abi_event optical_flow_ev;
-static void optical_flow_cb(uint8_t __attribute__((unused)) sender_id,
-                            int16_t __attribute__((unused)) now_ts,
-                            int16_t __attribute__((unused)) flow_x,
-                            int16_t __attribute__((unused)) flow_y,
-                            int16_t __attribute__((unused)) flow_der_x,
-                            int16_t __attribute__((unused)) flow_der_y,
+// expected message: unsigned char,  unsigned int,  int,  int,  int,  int,  float,  float
+static void optical_flow_cb(unsigned char __attribute__((unused)) sender_id,
+                            uint32_t __attribute__((unused)) now_ts,
+                            int32_t __attribute__((unused)) flow_x,
+                            int32_t __attribute__((unused)) flow_y,
+                            int32_t __attribute__((unused)) flow_der_x,
+                            int32_t __attribute__((unused)) flow_der_y,
                             float __attribute__((unused)) noise_measurement,
                             float __attribute__((unused)) yaw_command)
 {
   yaw_command_group11 = yaw_command;
-
 }
 
 /*
@@ -134,16 +138,8 @@ void orange_avoider_periodic(void)
   if(!autopilot_in_flight()){
     return;
   }
-
-  
-  // group11
-  // float yaw_command;
-  // yaw_command = yaw_command_group11;
-  fprintf(stderr, "Yaw command - navigation = %f \n", yaw_command_group11);
-  increase_nav_heading(yaw_command_group11 * GAIN_YAW);
-
   // Calculate future position of WP:
-  float moveDistance =  (1 - fabs(yaw_command_group11));
+  float moveDistance = VELOCITY * (1 - fabs(yaw_command_group11));
   moveWaypointForward(WP_TRAJECTORY, moveDistance);
   
   if (!InsideObstacleZone(WaypointX(WP_TRAJECTORY),WaypointY(WP_TRAJECTORY))){
@@ -155,6 +151,10 @@ void orange_avoider_periodic(void)
   
   switch (navigation_state){
     case SAFE:
+        // Yaw in new direction:
+      fprintf(stderr, "navigation -- yaw command -  = %f \n", yaw_command_group11);
+      increase_nav_heading(yaw_command_group11 * GAIN_YAW);
+
       // Move waypoint forward
       moveWaypointForward(WP_TRAJECTORY,  moveDistance);
       if (!InsideObstacleZone(WaypointX(WP_TRAJECTORY),WaypointY(WP_TRAJECTORY))){
@@ -173,7 +173,6 @@ void orange_avoider_periodic(void)
       if (InsideObstacleZone(WaypointX(WP_TRAJECTORY),WaypointY(WP_TRAJECTORY))){
         // add offset to head back into arena
         increase_nav_heading(heading_increment);
-
 
         // ensure direction is safe before continuing
         navigation_state = SEARCH_FOR_SAFE_HEADING;

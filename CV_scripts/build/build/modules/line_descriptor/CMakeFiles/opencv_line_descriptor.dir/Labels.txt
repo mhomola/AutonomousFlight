@@ -1,0 +1,47 @@
+# Target labels
+ Extra
+ opencv_line_descriptor
+ Module
+# Source files and their labels
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/line_descriptor/include/opencv2/line_descriptor.hpp
+ Extra
+ opencv_line_descriptor
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/line_descriptor/include/opencv2/line_descriptor/descriptor.hpp
+ Extra
+ opencv_line_descriptor
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/line_descriptor/src/LSDDetector.cpp
+ Extra
+ opencv_line_descriptor
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/line_descriptor/src/binary_descriptor.cpp
+ Extra
+ opencv_line_descriptor
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/line_descriptor/src/binary_descriptor_matcher.cpp
+ Extra
+ opencv_line_descriptor
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/line_descriptor/src/draw.cpp
+ Extra
+ opencv_line_descriptor
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/line_descriptor/src/bitarray.hpp
+ Extra
+ opencv_line_descriptor
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/line_descriptor/src/bitops.hpp
+ Extra
+ opencv_line_descriptor
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/line_descriptor/src/precomp.hpp
+ Extra
+ opencv_line_descriptor
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/line_descriptor/src/types.hpp
+ Extra
+ opencv_line_descriptor
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/cvconfig.h
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/opencv2/opencv_modules.hpp

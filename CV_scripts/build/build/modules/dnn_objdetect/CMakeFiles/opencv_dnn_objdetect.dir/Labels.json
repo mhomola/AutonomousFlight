@@ -1,0 +1,48 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/dnn_objdetect/include/opencv2/core_detect.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_dnn_objdetect",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/dnn_objdetect/src/core_detect.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_dnn_objdetect",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/dnn_objdetect/src/precomp.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_dnn_objdetect",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/cvconfig.h"
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/opencv2/opencv_modules.hpp"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_dnn_objdetect",
+			"Module"
+		],
+		"name" : "opencv_dnn_objdetect"
+	}
+}

@@ -28,6 +28,13 @@
 #include <time.h>
 #include <stdio.h>
 
+
+// Green floor detection:
+#include "modules/computer_vision/cv.h"
+#include "modules/computer_vision/floor_detection.h"
+#include "modules/computer_vision/floor_detection_funcs.h"
+
+
 #define NAV_C // needed to get the nav functions like Inside...
 #include "generated/flight_plan.h"
 
@@ -35,7 +42,11 @@
 
 
 #ifndef GAIN_YAW
-#define GAIN_YAW 100
+#define GAIN_YAW 20
+#endif
+
+#ifndef VELOCITY
+#define VELOCITY 0.5  // << KEEP LOWER THAN 1
 #endif
 
 
@@ -45,6 +56,31 @@
 #else
 #define VERBOSE_PRINT(...)
 #endif
+
+
+// <<<<<<<<<<<<<<<<<<<<
+//  FLOOR DETECTION
+#ifndef FLOOR_DETECTION_FPS
+#define FLOOR_DETECTION_FPS 0       ///< Default FPS (zero means run at camera fps)
+#endif
+PRINT_CONFIG_VAR(FLOOR_DETECTION_FPS)
+
+float output[30] = {-1};
+
+// Function
+struct image_t *floor_detection_func(struct image_t *img, uint8_t camera_id);
+struct image_t *floor_detection_func(struct image_t *img, uint8_t camera_id)
+{
+
+  if (img->type == IMAGE_YUV422) {
+    // Call OpenCV (C++ from paparazzi C function)
+    objectDetection((char *) img->buf, img->w, img->h, output);
+  }
+
+
+  return NULL;
+}
+// >>>>>>>>>>>>>>>
 
 static uint8_t moveWaypointForward(uint8_t waypoint, float distanceMeters);
 static uint8_t calculateForwards(struct EnuCoor_i *new_coor, float distanceMeters);
@@ -64,12 +100,13 @@ float oa_color_count_frac = 0.18f;
 
 // define and initialise global variables
 enum navigation_state_t navigation_state = SEARCH_FOR_SAFE_HEADING;
-int32_t color_count = 0;                // orange color count from color filter for obstacle detection
-int16_t obstacle_free_confidence = 0;   // a measure of how certain we are that the way ahead is safe.
-float heading_increment = 5.f;          // heading angle increment [deg]
-float maxDistance = 2.25;               // max waypoint displacement [m]
-float yaw_command_group11;
+float heading_increment = 6.f;          // heading angle increment [deg]
+float maxDistance = 2.;               // max waypoint displacement [m]
+float yaw_command_nav;
 const int16_t max_trajectory_confidence = 5; // number of consecutive negative object detections to be sure we are obstacle free
+float *output_nav;
+
+
 
 /*
  * This next section defines an ABI messaging event (http://wiki.paparazziuav.org/wiki/ABI), necessary
@@ -86,30 +123,31 @@ const int16_t max_trajectory_confidence = 5; // number of consecutive negative o
 #define OPTICAL_FLOW_ID ABI_BROADCAST
 #endif
 
-static abi_event color_detection_ev;
-static void color_detection_cb(uint8_t __attribute__((unused)) sender_id,
-                               int16_t __attribute__((unused)) pixel_x, int16_t __attribute__((unused)) pixel_y,
-                               int16_t __attribute__((unused)) pixel_width, int16_t __attribute__((unused)) pixel_height,
-                               int32_t quality, int16_t __attribute__((unused)) extra)
-                      
-{
-  color_count = quality;
-}
-
+#ifndef GREEN_FLOOR_ID
+#define GREEN_FLOOR_ID ABI_BROADCAST
+#endif
 
 static abi_event optical_flow_ev;
-static void optical_flow_cb(uint8_t __attribute__((unused)) sender_id,
-                            int16_t __attribute__((unused)) now_ts,
-                            int16_t __attribute__((unused)) flow_x,
-                            int16_t __attribute__((unused)) flow_y,
-                            int16_t __attribute__((unused)) flow_der_x,
-                            int16_t __attribute__((unused)) flow_der_y,
+// expected message: unsigned char,  unsigned int,  int,  int,  int,  int,  float,  float
+static void optical_flow_cb(unsigned char __attribute__((unused)) sender_id,
+                            uint32_t __attribute__((unused)) now_ts,
+                            int32_t __attribute__((unused)) flow_x,
+                            int32_t __attribute__((unused)) flow_y,
+                            int32_t __attribute__((unused)) flow_der_x,
+                            int32_t __attribute__((unused)) flow_der_y,
                             float __attribute__((unused)) noise_measurement,
                             float __attribute__((unused)) yaw_command)
 {
-  yaw_command_group11 = yaw_command;
-
+  yaw_command_nav = yaw_command;
 }
+
+
+// static abi_event green_floor_ev;
+// static void green_floor_cb(uint8_t __attribute__((unused)) sender_id,
+//                             float *  output)
+// {
+//   output_nav = output;
+// }
 
 /*
  * Initialisation function, setting the colour filter, random seed and heading_increment
@@ -121,8 +159,10 @@ void orange_avoider_init(void)
   chooseRandomIncrementAvoidance();
 
   // bind our colorfilter callbacks to receive the color filter outputs
-  AbiBindMsgVISUAL_DETECTION(ORANGE_AVOIDER_VISUAL_DETECTION_ID, &color_detection_ev, color_detection_cb);
+  // AbiBindMsgVISUAL_DETECTION(ORANGE_AVOIDER_VISUAL_DETECTION_ID, &color_detection_ev, color_detection_cb);
   AbiBindMsgOPTICAL_FLOW(OPTICAL_FLOW_ID, &optical_flow_ev, optical_flow_cb);
+  // AbiBindMsgFLOOR_DETECTION(GREEN_FLOOR_ID, &green_floor_ev, green_floor_cb);
+  cv_add_to_device(&FLOOR_DETECTION_CAMERA, floor_detection_func, FLOOR_DETECTION_FPS, 0);
 }
 
 /*
@@ -135,15 +175,15 @@ void orange_avoider_periodic(void)
     return;
   }
 
-  
-  // group11
-  // float yaw_command;
-  // yaw_command = yaw_command_group11;
-  fprintf(stderr, "Yaw command - navigation = %f \n", yaw_command_group11);
-  increase_nav_heading(yaw_command_group11 * GAIN_YAW);
+  // Detect Floor:
+  // printf("Output: ", output[0]);
+
 
   // Calculate future position of WP:
-  float moveDistance =  (1 - fabs(yaw_command_group11));
+  float moveDistance = VELOCITY * (1 - fabs(yaw_command_nav));
+  if (moveDistance > maxDistance){
+    moveDistance = maxDistance;
+  }
   moveWaypointForward(WP_TRAJECTORY, moveDistance);
   
   if (!InsideObstacleZone(WaypointX(WP_TRAJECTORY),WaypointY(WP_TRAJECTORY))){
@@ -155,6 +195,26 @@ void orange_avoider_periodic(void)
   
   switch (navigation_state){
     case SAFE:
+        // Yaw in new direction:
+      // fprintf(stderr, "navigation -- yaw command -  = %f \n", yaw_command_nav);
+
+
+      if (yaw_command_nav < -0.5f)
+        increase_nav_heading( -heading_increment);
+      else if ((-0.5f < yaw_command_nav) && (yaw_command_nav < -0.f))
+        increase_nav_heading(-0.5*heading_increment);
+      else if ((0.5f > yaw_command_nav) && (yaw_command_nav < 0.5f))
+        increase_nav_heading(0.5*heading_increment);
+      else if((0.5f < yaw_command_nav))
+        increase_nav_heading( heading_increment);
+
+      
+      // if (yaw_command_nav < 0.f)
+      //     increase_nav_heading( -heading_increment);
+      // else if (yaw_command_nav > 0.f)
+      //     increase_nav_heading( + heading_increment);
+      
+
       // Move waypoint forward
       moveWaypointForward(WP_TRAJECTORY,  moveDistance);
       if (!InsideObstacleZone(WaypointX(WP_TRAJECTORY),WaypointY(WP_TRAJECTORY))){
@@ -174,10 +234,11 @@ void orange_avoider_periodic(void)
         // add offset to head back into arena
         increase_nav_heading(heading_increment);
 
-
         // ensure direction is safe before continuing
         navigation_state = SEARCH_FOR_SAFE_HEADING;
       }
+      // final increment 
+      increase_nav_heading( 6 * heading_increment);
       break;
     default:
       break;

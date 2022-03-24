@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+AutonomousFlight
+=======
 # MAIN README
 
 Paparazzi UAS
@@ -75,3 +78,4 @@ Flight
 ------
 
 1.  From the Paparazzi Center, select the flight session and ... do the same as in simulation !
+>>>>>>> f610d160cf8049a576d7de326ad0e12504d92d63

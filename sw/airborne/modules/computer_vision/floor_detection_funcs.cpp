@@ -14,6 +14,7 @@ int img_per_row = 20;
 int nr_squares = 68;
 
 
+
 // cv::Mat filter_color(cv::Mat im, ushort y_low, ushort y_high, ushort u_low, ushort u_high, ushort v_low, ushort v_high, ushort resize_factor)
 // {
 //     cv::Mat image, YUV, croppedImage, FilteredImage;
@@ -65,6 +66,7 @@ int nr_squares = 68;
 //     // cv::imshow("Filtered Image", FilteredImage);
 //     return FilteredImage;
 // }
+
 
 bool filter_color_square(cv::Mat sq, ushort y_low, ushort y_high, ushort u_low, ushort u_high, ushort v_low, ushort v_high, ushort resize_factor, float passFactor)
 {
@@ -367,17 +369,10 @@ void objectDetection(char *im, int rows, int cols, float *output)
     cv::Mat image = rotate_image(image);
 
 
-    int **squares = new int*[nr_squares];
-    for (int h = 0; h < nr_squares; h++)
-    {
-        squares[h] = new int[3];
-    }
-    squares = gen_squares(rows, cols);
 
-    bool *go_zone = new bool[nr_squares];
-    go_zone = square_mesh(squares, image);
     
     bool goright = go_right(go_zone);
+
 
     int closest_green = get_green_row(go_zone, img_per_row-6);
     std::vector<float> angles = getAngle(go_zone, img_per_row, squares[0][2], squares[0][1], cols, squares[1][1]-squares[0][1]);
@@ -390,6 +385,7 @@ void objectDetection(char *im, int rows, int cols, float *output)
     {
         output[i+2] = angles[i];
     }
+
     
 
     // squares_image = show_square_mesh(squares, go_zone, im);

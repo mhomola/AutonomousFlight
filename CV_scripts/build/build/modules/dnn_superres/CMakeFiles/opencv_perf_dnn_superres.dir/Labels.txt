@@ -1,0 +1,17 @@
+# Target labels
+ Extra
+ opencv_dnn_superres
+ PerfTest
+# Source files and their labels
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/dnn_superres/perf/perf_dnn_superres.cpp
+ Extra
+ opencv_dnn_superres
+ PerfTest
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/dnn_superres/perf/perf_main.cpp
+ Extra
+ opencv_dnn_superres
+ PerfTest
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/dnn_superres/perf/perf_precomp.hpp
+ Extra
+ opencv_dnn_superres
+ PerfTest

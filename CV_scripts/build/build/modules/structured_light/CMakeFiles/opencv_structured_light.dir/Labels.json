@@ -1,0 +1,84 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/structured_light/include/opencv2/structured_light.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_structured_light",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/structured_light/include/opencv2/structured_light/graycodepattern.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_structured_light",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/structured_light/include/opencv2/structured_light/sinusoidalpattern.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_structured_light",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/structured_light/include/opencv2/structured_light/structured_light.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_structured_light",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/structured_light/src/graycodepattern.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_structured_light",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/structured_light/src/sinusoidalpattern.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_structured_light",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/structured_light/src/precomp.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_structured_light",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/cvconfig.h"
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/opencv2/opencv_modules.hpp"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_structured_light",
+			"Module"
+		],
+		"name" : "opencv_structured_light"
+	}
+}

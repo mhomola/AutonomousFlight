@@ -1,0 +1,17 @@
+# Target labels
+ Extra
+ opencv_rgbd
+ PerfTest
+# Source files and their labels
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/rgbd/perf/perf_main.cpp
+ Extra
+ opencv_rgbd
+ PerfTest
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/rgbd/perf/perf_tsdf.cpp
+ Extra
+ opencv_rgbd
+ PerfTest
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/rgbd/perf/perf_precomp.hpp
+ Extra
+ opencv_rgbd
+ PerfTest

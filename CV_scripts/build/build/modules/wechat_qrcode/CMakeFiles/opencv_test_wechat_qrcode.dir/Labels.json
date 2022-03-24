@@ -1,0 +1,42 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/wechat_qrcode/test/test_main.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_wechat_qrcode",
+				"AccuracyTest"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/wechat_qrcode/test/test_qrcode.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_wechat_qrcode",
+				"AccuracyTest"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/wechat_qrcode/test/test_precomp.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_wechat_qrcode",
+				"AccuracyTest"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_wechat_qrcode",
+			"AccuracyTest"
+		],
+		"name" : "opencv_test_wechat_qrcode"
+	}
+}

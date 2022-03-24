@@ -1,0 +1,138 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/text/include/opencv2/text.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_text",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/text/include/opencv2/text/erfilter.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_text",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/text/include/opencv2/text/ocr.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_text",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/text/include/opencv2/text/swt_text_detection.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_text",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/text/include/opencv2/text/textDetector.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_text",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/text/src/erfilter.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_text",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/text/src/ocr_beamsearch_decoder.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_text",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/text/src/ocr_hmm_decoder.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_text",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/text/src/ocr_holistic.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_text",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/text/src/ocr_tesseract.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_text",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/text/src/text_detectorCNN.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_text",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/text/src/text_detector_swt.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_text",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/text/src/precomp.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_text",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/cvconfig.h"
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/opencv2/opencv_modules.hpp"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_text",
+			"Module"
+		],
+		"name" : "opencv_text"
+	}
+}

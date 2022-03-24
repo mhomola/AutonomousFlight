@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.8)
+project( FloorDetection )
+find_package( OpenCV REQUIRED )
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+add_executable( FloorDetection FloorDetection.cpp )
+target_link_libraries( FloorDetection ${OpenCV_LIBS} )

@@ -1,0 +1,198 @@
+# Hey Emacs, this is a -*- makefile -*-
+#
+# Copyright (C) 2013 Gautier Hattenberger
+#
+# This file is part of paparazzi.
+#
+# paparazzi is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+#
+# paparazzi is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with paparazzi; see the file COPYING.  If not, see
+# <http://www.gnu.org/licenses/>.
+#
+
+#
+# This is the common Makefile for STM32 upload rules
+#
+
+
+# default: assume the luftboot bootloader is not used
+# if luftboot is used define HAS_LUFTBOOT to a value != 0
+OOCD_START_SECTOR = 0
+ASSUMING_LUFTBOOT = "no"
+ifdef HAS_LUFTBOOT
+$(shell echo luftboot: $(HAS_LUFTBOOT))
+ifeq (,$(findstring $(HAS_LUFTBOOT),0 FALSE))
+OOCD_START_SECTOR = 4
+ASSUMING_LUFTBOOT = "yes"
+endif
+endif
+
+
+#
+# check which flash mode is configured
+#
+ifeq ($(FLASH_MODE),DFU)
+#
+# DFU flash mode paparazzi stm32_mem
+PYTHON ?= $(shell which python)
+ifdef DFU_ADDR
+DFU_ADDR_CMD = --addr=$(DFU_ADDR)
+endif
+ifdef DFU_PRODUCT
+DFU_PRODUCT_CMD = --product=$(DFU_PRODUCT)
+endif
+upload: $(OBJDIR)/$(TARGET).bin
+	$(DFU_PRE_UPLOAD_CMD)
+	@echo "Using stm32 mem dfu loader"
+	$(PYTHON) $(PAPARAZZI_SRC)/sw/tools/dfu/stm32_mem.py $(DFU_PRODUCT_CMD) $(DFU_ADDR_CMD) $^
+
+
+else ifeq ($(FLASH_MODE),DFU-UTIL)
+#
+# DFU flash mode using dfu-util
+DFU_ADDR ?= 0x08000000
+# verify if dfu-util version >= 0.7
+DFU_UTIL_VERSION = $(shell (dfu-util --version 2>/dev/null || echo NotFound 0) | head -n 1 | awk '{print $$2}')
+VERIFY = $(shell echo '$(DFU_UTIL_VERSION)>=0.7' | bc)
+DFU_SIZE ?= $(shell ls -nl $^ | awk '{print $$5}')
+
+DFU_LEAVE ?= 1
+ifeq ($(DFU_LEAVE),1)
+DFUSE_VERIFY_ADDRESS = $(DFU_ADDR):$(DFU_SIZE):leave
+else
+DFUSE_VERIFY_ADDRESS = $(DFU_ADDR):$(DFU_SIZE)
+endif
+
+upload: $(OBJDIR)/$(TARGET).bin
+	$(DFU_UTIL_PRE_UPLOAD_CMD)
+	@echo "Using dfu-util at $(DFU_ADDR)"
+	$(Q)dfu-util -d 0483:df11 -c 1 -i 0 -a 0 -s $(DFU_ADDR) -D $^
+ifeq ($(VERIFY),1)
+	@echo "Reading flashed bin file of size $(DFU_SIZE) for verification"
+	$(Q)rm -f $(OBJDIR)/verify.bla
+	$(Q)dfu-util -d 0483:df11 -c 1 -i 0 -a 0 -s $(DFUSE_VERIFY_ADDRESS) -U $(OBJDIR)/verify.bla
+	$(Q)diff $^ $(OBJDIR)/verify.bla
+	$(Q)rm -f $(OBJDIR)/verify.bla
+endif
+
+#
+# serial flash mode
+else ifeq ($(FLASH_MODE),SERIAL)
+LOADER ?= $(PAPARAZZI_SRC)/sw/tools/stm32loader/stm32loader.py
+upload: $(OBJDIR)/$(TARGET).bin
+	$(LOADER) -p /dev/ttyUSB0  -b 115200 -e -w -v $^
+
+#
+# JTAG flash mode
+else ifeq ($(FLASH_MODE),JTAG)
+# via OpenOCD and "normal" jtag
+OOCD ?= openocd
+ifneq ($(BOARD_SERIAL),)
+OOCD_OPTIONS = -c "ft2232_serial $(BOARD_SERIAL)"
+endif
+
+ifndef $(TARGET).OOCD_INTERFACE
+OOCD_INTERFACE = ftdi/lisa-l
+else
+OOCD_INTERFACE =  $($(TARGET).OOCD_INTERFACE)
+endif
+
+ifndef $(TARGET).OOCD_BOARD
+OOCD_BOARD = lisa-l
+else
+OOCD_BOARD =  $($(TARGET).OOCD_BOARD)
+endif
+upload: $(OBJDIR)/$(TARGET).hex
+	@echo "Assuming luftboot bootloader: $(ASSUMING_LUFTBOOT)"
+	@echo "Using OOCD = $(OOCD)"
+	@echo "  OOCD\t$<"
+	$(Q)$(OOCD) -f interface/$(OOCD_INTERFACE).cfg \
+		-f board/$(OOCD_BOARD).cfg $(OOCD_OPTIONS) \
+		-c init \
+		-c "reset halt" \
+		-c "reset init" \
+		-c "flash erase_sector 0 $(OOCD_START_SECTOR) last" \
+		-c "flash write_image $<" \
+		-c reset \
+		-c shutdown
+
+#
+# JTAG flash mode (with Black Magic Probe)
+else ifeq ($(FLASH_MODE),JTAG_BMP)
+BMP_PORT ?= $(shell ls /dev/bmp-gdb 2>/dev/null || echo /dev/ttyACM0)
+BMP_UPLOAD_SCRIPT ?= $(PAPARAZZI_SRC)/sw/tools/flash_scripts/bmp_jtag_flash.scr
+upload: $(OBJDIR)/$(TARGET).elf
+	@echo "Assuming luftboot bootloader: $(ASSUMING_LUFTBOOT)"
+	@echo "Using Black Magic Probe with JTAG on BMP_PORT $(BMP_PORT)"
+	@echo "Using GDB = $(GDB)"
+	@echo "  BMP\t$<"
+	$(Q)$(GDB) --batch \
+		   -ex 'target extended-remote $(BMP_PORT)' \
+		   -x $(BMP_UPLOAD_SCRIPT) \
+		   $<
+
+#
+# SWD flash mode (with Black Magic Probe)
+else ifeq ($(FLASH_MODE),SWD)
+# only works if BMP_PORT is defined
+BMP_PORT ?= $(shell ls /dev/bmp-gdb 2>/dev/null || echo /dev/ttyACM0)
+BMP_UPLOAD_SCRIPT ?= $(PAPARAZZI_SRC)/sw/tools/flash_scripts/bmp_swd_flash.scr
+upload: $(OBJDIR)/$(TARGET).elf
+	@echo "Assuming luftboot bootloader: $(ASSUMING_LUFTBOOT)"
+	@echo "Using Black Magic Probe with SWD on BMP_PORT $(BMP_PORT)"
+	@echo "Using GDB = $(GDB)"
+	@echo "  BMP\t$<"
+	$(Q)$(GDB) --batch \
+		   -ex 'target extended-remote $(BMP_PORT)' \
+		   -x $(BMP_UPLOAD_SCRIPT) \
+		   $<
+
+#
+# SWD flash mode (with Black Magic Probe)
+else ifeq ($(FLASH_MODE),SWD_NOPWR)
+# only works if BMP_PORT is defined
+BMP_PORT ?= $(shell ls /dev/bmp-gdb 2>/dev/null || echo /dev/ttyACM0)
+BMP_UPLOAD_SCRIPT ?= $(PAPARAZZI_SRC)/sw/tools/flash_scripts/bmp_swd_nopwr_flash.scr
+upload: $(OBJDIR)/$(TARGET).elf
+	@echo "Assuming luftboot bootloader: $(ASSUMING_LUFTBOOT)"
+	@echo "Using Black Magic Probe with SWD on BMP_PORT $(BMP_PORT)"
+	@echo "Using GDB = $(GDB)"
+	@echo "  BMP\t$<"
+	$(Q)$(GDB) --batch \
+		   -ex 'target extended-remote $(BMP_PORT)' \
+		   -x $(BMP_UPLOAD_SCRIPT) \
+		   $<
+
+#
+# SWD flash mode (with STLINK)
+else ifeq ($(FLASH_MODE),STLINK)
+STLINK_ADDR ?= 0x08000000
+upload: $(OBJDIR)/$(TARGET).bin
+	@echo "Using ST-LINK with SWD at $(STLINK_ADDR)"
+	$(Q)st-flash write $^ $(STLINK_ADDR)
+
+else ifeq ($(FLASH_MODE),PX4_BOOTLOADER)
+	# Program the device and start it.
+upload: $(OBJDIR)/$(TARGET).bin
+	$(PAPARAZZI_SRC)/sw/tools/px4/px_mkfw.py --prototype $(PX4_PROTOTYPE) --image $(OBJDIR)/$(TARGET).bin > $(OBJDIR)/$(TARGET).px4
+	$(PAPARAZZI_SRC)/sw/tools/px4/set_target.py $(PX4_TARGET) $(OBJDIR)/$(TARGET).px4
+	$(PAPARAZZI_SRC)/sw/tools/px4/px_uploader.py --port $(PX4_BL_PORT) $(OBJDIR)/$(TARGET).px4
+#
+# no known flash mode
+else
+upload:
+	@echo unknown FLASH_MODE $(FLASH_MODE)
+	@echo Available FLASH_MODEs: DFU, DFU-UTIL, SWD, JTAG, JTAG_BMP, STLINK, SERIAL, SWD_NOPWR
+endif
+
+.PHONY : upload
+

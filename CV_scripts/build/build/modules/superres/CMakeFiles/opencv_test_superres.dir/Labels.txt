@@ -1,0 +1,17 @@
+# Target labels
+ Extra
+ opencv_superres
+ AccuracyTest
+# Source files and their labels
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/superres/test/test_main.cpp
+ Extra
+ opencv_superres
+ AccuracyTest
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/superres/test/test_superres.cpp
+ Extra
+ opencv_superres
+ AccuracyTest
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/superres/test/test_precomp.hpp
+ Extra
+ opencv_superres
+ AccuracyTest

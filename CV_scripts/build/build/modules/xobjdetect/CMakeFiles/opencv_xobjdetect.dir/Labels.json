@@ -1,0 +1,120 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/xobjdetect/include/opencv2/xobjdetect.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_xobjdetect",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/xobjdetect/src/feature_evaluator.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_xobjdetect",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/xobjdetect/src/lbpfeatures.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_xobjdetect",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/xobjdetect/src/waldboost.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_xobjdetect",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/xobjdetect/src/wbdetector.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_xobjdetect",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/xobjdetect/src/cascadeclassifier.h",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_xobjdetect",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/xobjdetect/src/feature_evaluator.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_xobjdetect",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/xobjdetect/src/lbpfeatures.h",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_xobjdetect",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/xobjdetect/src/precomp.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_xobjdetect",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/xobjdetect/src/waldboost.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_xobjdetect",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/xobjdetect/src/wbdetector.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_xobjdetect",
+				"Module"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/cvconfig.h"
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/opencv2/opencv_modules.hpp"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_xobjdetect",
+			"Module"
+		],
+		"name" : "opencv_xobjdetect"
+	}
+}

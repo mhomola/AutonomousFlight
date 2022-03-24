@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+
+<flash_modes>
+  <mode name="SERIAL (stm32)">
+    <variable name="FLASH_MODE" value="SERIAL"/>
+    <boards>
+      <board name="krooz_sd"/>
+      <board name="lia_.*"/>
+      <board name="lisa_[ms]_.*"/>
+      <board name="elle*"/>
+      <board name="naze32*"/>
+    </boards>
+  </mode>
+  <mode name="USB DFU (stm32_mem)">
+    <variable name="FLASH_MODE" value="DFU"/>
+    <boards>
+      <board name="krooz_sd"/>
+      <board name="li[s]?a_[m]?_.*"/>
+      <board name="li[s]?a_mx_.*"/>
+      <board name="px4fmu_.*"/>
+      <board name="elle*"/>
+      <board name="lia_.*"/>
+    </boards>
+  </mode>
+  <mode name="USB DFU-UTIL">
+    <variable name="FLASH_MODE" value="DFU-UTIL"/>
+    <boards>
+      <board name="apogee_.*"/>
+      <board name="li[s]?a_mx_.*"/>
+      <board name="navstik_.*"/>
+      <board name="elle*"/>
+      <board name="openpilot_revo.*"/>
+      <board name="chimera_.*"/>
+      <board name="tawaki_.*"/>
+      <board name="crazybee_f4_.*"/>
+      <board name="crazyflie_.*"/>
+      <board name="nucleo.*"/>
+      <board name="matek_.*"/>
+      <board name="holybro_.*"/>
+    </boards>
+  </mode>
+  <mode name="STLink (SWD)">
+    <variable name="FLASH_MODE" value="STLINK"/>
+    <boards>
+      <board name="apogee_.*"/>
+      <board name="li[s]?a_mx_.*"/>
+      <board name="cc3d"/>
+      <board name="elle*"/>
+      <board name="naze32*"/>
+      <board name="openpilot_revo.*"/>
+      <board name="chimera_.*"/>
+      <board name="tawaki_.*"/>
+      <board name="crazybee_f4_.*"/>
+      <board name="crazyflie_.*"/>
+      <board name="nucleo.*"/>
+      <board name="matek_.*"/>
+      <board name="holybro_.*"/>
+    </boards>
+  </mode>
+  <mode name="BlackMagic Probe (SWD)">
+    <variable name="FLASH_MODE" value="SWD"/>
+    <boards>
+      <board name="apogee_.*"/>
+      <board name="li[s]?a_m_.*"/>
+      <board name="li[s]?a_mx_.*"/>
+      <board name="px4fmu_.*"/>
+      <board name="px4io_.*"/>
+      <board name="cc3d"/>
+      <board name="elle*"/>
+      <board name="naze32*"/>
+      <board name="cjmcu*"/>
+      <board name="openpilot_revo.*"/>
+      <board name="lia_.*"/>
+      <board name="chimera_.*"/>
+      <board name="tawaki_.*"/>
+      <board name="crazyflie_.*"/>
+      <board name="nucleo.*"/>
+      <board name="matek_.*"/>
+      <board name="holybro_.*"/>
+    </boards>
+  </mode>
+  <mode name="BlackMagic Probe (SWD_NOPWR)">
+    <variable name="FLASH_MODE" value="SWD_NOPWR"/>
+    <boards>
+      <board name="li[s]?a_mxs_.*"/>
+      <board name="li[s]?a_s_.*"/>
+      <board name="px4fmu_.*"/>
+      <board name="px4io_.*"/>
+    </boards>
+  </mode>
+  <mode name="BlackMagic Probe (JTAG)">
+    <variable name="FLASH_MODE" value="JTAG_BMP"/>
+    <boards>
+      <board name="apogee_*"/>
+      <board name="li[s]?a_[ms]?_.*"/>
+      <board name="li[s]?a_mx_.*"/>
+      <board name="px4fmu_.*"/>
+      <board name="elle*"/>
+    </boards>
+  </mode>
+    <mode name="Px4 bootloader">
+    <variable name="FLASH_MODE" value="PX4_BOOTLOADER"/>
+    <boards>
+      <board name="px4fmu_.*"/>
+      <board name="px4io_.*"/>
+    </boards>
+  </mode>
+  <mode name="JTAG (OpenOCD)">
+    <variable name="FLASH_MODE" value="JTAG"/>
+    <boards>
+      <board name="krooz_sd"/>
+      <board name="li[s]?a_[lm]?_.*"/>
+      <board name="navstik_.*"/>
+      <board name="elle*"/>
+    </boards>
+  </mode>
+</flash_modes>

@@ -1,0 +1,47 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="imu_xsens" dir="ins" task="sensors">
+  <doc>
+    <description>
+      XSens IMU.
+      Used to just provide IMU measurements.
+      For use with an external AHRS algorithm.
+    </description>
+    <configure name="XSENS_PORT" value="uart1" description="The (uart) port the XSens is connected to"/>
+    <configure name="XSENS_BAUD" value="B115200" description="UART baud rate"/>
+  </doc>
+  <dep>
+    <depends>uart,imu_common</depends>
+    <provides>imu,mag</provides>
+  </dep>
+  <autoload name="imu_nps"/>
+  <autoload name="imu_sim"/>
+  <header>
+    <file name="imu_xsens.h"/>
+  </header>
+  <init fun="imu_xsens_init()"/>
+  <event fun="imu_xsens_event()"/>
+  <makefile target="ap">
+    <file name="xsens.c"/>
+    <file name="xsens_parser.c"/>
+    <file name="imu_xsens.c"/>
+
+    <configure name="XSENS_PORT" default="uart1" case="upper|lower"/>
+    <configure name="XSENS_BAUD" default="B115200"/>
+    <define name="USE_$(XSENS_PORT_UPPER)" value="1"/>
+    <define name="XSENS_LINK" value="$(XSENS_PORT_LOWER)"/>
+    <define name="$(XSENS_PORT_UPPER)_BAUD" value="$(XSENS_BAUD)"/>
+    <!-- TODO: check output mode -->
+    <define name="XSENS_OUTPUT_MODE" value="0x1836"/>
+    <define name="IMU_TYPE_H" value="modules/ins/imu_xsens.h" type="string"/>
+    <test>
+      <define name="IMU_TYPE_H" value="modules/ins/imu_xsens.h" type="string"/>
+      <define name="XSENS_LINK" value="uart1"/>
+      <define name="USE_UART1"/>
+      <define name="DOWNLINK_TRANSPORT" value="pprz_tp"/>
+      <define name="DOWNLINK_DEVICE" value="uart0"/>
+      <define name="USE_UART0"/>
+    </test>
+  </makefile>
+</module>
+

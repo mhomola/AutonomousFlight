@@ -1,0 +1,28 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="meteo_france_DAQ" dir="meteo">
+  <doc>
+    <description>Data acquisition board used by Meteo France</description>
+  </doc>
+  <settings>
+    <dl_settings NAME="MF DAQ control">
+      <dl_settings NAME="MF DAQ">
+        <dl_setting MAX="1" MIN="0" STEP="1" VAR="mf_daq.power" module="meteo/meteo_france_DAQ" handler="SetPower" values="OFF|ON">
+          <strip_button name="MF DAQ power on" icon="on.png" value="1" group="MF_DAQ"/>
+          <strip_button name="MF DAQ power off" icon="off.png" value="0" group="MF_DAQ"/>
+        </dl_setting>
+      </dl_settings>
+    </dl_settings>
+  </settings>
+  <header>
+    <file name="meteo_france_DAQ.h"/>
+  </header>
+  <init fun="init_mf_daq()"/>
+  <periodic fun="mf_daq_send_state()" freq="10."/>
+  <periodic fun="mf_daq_send_report()" freq="1." autorun="TRUE"/>
+  <datalink message="PAYLOAD_FLOAT" fun="parse_mf_daq_msg(buf)"/>
+  <makefile target="ap">
+    <file name="meteo_france_DAQ.c"/>
+  </makefile>
+</module>
+

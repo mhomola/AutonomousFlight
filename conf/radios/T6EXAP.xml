@@ -1,0 +1,9 @@
+<!DOCTYPE radio SYSTEM "radio.dtd">
+<radio name="Futaba T6EXAP" data_min="900" data_max="2100" sync_min="5000" sync_max="15000" pulse_type="POSITIVE">
+ <channel function="ROLL" max="1942" neutral="1526" min="1074" average="0" reverse="1"/>
+ <channel function="PITCH" min="1109" neutral="1520" max="1938" average="0"/>
+ <channel function="THROTTLE" min="1107" neutral="1933" max="1933" average="0" reverse="1"/>
+ <channel function="YAW" min="1103" neutral="1524" max="1937" average="0" reverse="1"/>
+ <channel function="GAIN1" min="1100" neutral="1500" max="3000" average="1"/>
+ <channel function="MODE" min="1100" neutral="1500" max="1900" average="1" reverse="1"/>
+</radio>

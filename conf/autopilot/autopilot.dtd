@@ -1,0 +1,122 @@
+<!-- Paparazzi Autopilot DTD -->
+
+<!ELEMENT autopilot (state_machine+)>
+<!ELEMENT state_machine (modules*,includes?,settings*,control_block*,exceptions?,mode*)>
+<!ELEMENT control_block (call*)>
+<!ELEMENT exceptions (exception*)>
+<!ELEMENT includes (include*,define*)>
+<!ELEMENT mode (select*,on_enter?,control*,exception*,on_exit?)>
+<!ELEMENT select EMPTY>
+<!ELEMENT on_enter (call)*>
+<!ELEMENT on_exit (call)*>
+<!ELEMENT control (call|call_block)*>
+<!ELEMENT exception EMPTY>
+<!ELEMENT include EMPTY>
+<!ELEMENT call EMPTY>
+<!ELEMENT call_block EMPTY>
+<!ELEMENT modules (module)*>
+<!ELEMENT module (configure|define)*>
+<!ELEMENT define EMPTY>
+<!ELEMENT configure EMPTY>
+<!ELEMENT settings (dl_setting*)>
+<!ELEMENT dl_setting (strip_button|key_press)*>
+<!ELEMENT strip_button EMPTY>
+<!ELEMENT key_press EMPTY>
+
+<!ATTLIST autopilot
+name CDATA #IMPLIED>
+
+<!ATTLIST state_machine
+name CDATA #REQUIRED
+freq CDATA #REQUIRED
+gcs_mode CDATA #IMPLIED
+settings_mode CDATA #IMPLIED
+settings_handler CDATA #IMPLIED>
+
+<!ATTLIST control_block
+name CDATA #REQUIRED>
+
+<!ATTLIST mode
+name CDATA #REQUIRED
+shortname CDATA #IMPLIED
+gcs_name CDATA #IMPLIED
+settings CDATA #IMPLIED>
+
+<!ATTLIST exceptions>
+
+<!ATTLIST includes>
+
+<!ATTLIST select
+cond CDATA #REQUIRED
+exception CDATA #IMPLIED>
+
+<!ATTLIST on_enter>
+<!ATTLIST on_exit>
+  
+<!ATTLIST control
+freq CDATA #IMPLIED>
+
+<!ATTLIST exception
+cond CDATA #REQUIRED
+deroute CDATA #REQUIRED>
+
+<!ATTLIST include
+name CDATA #REQUIRED>
+
+<!ATTLIST call
+fun CDATA #REQUIRED
+cond CDATA #IMPLIED>
+
+<!ATTLIST call_block
+name CDATA #REQUIRED>
+
+<!ATTLIST modules>
+
+<!ATTLIST module
+name CDATA #REQUIRED
+type CDATA #IMPLIED
+target CDATA #IMPLIED>
+
+<!ATTLIST define
+name CDATA #REQUIRED
+value CDATA #IMPLIED
+cond CDATA #IMPLIED>
+
+<!ATTLIST configure
+name CDATA #REQUIRED
+value CDATA #REQUIRED>
+
+<!ATTLIST settings
+name CDATA #IMPLIED
+>
+
+<!ATTLIST dl_setting
+var CDATA #REQUIRED
+min CDATA #REQUIRED
+max CDATA #REQUIRED
+type CDATA #IMPLIED
+step CDATA #IMPLIED
+widget CDATA #IMPLIED
+shortname CDATA #IMPLIED
+module CDATA #IMPLIED
+handler CDATA #IMPLIED
+param CDATA #IMPLIED
+unit CDATA #IMPLIED
+alt_unit CDATA #IMPLIED
+alt_unit_coef CDATA #IMPLIED
+values CDATA #IMPLIED
+persistent CDATA #IMPLIED
+>
+
+<!ATTLIST strip_button
+name CDATA #REQUIRED
+value CDATA #REQUIRED
+icon CDATA #IMPLIED
+group CDATA #IMPLIED
+>
+
+<!ATTLIST key_press
+key CDATA #REQUIRED
+value CDATA #REQUIRED
+>
+

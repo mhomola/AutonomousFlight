@@ -1,0 +1,16 @@
+<!--
+ FrSky TFR-4 FAAST compatible receiver
+ Don't forget to jumper channels 3 & 4
+ Reverse throttle & Aileron in TX
+-->
+<!DOCTYPE radio SYSTEM "radio.dtd">
+<radio name="FrSky TFR-4" data_min="1000" data_max="2000" sync_min="5000" sync_max="17000" pulse_type="POSITIVE">
+ <channel function="ROLL" max="1940" neutral="1520" min="1100" average="0" reverse="1"/>
+ <channel function="PITCH" min="1100" neutral="1520" max="1940" average="0"/>
+ <channel function="THROTTLE" min="1100" neutral="1100" max="1940" average="0"/>
+ <channel function="YAW" min="1100" neutral="1520" max="1940" average="0"/>
+ <channel function="MODE" min="1100" neutral="1520" max="1940" average="1"/>
+ <channel function="GAIN1" min="1100" neutral="1520" max="1940" average="1"/>
+ <channel function="GAIN2" min="1100" neutral="1520" max="1940" average="1"/>
+ <channel function="GAIN3" min="1100" neutral="1520" max="1940" average="1"/>
+</radio>

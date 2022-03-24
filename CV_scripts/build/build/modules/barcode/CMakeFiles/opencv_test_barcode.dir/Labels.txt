@@ -1,0 +1,21 @@
+# Target labels
+ Extra
+ opencv_barcode
+ AccuracyTest
+# Source files and their labels
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/test/test_barcode.cpp
+ Extra
+ opencv_barcode
+ AccuracyTest
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/test/test_main.cpp
+ Extra
+ opencv_barcode
+ AccuracyTest
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/test/test_precomp.hpp
+ Extra
+ opencv_barcode
+ AccuracyTest
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/barcode/test/utils.hpp
+ Extra
+ opencv_barcode
+ AccuracyTest

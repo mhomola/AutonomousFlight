@@ -1,0 +1,42 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/intensity_transform/test/test_intensity_transform.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_intensity_transform",
+				"AccuracyTest"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/intensity_transform/test/test_main.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_intensity_transform",
+				"AccuracyTest"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/intensity_transform/test/test_precomp.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_intensity_transform",
+				"AccuracyTest"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_intensity_transform",
+			"AccuracyTest"
+		],
+		"name" : "opencv_test_intensity_transform"
+	}
+}

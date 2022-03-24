@@ -1,0 +1,24 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="nav_gls" dir="nav" task="control">
+  <doc>
+    <description>
+      gps landing system
+ * -automatic calculation of top of decent for const app angle
+ * -smooth intercept posible
+ * -landing direction is set by app fix / also possible in flight!!!
+    </description>
+  </doc>
+  <header>
+    <file name="nav_gls.h"/>
+  </header>
+  <dep>
+    <depends>@navigation</depends>
+  </dep>
+  <makefile target="ap|sim|nps">
+    <file name="nav_gls.c"/>
+    <test firmware="fixedwing">
+      <define name="CTRL_TYPE_H" value="firmwares/fixedwing/guidance/guidance_v.h" type="string"/>
+    </test>
+  </makefile>
+</module>

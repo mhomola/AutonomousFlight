@@ -1,0 +1,60 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="ins_float_invariant" dir="ins" task="estimation">
+  <doc>
+    <description>
+      Invariant INS (in float).
+      Estimates attitude, velocity, position and (gyro, accel, baro) biases.
+    </description>
+    <configure name="USE_MAGNETOMETER" value="TRUE|FALSE" description="use magnetometer"/>
+    <configure name="AHRS_ALIGNER_LED" value="2" description="LED number to indicate if AHRS/INS is aligned"/>
+  </doc>
+  <settings>
+    <dl_settings>
+      <dl_settings NAME="invariant">
+        <dl_setting MAX="1" MIN="1" STEP="1" VAR="ins_float_inv.reset" shortname="reset"/>
+        <dl_setting MAX="10" MIN="0." STEP="0.001" VAR="ins_float_inv.gains.lv" shortname="lv" module="modules/ins/ins_float_invariant"/>
+        <dl_setting MAX="10" MIN="0." STEP="0.001" VAR="ins_float_inv.gains.lb" shortname="lb"/>
+        <dl_setting MAX="10" MIN="0." STEP="0.001" VAR="ins_float_inv.gains.mv" shortname="mv"/>
+        <dl_setting MAX="10" MIN="0." STEP="0.01" VAR="ins_float_inv.gains.mh" shortname="mh"/>
+        <dl_setting MAX="20" MIN="0." STEP="0.01" VAR="ins_float_inv.gains.nx" shortname="nx"/>
+        <dl_setting MAX="10" MIN="0." STEP="0.01" VAR="ins_float_inv.gains.nxz" shortname="nxz"/>
+        <dl_setting MAX="30" MIN="0." STEP="0.01" VAR="ins_float_inv.gains.mvz" shortname="mvz"/>
+        <dl_setting MAX="5" MIN="0." STEP="0.01" VAR="ins_float_inv.gains.nh" shortname="nh"/>
+        <dl_setting MAX="5" MIN="0." STEP="0.01" VAR="ins_float_inv.gains.ov" shortname="ov"/>
+        <dl_setting MAX="3" MIN="0." STEP="0.01" VAR="ins_float_inv.gains.ob" shortname="ob"/>
+        <dl_setting MAX="10" MIN="0." STEP="0.01" VAR="ins_float_inv.gains.rv" shortname="rv"/>
+        <dl_setting MAX="10" MIN="0." STEP="0.01" VAR="ins_float_inv.gains.rh" shortname="rh"/>
+        <dl_setting MAX="1" MIN="0." STEP="0.001" VAR="ins_float_inv.gains.sh" shortname="sh"/>
+      </dl_settings>
+    </dl_settings>
+  </settings>
+  <dep>
+    <depends>@imu,@gps</depends>
+    <provides>ins,ahrs</provides>
+  </dep>
+  <header>
+    <file name="ins_float_invariant_wrapper.h"/>
+  </header>
+  <init fun="ins_float_invariant_wrapper_init()"/>
+  <makefile target="ap|nps">
+    <define name="AHRS_ALIGNER_LED" value="$(AHRS_ALIGNER_LED)" cond="ifneq ($(AHRS_ALIGNER_LED),none)"/>
+    <configure name="USE_MAGNETOMETER" default="TRUE"/>
+    <define name="USE_MAGNETOMETER" cond="ifeq (,$(findstring $(USE_MAGNETOMETER),0 FALSE))"/>
+
+    <file name="ahrs_aligner.c" dir="modules/ahrs"/>
+    <file name="ins.c"/>
+    <file name="ins_float_invariant.c"/>
+    <file name="ins_float_invariant_wrapper.c"/>
+
+    <define name="USE_AHRS_ALIGNER"/>
+    <define name="INS_TYPE_H" value="modules/ins/ins_float_invariant_wrapper.h" type="string"/>
+    <test firmware="rotorcraft"/>
+  </makefile>
+  <makefile target="sim">
+    <define name="AHRS_TYPE_H" value="modules/ahrs/ahrs_sim.h" type="string"/>
+    <define name="USE_AHRS"/>
+    <file name="ahrs.c" dir="modules/ahrs"/>
+    <file name="ahrs_sim.c" dir="modules/ahrs"/>
+  </makefile>
+</module>

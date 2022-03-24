@@ -1,0 +1,31 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="imu_quality_assessment" dir="benchmark" task="sensors">
+  <doc>
+    <description>
+      Give comparable with IMU Health information.
+      - saturation information
+      - vibration level
+      - magnetic field hard iron offset
+    </description>
+  </doc>
+  <settings>
+    <dl_settings>
+      <dl_settings NAME="imu_quality">
+        <dl_setting var="imu_quality_assessment_data.q_ax" min="0" step="1" max="65000" module="modules/benchmark/imu_quality_assessment" shortname="ax"  handler="Reset"/>
+        <dl_setting var="imu_quality_assessment_data.q_ay" min="0" step="1" max="65000" module="modules/benchmark/imu_quality_assessment" shortname="ay"  handler="Reset"/>
+        <dl_setting var="imu_quality_assessment_data.q_az" min="0" step="1" max="65000" module="modules/benchmark/imu_quality_assessment" shortname="az"  handler="Reset"/>
+        <dl_setting var="imu_quality_assessment_data.q" min="0" step="1" max="65000" module="modules/benchmark/imu_quality_assessment" shortname="q"  handler="Reset"/>
+      </dl_settings>
+    </dl_settings>
+  </settings>
+  <header>
+    <file name="imu_quality_assessment.h"/>
+  </header>
+  <init fun="imu_quality_assessment_init()"/>
+  <periodic fun="imu_quality_assessment_periodic()" autorun="TRUE"/>
+  <makefile>
+    <file name="imu_quality_assessment.c"/>
+  </makefile>
+</module>
+

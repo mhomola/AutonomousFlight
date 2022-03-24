@@ -1,0 +1,29 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="MPPT" dir="energy">
+  <doc>
+    <description>
+      Maximum Power Point Tracker
+      Solar Cells control board by Michel
+    </description>
+  </doc>
+  <settings>
+    <dl_settings>
+      <dl_settings NAME="MPPT">
+        <dl_setting MAX="3" MIN="1" STEP="1" VAR="MPPT_mode" module="MPPT"/>
+      </dl_settings>
+    </dl_settings>
+  </settings>
+  <header>
+    <file name="MPPT.h"/>
+  </header>
+  <init fun="MPPT_init()"/>
+  <periodic fun="MPPT_periodic()" freq="8." delay="0.15" autorun="TRUE"/>
+  <makefile target="ap">
+    <file name="MPPT.c"/>
+  </makefile>
+  <makefile target="sim">
+    <file name="sim_MPPT.c"/>
+  </makefile>
+</module>
+

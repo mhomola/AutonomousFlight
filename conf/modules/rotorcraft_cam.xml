@@ -1,0 +1,64 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="rotorcraft_cam" dir="cam_control">
+  <doc>
+    <description>
+Camera control for rotorcraft.
+The camera is controled by the heading of the vehicle for pan and can be controlled by a servo for tilt if defined.
+
+Four modes:
+  - NONE: no control
+  - MANUAL: the servo position is set with PWM
+  - HEADING: the servo position and the heading of the rotorcraft are set with angles
+  - WP: the camera is tracking a waypoint (Default: CAM)
+
+If ROTORCRAFT_CAM_SWITCH_GPIO is defined, this gpio is set/cleared to switch the power
+of the camera on in normal modes and disable it when in NONE mode.
+On boards with CAM_SWITCH, ROTORCRAFT_CAM_SWITCH_GPIO can be defined to CAM_SWITCH_GPIO.
+
+    </description>
+    <section name="CAM" prefix="ROTORCRAFT_CAM_">
+      <define name="DEFAULT_MODE" value="MODE_NONE|MODE_MANUAL|MODE_HEADING|MODE_WP" description="Select default mode (default: MODE_NONE)"/>
+      <define name="SWITCH_GPIO" value="gpio" description="GPIO used to turn on/off the camer power, e.g. CAM_SWITCH_GPIO or GPIOB,GPIO22. Nothing set by default."/>
+      <define name="CAM_ON" value="gpio_set|gpio_clear" description="Gpio output level to turn camera power power on. gpio_set (default) or gpio_clear"/>
+      <define name="CAM_OFF" value="gpio_set|gpio_clear" description="Gpio output level to turn camera power power off. gpio_set or gpio_clear (default) "/>
+      <define name="TILT_SERVO" value="name" description="Servo name for tilt control (no tilt control if not defined)"/>
+      <define name="TILT_ANGLE_MIN" value="angle" description="Tilt angle corresponding to the servo min position"/>
+      <define name="TILT_ANGLE_MAX" value="angle" description="Tilt angle corresponding to the servo max position"/>
+      <define name="USE_PAN" value="TRUE|FALSE" description="Enable pan control with heading (default: TRUE)"/>
+      <define name="TRACK_WP" value="WP_XXX" description="Enable waypoint tracking mode on the selected WP (default: enable if waypoint CAM is defined)"/>
+      <define name="STICK_TILT_INC" value="angle/stick_input" description="Sensitivity of the datalink stick tilt control (default: 10 deg)"/>
+      <define name="STICK_PAN_INC" value="angle/stick_input" description="Sensitivity of the datalink stick pan control (default: 20 deg)"/>
+    </section>
+  </doc>
+  <settings>
+    <dl_settings>
+      <dl_settings NAME="CAM">
+        <dl_setting var="rotorcraft_cam_mode" MIN="0" STEP="1" MAX="3" module="cam_control/rotorcraft_cam" shortname="mode" values="NONE|MAN|HEADING|WP" handler="SetCamMode">
+          <strip_button name="CN" value="0" group="cam_mode1"/>
+          <strip_button name="CM" value="1" group="cam_mode1"/>
+          <strip_button name="CH" value="2" group="cam_mode2"/>
+          <strip_button name="CWP" value="3" group="cam_mode2"/>
+          <key_press key="F1" value="0"/>
+          <key_press key="F2" value="1"/>
+        </dl_setting>
+        <dl_setting var="rotorcraft_cam_tilt_pwm" min="1000" step="1" max="2500" shortname="tilt_pwm"/>
+        <dl_setting var="rotorcraft_cam_tilt" min="-90" step="1" max="0" shortname="tilt" alt_unit="deg" alt_unit_coef="0.0139882">
+          <strip_button name="Look Foreward" icon="lookfore.png" value="0" group="cam_look"/>
+          <strip_button name="Look Down" icon="lookdown.png" value="-6434" group="cam_look"/>
+        </dl_setting>
+        <dl_setting var="rotorcraft_cam_pan" MIN="0" STEP="1" MAX="360" shortname="pan" unit="1/2^12r" alt_unit="deg" alt_unit_coef="0.0139882"/>
+      </dl_settings>
+    </dl_settings>
+  </settings>
+  <header>
+    <file name="rotorcraft_cam.h"/>
+  </header>
+  <init fun="rotorcraft_cam_init()"/>
+  <periodic fun="rotorcraft_cam_periodic()" freq="10."/>
+  <datalink message="ROTORCRAFT_CAM_STICK" fun="ROTORCRAFT_CAM_STICK_PARSE(buf)"/>
+  <makefile>
+    <file name="rotorcraft_cam.c"/>
+  </makefile>
+</module>
+

@@ -1,0 +1,55 @@
+[submodule "sw/ext/libopencm3"]
+	path = sw/ext/libopencm3
+	url = https://github.com/libopencm3/libopencm3.git
+[submodule "sw/ext/luftboot"]
+	path = sw/ext/luftboot
+	url = https://github.com/paparazzi/luftboot.git
+[submodule "sw/ext/fatfs"]
+	path = sw/ext/fatfs
+	url = https://github.com/enacuavlab/fatfs.git
+[submodule "sw/ext/chibios"]
+	path = sw/ext/chibios
+	url = https://github.com/ChibiOS/ChibiOS.git
+[submodule "sw/ext/libzbar"]
+	path = sw/ext/libzbar
+	url = https://github.com/paparazzi/libzbar
+[submodule "sw/ext/libsbp"]
+	path = sw/ext/libsbp
+	url = https://github.com/swift-nav/libsbp.git
+[submodule "sw/ext/mavlink"]
+	path = sw/ext/mavlink
+	url = https://github.com/paparazzi/mavlink.git
+[submodule "sw/ext/pprzlink"]
+	path = sw/ext/pprzlink
+	url = https://github.com/paparazzi/pprzlink.git
+[submodule "sw/ext/opencv_bebop"]
+	path = sw/ext/opencv_bebop
+	url = https://github.com/tudelft/opencv_bebop.git
+	ignore = dirty
+[submodule "sw/ext/TRICAL"]
+	path = sw/ext/TRICAL
+	url = https://github.com/sfwa/TRICAL.git
+[submodule "sw/ext/hacl-c"]
+	path = sw/ext/hacl-c
+	url = https://github.com/paparazzi/hacl-c.git
+[submodule "sw/ext/rustlink"]
+	path = sw/ext/rustlink
+	url = https://github.com/paparazzi/rustlink.git
+[submodule "sw/ext/key_generator"]
+	path = sw/ext/key_generator
+	url = https://github.com/paparazzi/key_generator.git
+[submodule "sw/ext/tudelft_gazebo_models"]
+	path = sw/ext/tudelft_gazebo_models
+	url = https://github.com/tudelft/gazebo_models.git
+[submodule "sw/ext/eigen"]
+	path = sw/ext/eigen
+	url = https://gitlab.com/libeigen/eigen.git
+[submodule "sw/ext/ecl"]
+	path = sw/ext/ecl
+	url = https://github.com/PX4/ecl.git
+[submodule "sw/ext/matrix"]
+	path = sw/ext/matrix
+	url = https://github.com/PX4/Matrix.git
+[submodule "sw/ext/libcanard"]
+	path = sw/ext/libcanard
+	url = https://github.com/UAVCAN/libcanard.git

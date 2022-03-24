@@ -1,0 +1,64 @@
+# Target labels
+ Extra
+ opencv_superres
+ Module
+# Source files and their labels
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/superres/include/opencv2/superres.hpp
+ Extra
+ opencv_superres
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/superres/include/opencv2/superres/optical_flow.hpp
+ Extra
+ opencv_superres
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/superres/src/btv_l1.cpp
+ Extra
+ opencv_superres
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/superres/src/btv_l1_cuda.cpp
+ Extra
+ opencv_superres
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/superres/src/frame_source.cpp
+ Extra
+ opencv_superres
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/superres/src/input_array_utility.cpp
+ Extra
+ opencv_superres
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/superres/src/optical_flow.cpp
+ Extra
+ opencv_superres
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/superres/src/super_resolution.cpp
+ Extra
+ opencv_superres
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/superres/src/opencl/superres_btvl1.cl
+ Extra
+ opencv_superres
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/modules/superres/opencl_kernels_superres.cpp
+ Extra
+ opencv_superres
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/modules/superres/opencl_kernels_superres.hpp
+ Extra
+ opencv_superres
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/superres/src/input_array_utility.hpp
+ Extra
+ opencv_superres
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/superres/src/precomp.hpp
+ Extra
+ opencv_superres
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/superres/src/ring_buffer.hpp
+ Extra
+ opencv_superres
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/cvconfig.h
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/opencv2/opencv_modules.hpp
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/modules/superres/opencl_kernels_superres.cpp.rule

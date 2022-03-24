@@ -1,0 +1,32 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="formation_flight" dir="multi">
+  <doc>
+    <description>Formation flight control</description>
+  </doc>
+  <settings>
+    <dl_settings>
+      <dl_settings name="formation">
+        <dl_setting MAX="24" MIN="0" STEP="1" VAR="leader_id" module="multi/formation"/>
+        <dl_setting MAX="1" MIN="0" STEP="0.01" VAR="coef_form_pos" shortname="pos_gain" module="multi/formation" param="FORM_POS_PGAIN"/>
+        <dl_setting MAX="1" MIN="0" STEP="0.01" VAR="coef_form_speed" shortname="speed_gain" module="multi/formation" param="FORM_SPEED_PGAIN"/>
+        <dl_setting MAX="1" MIN="0" STEP="0.01" VAR="coef_form_course" shortname="course_gain" module="multi/formation" param="FORM_COURSE_PGAIN"/>
+        <dl_setting MAX="1" MIN="0" STEP="0.01" VAR="coef_form_alt" shortname="alt_gain" module="multi/formation" param="FORM_ALTITUDE_PGAIN"/>
+        <dl_setting MAX="1" MIN="0" STEP="1" VAR="form_mode" module="multi/formation" values="GLOBAL|LOCAL" param="FORM_MODE"/>
+      </dl_settings>
+    </dl_settings>
+  </settings>
+  <dep>
+    <depends>traffic_info</depends>
+  </dep>
+  <header>
+    <file name="formation.h"/>
+  </header>
+  <init fun="formation_init()"/>
+  <datalink message="FORMATION_STATUS" fun="parseFormationStatus(buf)"/>
+  <datalink message="FORMATION_SLOT" fun="parseFormationSlot(buf)"/>
+  <makefile>
+    <file name="formation.c"/>
+  </makefile>
+</module>
+

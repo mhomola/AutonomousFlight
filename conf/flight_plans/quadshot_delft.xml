@@ -1,0 +1,109 @@
+<!DOCTYPE flight_plan SYSTEM "flight_plan.dtd">
+
+<flight_plan alt="40" ground_alt="0" lat0="52.170867" lon0="4.412194" max_dist_from_home="1000" name="Transitioning test" security_height="2">
+  <header>
+    #include "autopilot.h"
+    #include "modules/radio_control/radio_control.h"
+    #include "modules/energy/electrical.h"
+    #include "modules/actuators/actuators.h"
+    #include "firmwares/rotorcraft/guidance/guidance_h.h"
+    #include "firmwares/rotorcraft/guidance/guidance_hybrid.h"
+</header>
+  <waypoints>
+    <waypoint name="HOME" x="0.0" y="0.0"/>
+    <waypoint name="STDBY" x="11.2" y="15.5"/>
+    <waypoint name="p1" x="98.2" y="-123.9"/>
+    <waypoint name="p2" x="18.8" y="104.2"/>
+    <waypoint name="p3" x="103.2" y="145.7"/>
+    <waypoint name="p4" x="216.8" y="-82.9"/>
+  </waypoints>
+  <blocks>
+    <block name="Wait GPS">
+      <call_once fun="NavKillThrottle()"/>
+      <while cond="!GpsFixValid()"/>
+    </block>
+    <block name="Geo init">
+      <while cond="LessThan(NavBlockTime(), 10)"/>
+      <call_once fun="NavSetGroundReferenceHere()"/>
+    </block>
+    <block name="Holding point">
+      <call_once fun="NavKillThrottle()"/>
+      <attitude pitch="0" roll="0" throttle="0" until="FALSE" vmode="throttle"/>
+    </block>
+    <block name="Start Engine">
+      <set value="FALSE" var="force_forward_flight"/>
+      <call_once fun="NavResurrect()"/>
+    </block>
+    <block name="Takeoff" strip_button="Takeoff" strip_icon="takeoff.png">
+      <exception cond="GetPosHeight() @GT 5.0" deroute="Climb"/>
+      <call_once fun="NavSetWaypointHere(WP_STDBY)"/>
+      <set value="FALSE" var="force_forward_flight"/>
+      <attitude pitch="0" roll="0" throttle="0.5" until="FALSE" vmode="throttle"/>
+    </block>
+    <block name="Climb">
+      <exception cond="GetPosHeight() @GT 20.0" deroute="Standby"/>
+      <call_once fun="NavSetWaypointHere(WP_STDBY)"/>
+      <set value="FALSE" var="force_forward_flight"/>
+      <stay climb="2" vmode="climb" wp="STDBY"/>
+    </block>
+    <block name="Standby" strip_button="Standby" strip_icon="home.png">
+      <exception cond="radio_control.status @GT RC_OK" deroute="land"/>
+      <set value="FALSE" var="force_forward_flight"/>
+      <stay wp="STDBY"/>
+    </block>
+    <block name="stay_p1">
+      <exception cond="radio_control.status @GT RC_OK" deroute="land"/>
+      <set value="FALSE" var="force_forward_flight"/>
+      <stay wp="p1"/>
+    </block>
+    <block name="go_p2_p1">
+      <exception cond="radio_control.status @GT RC_OK" deroute="land"/>
+      <set value="FALSE" var="force_forward_flight"/>
+      <go wp="p2"/>
+      <deroute block="stay_p1"/>
+    </block>
+    <block name="pylon_racing">
+      <exception cond="radio_control.status @GT RC_OK" deroute="land"/>
+      <set value="FALSE" var="force_forward_flight"/>
+      <go wp="p2"/>
+      <go wp="p3"/>
+      <go wp="p4"/>
+      <go wp="p1"/>
+      <deroute block="stay_p1"/>
+    </block>
+    <block name="pylon_racing_forward">
+      <exception cond="radio_control.status @GT RC_OK" deroute="land"/>
+      <set value="TRUE" var="force_forward_flight"/>
+      <go wp="p2"/>
+      <go wp="p3"/>
+      <go wp="p4"/>
+      <set value="FALSE" var="force_forward_flight"/>
+      <go wp="p1"/>
+      <deroute block="stay_p1"/>
+    </block>
+    <block name="land here" strip_button="Land Here" strip_icon="land-right.png">
+      <set value="FALSE" var="force_forward_flight"/>
+      <call_once fun="NavSetWaypointHere(WP_STDBY)"/>
+    </block>
+    <block name="land">
+      <set value="FALSE" var="force_forward_flight"/>
+      <go wp="STDBY"/>
+    </block>
+    <block name="descent">
+      <exception cond="8.0 @GT GetPosHeight()" deroute="descent_slow"/>
+      <stay climb="-1" vmode="climb" wp="STDBY"/>
+    </block>
+    <block name="descent_slow">
+      <exception cond="2.0 @GT GetPosHeight()" deroute="flare"/>
+      <stay climb="-1" vmode="climb" wp="STDBY"/>
+    </block>
+    <block name="flare">
+      <exception cond="0.3 @GT sonar_adc.distance" deroute="landed"/>
+      <attitude pitch="0" roll="0" throttle="0.13" vmode="throttle"/>
+    </block>
+    <block name="landed">
+      <call_once fun="NavKillThrottle()"/>
+      <attitude pitch="0" roll="0" throttle="0" until="FALSE" vmode="throttle"/>
+    </block>
+  </blocks>
+</flight_plan>

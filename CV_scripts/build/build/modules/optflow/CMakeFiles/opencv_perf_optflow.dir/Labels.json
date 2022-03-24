@@ -1,0 +1,69 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/optflow/perf/opencl/perf_optflow_dualTVL1.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_optflow",
+				"PerfTest"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/optflow/perf/perf_deepflow.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_optflow",
+				"PerfTest"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/optflow/perf/perf_main.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_optflow",
+				"PerfTest"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/optflow/perf/perf_rlof.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_optflow",
+				"PerfTest"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/optflow/perf/perf_tvl1optflow.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_optflow",
+				"PerfTest"
+			]
+		},
+		{
+			"file" : "/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv_contrib-4.x/modules/optflow/perf/perf_precomp.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_optflow",
+				"PerfTest"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_optflow",
+			"PerfTest"
+		],
+		"name" : "opencv_perf_optflow"
+	}
+}

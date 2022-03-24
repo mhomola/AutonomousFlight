@@ -1,0 +1,39 @@
+# Target labels
+ Main
+ opencv_highgui
+ Module
+# Source files and their labels
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv-4.x/modules/highgui/include/opencv2/highgui.hpp
+ Main
+ opencv_highgui
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv-4.x/modules/highgui/include/opencv2/highgui/highgui.hpp
+ Main
+ opencv_highgui
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv-4.x/modules/highgui/include/opencv2/highgui/highgui_c.h
+ Main
+ opencv_highgui
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv-4.x/modules/highgui/src/backend.cpp
+ Main
+ opencv_highgui
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv-4.x/modules/highgui/src/window.cpp
+ Main
+ opencv_highgui
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv-4.x/modules/highgui/src/roiSelector.cpp
+ Main
+ opencv_highgui
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv-4.x/modules/highgui/src/window_gtk.cpp
+ Main
+ opencv_highgui
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/opencv-4.x/modules/highgui/src/precomp.hpp
+ Main
+ opencv_highgui
+ Module
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/cvconfig.h
+/home/marek/Documents/AutonomousFlight/CV_scripts/build/build/opencv2/opencv_modules.hpp

@@ -1,0 +1,44 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="gps_ubx_i2c" dir="gps" task="sensors">
+  <doc>
+    <description>
+      U-blox GPS (I2C)
+      Extends the gps_ublox to provide I2C connectivity.
+    </description>
+    <configure name="GPS_UBX_I2C_DEV" value="i2cX" description="set i2c peripheral (default: i2c1)"/>
+  </doc>
+
+  <dep>
+    <depends>i2c,gps_ublox</depends>
+    <provides>gps</provides>
+  </dep>
+  <autoload name="gps_nps"/>
+  <autoload name="gps_sim"/>
+  <header>
+    <file name="gps_ubx_i2c.h"/>
+  </header>
+  <init fun="gps_ubx_i2c_init()"/>
+  <periodic fun="gps_ubx_i2c_periodic()" freq="10."/>
+  <event fun="GpsUbxi2cEvent()"/>
+
+  <makefile target="ap|fbw">
+    <configure name="GPS_UBX_I2C_DEV" default="i2c1" case="upper|lower"/>
+    <define name="USE_$(GPS_UBX_I2C_DEV_UPPER)"/>
+    <define name="GPS_UBX_I2C_DEV" value="$(GPS_UBX_I2C_DEV_LOWER)"/>
+    <configure name="UBX_GPS_PORT" value="GPS_I2C"/>
+    <define name="GPS_I2C"/>
+    <define name="I2C_BUF_LEN" value="255"/>
+    <file name="gps_ubx_i2c.c"/>
+    <test>
+      <!--define name="PRIMARY_GPS" value="GPS_UBX"/-->
+      <define name="GPS_UBX_I2C_DEV" value="i2c1"/>
+      <define name="USE_I2C1"/>
+      <define name="GPS_I2C"/>
+      <define name="UBX_GPS_PORT" value="GPS_I2C"/>
+      <define name="I2C_BUF_LEN" value="255"/>
+    </test>
+  </makefile>
+
+</module>
+

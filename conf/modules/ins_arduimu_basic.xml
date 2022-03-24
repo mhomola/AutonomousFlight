@@ -1,0 +1,36 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="ins_arduimu_basic" dir="ins" task="estimation">
+  <doc>
+    <description>ArduIMU v2</description>
+    <define name="USE_HIGH_ACCEL_FLAG" description="flag to disable accelerometers on high acceleration detection (low speed, high thrust)"/>
+    <define name="ARDUIMU_SYNC_SEND" description="flag to downlink raw gyro and accels values"/>
+  </doc>
+  <settings>
+    <dl_settings>
+      <dl_settings NAME="ins">
+        <dl_setting MAX="15" MIN="-15" STEP="0.5" VAR="ins_roll_neutral" shortname="roll_neutral" param="INS_ROLL_NEUTRAL_DEFAULT" unit="rad" alt_unit="deg"/>
+        <dl_setting MAX="15" MIN="-15" STEP="0.5" VAR="ins_pitch_neutral" shortname="pitch_neutral" param="INS_PITCH_NEUTRAL_DEFAULT" unit="rad" alt_unit="deg"/>
+        <dl_setting MAX="1" MIN="0" STEP="1" VAR="arduimu_calibrate_neutrals" shortname="calibrate" values="FALSE|TRUE"/>
+      </dl_settings>
+    </dl_settings>
+  </settings>
+  <dep>
+    <depends>@gps</depends>
+    <provides>imu,ins,ahrs</provides>
+  </dep>
+  <header>
+    <file name="ins_arduimu_basic.h"/>
+  </header>
+  <init fun="ArduIMU_init()"/>
+  <periodic fun="ArduIMU_periodic()" freq="60"/>
+  <periodic fun="ArduIMU_periodicGPS()" freq="4"/>
+  <event fun="ArduIMU_event()"/>
+  <makefile target="ap">
+    <file name="ins_arduimu_basic.c"/>
+  </makefile>
+  <makefile target="sim">
+    <file_arch name="ins_arduimu_basic.c"/>
+  </makefile>
+</module>
+

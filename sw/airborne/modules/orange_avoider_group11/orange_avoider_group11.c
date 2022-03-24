@@ -68,11 +68,9 @@ float oa_color_count_frac = 0.18f;
 
 // define and initialise global variables
 enum navigation_state_t navigation_state = SEARCH_FOR_SAFE_HEADING;
-int32_t color_count = 0;                // orange color count from color filter for obstacle detection
-int16_t obstacle_free_confidence = 0;   // a measure of how certain we are that the way ahead is safe.
 float heading_increment = 5.f;          // heading angle increment [deg]
 float maxDistance = 2.25;               // max waypoint displacement [m]
-// float yaw_command_group11;
+float yaw_command_nav;
 const int16_t max_trajectory_confidence = 5; // number of consecutive negative object detections to be sure we are obstacle free
 
 /*
@@ -90,15 +88,15 @@ const int16_t max_trajectory_confidence = 5; // number of consecutive negative o
 #define OPTICAL_FLOW_ID ABI_BROADCAST
 #endif
 
-static abi_event color_detection_ev;
-static void color_detection_cb(uint8_t __attribute__((unused)) sender_id,
-                               int16_t __attribute__((unused)) pixel_x, int16_t __attribute__((unused)) pixel_y,
-                               int16_t __attribute__((unused)) pixel_width, int16_t __attribute__((unused)) pixel_height,
-                               int32_t quality, int16_t __attribute__((unused)) extra)
+// static abi_event color_detection_ev;
+// static void color_detection_cb(uint8_t __attribute__((unused)) sender_id,
+//                                int16_t __attribute__((unused)) pixel_x, int16_t __attribute__((unused)) pixel_y,
+//                                int16_t __attribute__((unused)) pixel_width, int16_t __attribute__((unused)) pixel_height,
+//                                int32_t quality, int16_t __attribute__((unused)) extra)
                       
-{
-  color_count = quality;
-}
+// {
+//   color_count = quality;
+// }
 
 
 static abi_event optical_flow_ev;
@@ -112,7 +110,7 @@ static void optical_flow_cb(unsigned char __attribute__((unused)) sender_id,
                             float __attribute__((unused)) noise_measurement,
                             float __attribute__((unused)) yaw_command)
 {
-  yaw_command_group11 = yaw_command;
+  yaw_command_nav = yaw_command;
 }
 
 /*
@@ -125,7 +123,7 @@ void orange_avoider_init(void)
   chooseRandomIncrementAvoidance();
 
   // bind our colorfilter callbacks to receive the color filter outputs
-  AbiBindMsgVISUAL_DETECTION(ORANGE_AVOIDER_VISUAL_DETECTION_ID, &color_detection_ev, color_detection_cb);
+  // AbiBindMsgVISUAL_DETECTION(ORANGE_AVOIDER_VISUAL_DETECTION_ID, &color_detection_ev, color_detection_cb);
   AbiBindMsgOPTICAL_FLOW(OPTICAL_FLOW_ID, &optical_flow_ev, optical_flow_cb);
 }
 
@@ -138,8 +136,12 @@ void orange_avoider_periodic(void)
   if(!autopilot_in_flight()){
     return;
   }
+
   // Calculate future position of WP:
-  float moveDistance = VELOCITY * (1 - fabs(yaw_command_group11));
+  float moveDistance = VELOCITY * (1 - fabs(yaw_command_nav));
+  if (moveDistance > maxDistance){
+    moveDistance = maxDistance;
+  }
   moveWaypointForward(WP_TRAJECTORY, moveDistance);
   
   if (!InsideObstacleZone(WaypointX(WP_TRAJECTORY),WaypointY(WP_TRAJECTORY))){
@@ -152,8 +154,8 @@ void orange_avoider_periodic(void)
   switch (navigation_state){
     case SAFE:
         // Yaw in new direction:
-      fprintf(stderr, "navigation -- yaw command -  = %f \n", yaw_command_group11);
-      increase_nav_heading(yaw_command_group11 * GAIN_YAW);
+      fprintf(stderr, "navigation -- yaw command -  = %f \n", yaw_command_nav);
+      increase_nav_heading(yaw_command_nav * GAIN_YAW);
 
       // Move waypoint forward
       moveWaypointForward(WP_TRAJECTORY,  moveDistance);

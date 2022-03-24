@@ -1,0 +1,13 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="navigation" dir="nav" task="control">
+  <doc>
+    <description>
+      Meta module for loading proper navigation
+    </description>
+  </doc>
+  <dep>
+    <depends>nav_basic_fw</depends>
+  </dep>
+  <makefile target="ap|sim|nps|hitl"/>
+</module>

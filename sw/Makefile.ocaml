@@ -1,0 +1,52 @@
+# Hey Emacs, this is a -*- makefile -*-
+#
+# Copyright (C) 2013 Gautier Hattenberger
+#
+# This file is part of paparazzi.
+#
+# paparazzi is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+#
+# paparazzi is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with paparazzi; see the file COPYING.  If not, write to
+# the Free Software Foundation, 59 Temple Place - Suite 330,
+# Boston, MA 02111-1307, USA.
+#
+
+# General ocaml compiling tools and pprz lib
+
+# error if PAPARAZZI_SRC is not set and trying to compile
+ifneq ($(MAKECMDGOALS),clean)
+ifeq ($(PAPARAZZI_SRC),)
+  $(error PAPARAZZI_SRC not set, please set it manually or invoke make from the toplevel paparazzi dir)
+endif
+endif
+
+OCAML = ocaml
+OCAMLC = ocamlfind ocamlc -safe-string -g
+OCAMLOPT = ocamlfind ocamlopt -safe-string -g
+OCAMLDEP = ocamlfind ocamldep
+OCAMLMKLIB = ocamlmklib
+OCAMLLEX=ocamllex
+OCAMLYACC=ocamlyacc
+OCAMLLIBDIR=$(shell $(OCAMLC) -where)
+LIBPPRZLINKDIR = $(PAPARAZZI_HOME)/var/lib/ocaml
+LIBPPRZDIR = $(PAPARAZZI_SRC)/sw/lib/ocaml
+LIBPPRZCMA = $(LIBPPRZDIR)/lib-pprz.cma
+LIBPPRZCMXA = $(LIBPPRZCMA:.cma=.cmxa)
+XLIBPPRZCMA = $(LIBPPRZDIR)/xlib-pprz.cma
+XLIBPPRZCMXA = $(XLIBPPRZCMA:.cma=.cmxa)
+LIBPPRZLINKCMA = $(LIBPPRZLINKDIR)/pprzlink/lib-pprzlink.cma
+LIBPPRZLINKCMXA = $(LIBPPRZLINKCMA:.cma=.cmxa)
+OCAMLDLL = -dllpath $(LIBPPRZDIR),$(LIBPPRZLINKDIR)
+OCAMLXDLL = -dllpath $(LIBPPRZDIR),$(LIBPPRZLINKDIR)
+
+OCAMLPATH:=$(shell echo $(LIBPPRZLINKDIR):$(LIBPPRZDIR):$(OCAMLPATH))
+export OCAMLPATH

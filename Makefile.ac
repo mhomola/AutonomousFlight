@@ -1,0 +1,223 @@
+# Hey Emacs, this is a -*- makefile -*-
+#
+#   Copyright (C) 2003-2014  The Paparazzi Team
+#
+# This file is part of paparazzi.
+#
+# paparazzi is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+#
+# paparazzi is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with paparazzi; see the file COPYING.  If not, write to
+# the Free Software Foundation, 59 Temple Place - Suite 330,
+# Boston, MA 02111-1307, USA.
+
+# Preprocessing of XML configuration files
+
+PAPARAZZI_SRC ?= $(shell pwd)
+
+include conf/Makefile.local
+
+# main directory where the generated files and compilation results for an aircraft are stored
+AIRCRAFT_BUILD_DIR = $(PAPARAZZI_HOME)/var/aircrafts/$(AIRCRAFT)
+CONF=$(PAPARAZZI_HOME)/conf
+VAR=$(PAPARAZZI_HOME)/var
+CONF_XML ?= $(CONF)/conf.xml
+AIRBORNE=sw/airborne
+
+# make sure the TARGET variable is set if needed for current make target
+ifneq (,$(findstring $(MAKECMDGOALS),all_ac_h radio_ac_h flight_plan_ac_h))
+ifeq ($(TARGET),)
+$(warning No TARGET specified! Defaulting to "TARGET=ap")
+override TARGET=ap
+endif
+endif
+
+# Enable QT
+PAPARAZZI_QT_GEN?=
+ifneq (,$(findstring qt,$(MAKECMDGOALS)))
+PAPARAZZI_QT_GEN=1
+endif
+
+AIRCRAFT_CONF_DIR = $(AIRCRAFT_BUILD_DIR)/conf
+AC_GENERATED = $(AIRCRAFT_BUILD_DIR)/$(TARGET)/generated
+
+SRCS_LIST=$(AIRCRAFT_BUILD_DIR)/$(TARGET)_srcs.list
+TMP_LIST=$(AIRCRAFT_BUILD_DIR)/$(TARGET)_tmp.list
+GENERATE_KEYS ?= 0
+
+# By default, detect number of processors for parallel compilation
+# same as passing J=AUTO from toplevel make.
+# Number of processes can also be explicitly set with e.g. J=4
+# For serial compilation, call make with J=1
+NPROCS := 1
+UNAME = $(shell uname -s)
+J ?= AUTO
+ifeq ($J,AUTO)
+ifeq ($(UNAME),Linux)
+	NPROCS := $(shell grep -c '^processor' /proc/cpuinfo)
+else ifeq ($(UNAME),Darwin)
+	NPROCS := $(shell sysctl hw.ncpu | awk '{print $$2}')
+endif # $(UNAME)
+else # not auto, explicitly specified
+	NPROCS := $J
+endif
+
+#
+# export paparazzi version
+#
+GIT_SHA1 := $(shell git log -1 --pretty=format:%H 2> /dev/null)
+ifneq ($(words $(GIT_SHA1)),1)
+GIT_SHA1 := "UNKNOWN"
+endif
+GIT_DESC := $(shell ./paparazzi_version)
+BUILD_DESC := $(shell cat $(PAPARAZZI_HOME)/var/build_version.txt 2> /dev/null || echo UNKNOWN)
+# extract only version number in format <major>.<minor>.<patch>
+PPRZ_VER := $(shell echo $(GIT_DESC) | sed 's/[^0-9.]*\([0-9.]*\).*/\1/')
+PPRZ_VER_MAJOR := $(shell echo $(GIT_DESC) | sed 's/v\([0-9]*\).*/\1/')
+PPRZ_VER_MINOR := $(shell echo $(GIT_DESC) | sed 's/v[0-9]*.\([0-9]*\).*/\1/')
+PPRZ_VER_PATCH := $(shell echo $(GIT_DESC) | sed 's/v[0-9]*.[0-9]*.\([0-9]*\).*/\1/')
+ifneq ($(words $(PPRZ_VER_PATCH)),1)
+PPRZ_VER_PATCH := 0
+endif
+export GIT_DESC
+export BUILD_DESC
+export GIT_SHA1
+export PPRZ_VER_MAJOR
+export PPRZ_VER_MINOR
+export PPRZ_VER_PATCH
+
+# show warning with print_version if PPRZ_VER (e.g. 5.3.2) is not part of the BUILD_DESC string
+VERSION_MATCH = ""
+ifeq (,$(findstring $(PPRZ_VER),$(BUILD_DESC)))
+VERSION_MATCH = "\nWarning: version differs from build version ($(BUILD_DESC)), you might want to run the toplevel make."
+endif
+
+# "make Q=''" to get full echo
+Q=@
+
+#
+# include the generated airframe makefile
+#
+ifeq ($(MAKECMDGOALS),all_ac_h)
+
+-include $(AIRBORNE)/Makefile
+
+ifdef PERIODIC_FREQUENCY
+# telemetry and module periodic frequency default to PERIODIC_FREQUENCY
+TELEMETRY_FREQUENCY ?= $(PERIODIC_FREQUENCY)
+DEFAULT_MODULES_FREQUENCY = $(PERIODIC_FREQUENCY)
+else
+$(warning Info: PERIODIC_FREQUENCY not configured, defaulting to 60Hz for modules and telemetry)
+TELEMETRY_FREQUENCY ?= 60
+DEFAULT_MODULES_FREQUENCY = 60
+endif
+
+endif
+
+
+print_version:
+	@echo "-----------------------------------------------------------------------"
+	@echo "Paparazzi version" $(GIT_DESC)$(VERSION_MATCH)
+	@echo "-----------------------------------------------------------------------"
+
+all_ac_h: $(SRCS_LIST) qt_project generate_keys build_rust_modules
+
+$(SRCS_LIST):
+	@echo "TARGET: " $(TARGET) > $(SRCS_LIST)
+	@echo "CFLAGS: " $(CFLAGS) $(IINCDIR) $(TOPT) >> $(SRCS_LIST)
+	@echo "LDFLAGS: " $($(TARGET).LDFLAGS) >> $(SRCS_LIST)
+	@echo "srcs: " $($(TARGET).srcs) >> $(SRCS_LIST)
+	@echo -n "headers:  " >> $(SRCS_LIST)
+ifneq ($(PAPARAZZI_QT_GEN),)
+	@echo $(VPATH) > $(TMP_LIST)
+	@echo $($(TARGET).srcs) >> $(TMP_LIST)
+ifeq (,$(findstring cpp,$($(TARGET).srcs)))
+	@echo $(CFLAGS) >> $(TMP_LIST)
+	@echo $(IINCDIR) >> $(TMP_LIST)
+	@echo $(TOPT)>> $(TMP_LIST)	
+	@echo ../../sw/tools/find_vpaths.py $(CC)  $(TMP_LIST) $(PAPARAZZI_SRC)
+	$(Q)cd $(PAPARAZZI_SRC) ; ./sw/tools/find_vpaths.py $(CC) $(TMP_LIST) $(PAPARAZZI_SRC) >> $(SRCS_LIST) 
+else
+	@echo $(CXXFLAGS) >> $(TMP_LIST)
+	@echo $(IINCDIR) >> $(TMP_LIST)
+	@echo $(TOPT)>> $(TMP_LIST)	
+	@echo ../../sw/tools/find_vpaths.py $(CXX)  $(TMP_LIST) $(PAPARAZZI_SRC)
+	$(Q)cd $(PAPARAZZI_SRC) ; ./sw/tools/find_vpaths.py $(CXX) $(TMP_LIST) $(PAPARAZZI_SRC) >> $(SRCS_LIST)
+endif
+endif
+
+CARGO=$(shell which cargo)
+# guard for simulation (NPS) target
+ifneq (,$(findstring thumb, $(RUST_ARCH)))
+	# thumbv6 or 7
+	RUST_FEATURES+="not_std"
+else
+	# using host architecture
+	RUST_FEATURES+="use_std"
+endif
+
+build_rust_modules:
+ifneq ($(strip $(RUST_MODULES)),)
+ifneq	($(CARGO),)
+ifneq	($(RUST_ARCH),)
+	@echo PROCESSING RUST MODULES
+	@echo $(RUST_MODULES)
+	@echo RUST_FEATURES = $(RUST_FEATURES)
+	@$(foreach module_path, $(RUST_MODULES),\
+	echo Building $(module_path);\
+	cd $(module_path) && \
+	AC_GENERATED=$(AC_GENERATED) cargo build --target $(RUST_ARCH) --verbose --release --features $(RUST_FEATURES);)
+else
+	@echo "Error: RUST_ARCH not specified, this board is likely not supported."
+endif # Check Rust Arch
+else
+	@echo "Error: Cargo (Rust) not found, cannot build Rust modules. Please install xargo."
+endif # Check if Cargo is present
+endif # No rust modules to process
+
+generate_keys:
+ifeq ($(GENERATE_KEYS),1)
+ifneq	($(CARGO),)
+	@echo GENERATE KEYS
+	$(Q)cargo run --manifest-path $(PAPARAZZI_SRC)/sw/ext/key_generator/Cargo.toml --release $(AC_GENERATED)
+else
+	@echo "Error: Cargo (Rust) is not found, keys are not generated. Please install cargo."
+endif
+endif
+
+qt_project : $(SRCS_LIST)
+ifneq ($(PAPARAZZI_QT_GEN),)
+	$(Q)./sw/tools/qt_project.py $(AIRCRAFT) $(CONF_XML) $(SRCS_LIST)
+endif
+
+%.ac_h : $(GENERATORS)/gen_aircraft.out
+	$(Q)if (expr "$(AIRCRAFT)") > /dev/null; then : ; else echo "AIRCRAFT undefined: type 'make AIRCRAFT=AircraftName ...'"; exit 1; fi
+	@echo "#######################################"
+	@echo "# BUILD AIRCRAFT=$(AIRCRAFT), TARGET $*"
+	@echo "#######################################"
+	$(Q)PAPARAZZI_SRC=$(PAPARAZZI_SRC) PAPARAZZI_HOME=$(PAPARAZZI_HOME) PAPARAZZI_QT_GEN=$(PAPARAZZI_QT_GEN) TARGET=$* Q=$(Q) $(GENERATORS)/gen_aircraft.out -all -name $(AIRCRAFT) -target $* -conf $(CONF_XML)
+
+%.qt: %.ac_h
+	@echo "GENERATED Qt project"
+
+%.compile: %.ac_h | print_version
+	$(MAKE) TARGET=$* -f Makefile.ac all_ac_h
+	cd $(AIRBORNE); $(MAKE) -j$(NPROCS) TARGET=$* all
+
+%.upload: %.compile
+	cd $(AIRBORNE); $(MAKE) TARGET=$* upload
+
+clean_ac :
+	$(Q)if (expr "$(AIRCRAFT)") > /dev/null; then : ; else echo "AIRCRAFT undefined: type 'make AIRCRAFT=AircraftName ...'"; exit 1; fi
+	@echo "CLEANING $(AIRCRAFT)"
+	$(Q)rm -fr $(AIRCRAFT_BUILD_DIR)
+
+.PHONY: all_ac_h clean_ac print_version generate_keys

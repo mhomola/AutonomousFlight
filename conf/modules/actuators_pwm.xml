@@ -1,0 +1,21 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="actuators_pwm" dir="actuators" task="actuators">
+  <doc>
+    <description>
+      Actuators Driver using direct PWM output
+    </description>
+  </doc>
+  <dep>
+    <depends>actuators</depends>
+    <provides>actuators</provides>
+  </dep>
+  <header>
+    <file name="actuators_pwm.h"/>
+  </header>
+  <makefile target="!sim">
+    <file_arch name="actuators_pwm_arch.c"/>
+    <file_arch name="actuators_shared_arch.c" cond="ifeq ($(ARCH), stm32)"/>
+  </makefile>
+</module>
+

@@ -1,0 +1,162 @@
+<!-- Paparazzi Modules DTD -->
+
+<!ELEMENT module (doc,settings_file*,settings*,dep?,autoload*,header?,init*,periodic*,event*,datalink*,makefile*)>
+<!ELEMENT doc (description,(define|configure|section)*)>
+<!ELEMENT settings_file (file*)>
+<!ELEMENT settings (dl_settings?)>
+<!ELEMENT dep (depends?,conflicts?,provides?)>
+<!ELEMENT depends (#PCDATA)>
+<!ELEMENT conflicts (#PCDATA)>
+<!ELEMENT provides (#PCDATA)>
+<!ELEMENT autoload EMPTY>
+<!ELEMENT header (file*)>
+<!ELEMENT init EMPTY>
+<!ELEMENT periodic EMPTY>
+<!ELEMENT event EMPTY>
+<!ELEMENT handler EMPTY>
+<!ELEMENT datalink EMPTY>
+<!ELEMENT makefile (configure|define|include|flag|file|file_arch|raw|test)*>
+<!ELEMENT test (configure|define|include|file|file_arch|shell)*>
+<!ELEMENT section (define|configure)*>
+<!ELEMENT description (#PCDATA)>
+<!ELEMENT configure EMPTY>
+<!ELEMENT define EMPTY>
+<!ELEMENT include EMPTY>
+<!ELEMENT flag EMPTY>
+<!ELEMENT file EMPTY>
+<!ELEMENT file_arch EMPTY>
+<!ELEMENT shell EMPTY>
+<!ELEMENT raw (#PCDATA)>
+<!ELEMENT dl_settings (dl_setting|dl_settings)+>
+<!ELEMENT dl_setting (strip_button|key_press)*>
+<!ELEMENT strip_button EMPTY>
+<!ELEMENT key_press EMPTY>
+
+<!ATTLIST module
+name CDATA #REQUIRED
+dir CDATA #IMPLIED
+task CDATA #IMPLIED>
+
+<!ATTLIST autoload
+name CDATA #REQUIRED
+type CDATA #IMPLIED>
+
+<!ATTLIST header>
+
+<!ATTLIST init
+fun CDATA #REQUIRED
+cond CDATA #IMPLIED>
+
+<!ATTLIST periodic
+fun CDATA #REQUIRED
+period CDATA #IMPLIED
+freq CDATA #IMPLIED
+delay CDATA #IMPLIED
+start CDATA #IMPLIED
+stop CDATA #IMPLIED
+autorun (TRUE|FALSE|LOCK) #IMPLIED
+cond CDATA #IMPLIED>
+
+<!ATTLIST event
+fun CDATA #REQUIRED
+cond CDATA #IMPLIED>
+
+<!ATTLIST datalink
+message CDATA #REQUIRED
+fun CDATA #REQUIRED>
+
+<!ATTLIST makefile
+target CDATA #IMPLIED
+firmware CDATA #IMPLIED
+cond CDATA #IMPLIED>
+
+<!ATTLIST section
+name CDATA #REQUIRED
+prefix CDATA #IMPLIED>
+
+<!ATTLIST configure
+name CDATA #REQUIRED
+value CDATA #IMPLIED
+case CDATA #IMPLIED
+default CDATA #IMPLIED
+description CDATA #IMPLIED>
+
+<!ATTLIST define
+name CDATA #REQUIRED
+value CDATA #IMPLIED
+integer CDATA #IMPLIED
+unit CDATA #IMPLIED
+type CDATA #IMPLIED
+description CDATA #IMPLIED
+cond CDATA #IMPLIED>
+
+<!ATTLIST include
+name CDATA #REQUIRED
+cond CDATA #IMPLIED>
+
+<!ATTLIST flag
+name CDATA #REQUIRED
+value CDATA #REQUIRED
+cond CDATA #IMPLIED>
+
+<!ATTLIST shell
+cmd CDATA #REQUIRED>
+
+<!ATTLIST file
+name CDATA #REQUIRED
+dir CDATA #IMPLIED
+cond CDATA #IMPLIED>
+
+<!ATTLIST file_arch
+name CDATA #REQUIRED
+dir CDATA #IMPLIED
+cond CDATA #IMPLIED>
+
+<!ATTLIST settings_file
+name CDATA #REQUIRED
+>
+
+<!ATTLIST settings
+name CDATA #IMPLIED
+target CDATA #IMPLIED
+>
+
+<!ATTLIST dl_settings
+name CDATA #IMPLIED
+>
+
+<!ATTLIST dl_setting
+var CDATA #REQUIRED
+min CDATA #REQUIRED
+max CDATA #REQUIRED
+type CDATA #IMPLIED
+step CDATA #IMPLIED
+widget CDATA #IMPLIED
+shortname CDATA #IMPLIED
+module CDATA #IMPLIED
+handler CDATA #IMPLIED
+param CDATA #IMPLIED
+unit CDATA #IMPLIED
+alt_unit CDATA #IMPLIED
+alt_unit_coef CDATA #IMPLIED
+values CDATA #IMPLIED
+persistent CDATA #IMPLIED
+>
+
+<!ATTLIST strip_button
+name CDATA #REQUIRED
+value CDATA #REQUIRED
+icon CDATA #IMPLIED
+group CDATA #IMPLIED
+>
+
+<!ATTLIST key_press
+key CDATA #REQUIRED
+value CDATA #REQUIRED
+>
+
+<!ATTLIST test
+arch CDATA #IMPLIED
+firmware CDATA #IMPLIED
+>
+

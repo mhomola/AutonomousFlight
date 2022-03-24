@@ -1,0 +1,137 @@
+# Hey Emacs, this is a -*- makefile -*-
+#
+#   Copyright (C) 2009-2013 The Paparazzi Team
+#
+# This file is part of paparazzi.
+#
+# paparazzi is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+#
+# paparazzi is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with paparazzi; see the file COPYING.  If not, write to
+# the Free Software Foundation, 59 Temple Place - Suite 330,
+# Boston, MA 02111-1307, USA.
+#
+
+#
+# Makefile for generic linux targets
+# Normally don't use this makefile directly, but rather Makefile.arm-linux or Makefile.bbb
+#
+
+# Define some default programs and commands (if not already set by e.g. Makefile.arm-linux
+CC  ?= gcc
+CXX ?= g++
+LD  ?= $(CC)
+
+# Launch with "make Q=''" to get full command display
+Q=@
+
+OPT ?= 3
+# Slightly bigger .elf files but gains the ability to decode macros
+DEBUG_FLAGS ?= -ggdb3
+CSTANDARD ?= -std=gnu99
+CXXSTANDARD ?= -std=c++0x
+CINCS = $(INCLUDES) -I$(PAPARAZZI_SRC)/sw/include
+
+#
+# Common compiler flags.
+# add then to arch specific CFLAGS already defined in e.g. Makefile.arm-linux
+#
+CFLAGS += $(CINCS)
+CFLAGS += -O$(OPT) -fPIC
+CFLAGS += $(DEBUG_FLAGS)
+CFLAGS += -fno-short-enums
+# CFLAGS += -malignment-traps
+CFLAGS += -Wall -Wcast-qual -Wimplicit -Wcast-align
+CFLAGS += -Wpointer-arith -Wswitch
+CFLAGS += -Wredundant-decls -Wreturn-type -Wshadow -Wunused
+#-Wno-unused-result
+#CFLAGS += -Wa,-adhlns=$(OBJDIR)/$(notdir $(subst $(suffix $<),.lst,$<))
+#CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
+
+# flags only for C
+CFLAGS += -Wstrict-prototypes -Wmissing-declarations
+CFLAGS += -Wmissing-prototypes -Wnested-externs
+CFLAGS += $(CSTANDARD)
+CFLAGS += $($(TARGET).CFLAGS)
+CFLAGS += $(USER_CFLAGS) $(BOARD_CFLAGS)
+
+CXXFLAGS += $(CINCS)
+CXXFLAGS += -O$(OPT) -fPIC
+CXXFLAGS += $(DEBUG_FLAGS)
+CXXFLAGS += $(CXXSTANDARD)
+CXXFLAGS += -pipe -fshow-column -ffast-math
+CXXFLAGS += -g -ffunction-sections -fdata-sections
+CXXFLAGS += -Wall -Wextra
+CXXFLAGS += $($(TARGET).CFLAGS)
+CXXFLAGS += $($(TARGET).CXXFLAGS)
+CXXFLAGS += $(USER_CFLAGS) $(BOARD_CFLAGS)
+
+LDFLAGS	+= $($(TARGET).LDFLAGS) -lm -pthread
+LDFLAGS += $(BOARD_LDFLAGS)
+
+$(TARGET).srcsnd = $(notdir $($(TARGET).srcs))
+$(TARGET).objso	= $($(TARGET).srcs:%.c=$(OBJDIR)/%.o)
+$(TARGET).objsoxx = $($(TARGET).objso:%.cpp=$(OBJDIR)/%.o)
+$(TARGET).objs	= $($(TARGET).objsoxx:%.S=$(OBJDIR)/%.o)
+
+
+printcommands:
+	@echo ""
+	@echo "Using CC   = $(CC)"
+#	@echo "Using LD   = $(LD)"
+	@echo "GCC version:"
+	@$(CC) --version | head -1
+	@echo ""
+
+all: printcommands build
+
+# depend order only for parallel make
+build: | printcommands
+
+build: $(OBJDIR) elf
+
+$(OBJDIR):
+	@echo CREATING object dir $(OBJDIR)
+	@test -d $(OBJDIR) || mkdir -p $(OBJDIR)
+
+elf: $(OBJDIR)/$(TARGET).elf
+
+# Link: create ELF output file from object files.
+.SECONDARY : $(OBJDIR)/$(TARGET).elf
+.PRECIOUS : $($(TARGET).objs)
+%.elf: $($(TARGET).objs)
+	@echo LD $@
+	$(Q)$(LD) -o $@ $($(TARGET).objs) $(LDFLAGS)
+
+# Compile: create object files from C source files
+$(OBJDIR)/%.o : %.c $(OBJDIR)/../Makefile.ac
+	@echo CC $@
+	$(Q)test -d $(dir $@) || mkdir -p $(dir $@)
+	$(Q)$(CC) -MMD -c $(CFLAGS) $< -o $@
+
+# Compile: create object files from C++ source files
+$(OBJDIR)/%.o : %.cpp $(OBJDIR)/../Makefile.ac
+	@echo CXX $@
+	$(Q)test -d $(dir $@) || mkdir -p $(dir $@)
+	$(Q)$(CXX) -MMD -c $(CXXFLAGS) $< -o $@
+
+
+# Listing of phony targets.
+.PHONY : printcommands all build elf
+
+#
+# Dependencies
+#
+ifneq ($(MAKECMDGOALS),clean)
+DEPS = $(addprefix $(OBJDIR)/,$($(TARGET).srcs:.c=.d))
+DEPS += $(addprefix $(OBJDIR)/,$($(TARGET).srcs:.cpp=.d))
+-include $(DEPS)
+endif

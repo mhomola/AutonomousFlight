@@ -1,0 +1,51 @@
+<!-- Dataling and RC settings DTD -->
+
+<!ELEMENT settings (dl_settings?)>
+<!ELEMENT dl_settings (dl_setting|dl_settings|include)+>
+<!ELEMENT dl_setting (strip_button|key_press)*>
+<!ELEMENT include EMPTY>
+<!ELEMENT strip_button EMPTY>
+<!ELEMENT key_press EMPTY>
+
+<!ATTLIST settings
+target CDATA #IMPLIED
+>
+
+<!ATTLIST dl_settings
+name CDATA #IMPLIED
+>
+
+<!ATTLIST include
+header CDATA #REQUIRED
+>
+
+<!ATTLIST dl_setting
+var CDATA #REQUIRED
+min CDATA #REQUIRED
+max CDATA #REQUIRED
+type CDATA #IMPLIED
+step CDATA #IMPLIED
+widget CDATA #IMPLIED
+shortname CDATA #IMPLIED
+module CDATA #IMPLIED
+header CDATA #IMPLIED
+handler CDATA #IMPLIED
+param CDATA #IMPLIED
+unit CDATA #IMPLIED
+alt_unit CDATA #IMPLIED
+alt_unit_coef CDATA #IMPLIED
+values CDATA #IMPLIED
+persistent CDATA #IMPLIED
+>
+
+<!ATTLIST strip_button
+name CDATA #REQUIRED
+value CDATA #REQUIRED
+icon CDATA #IMPLIED
+group CDATA #IMPLIED
+>
+
+<!ATTLIST key_press
+key CDATA #REQUIRED
+value CDATA #REQUIRED
+>

@@ -1,0 +1,14 @@
+# Hey Emacs, this is a -*- makefile -*-
+
+DESTDIR=/
+
+ifeq ($(PAPARAZZI_HOME),)
+PAPARAZZI_HOME=$(HOME)/paparazzi
+endif
+
+ifeq ($(PAPARAZZI_SRC),)
+GENERATORS=$(DESTDIR)/usr/share/paparazzi/bin
+else
+GENERATORS=$(PAPARAZZI_SRC)/sw/tools/generators
+endif
+

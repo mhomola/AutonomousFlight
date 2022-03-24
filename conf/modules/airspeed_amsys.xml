@@ -1,0 +1,53 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="airspeed_amsys" dir="sensors" task="sensors">
+  <doc>
+    <description>
+      Airspeed AMSYS (I2C)
+      Driver for a Amsys Differential Presure Sensor I2C
+      (AMS 5812-0003-D)
+      (AMS 5812-0001-D)
+    </description>
+    <configure name="AIRSPEED_AMSYS_I2C_DEV" value="i2c0" description="change default i2c peripheral"/>
+    <define name="AIRSPEED_AMSYS_MAXPRESURE" value="2068" description="max sensor pressure (Pa) (default: 2068 for AMS 5812-0003-D)(for AMS 5812-0001-D use 1034)"/>
+    <define name="AIRSPEED_AMSYS_SCALE" value="1.0" description="sensor scale factor (default: 1.0)"/>
+    <define name="AIRSPEED_AMSYS_FILTER" value="0." description="sensor filter (default: 0. max:1)"/>
+    <define name="AIRSPEED_AMSYS_SYNC_SEND" description="flag to transmit the data as it is acquired"/>
+    <define name="USE_AIRSPEED_AMSYS" value="TRUE|FALSE" description="set airspeed in state interface"/>
+  </doc>
+  <settings>
+    <dl_settings>
+      <dl_settings NAME="AMSYS">
+        <dl_settings NAME="Airspeed">
+          <dl_setting MAX="3" MIN="0" STEP="0.001" VAR="airspeed_scale" shortname="air_scale" module="modules/sensors/airspeed_amsys" param="AIRSPEED_SCALE"/>
+          <dl_setting MAX="1" MIN="0" STEP="0.001" VAR="airspeed_filter" shortname="air_filter" module="modules/sensors/airspeed_amsys" param="AIRSPEED_FILTER"/>
+        </dl_settings>
+      </dl_settings>
+    </dl_settings>
+  </settings>
+  <dep>
+    <depends>i2c</depends>
+    <provides>airspeed</provides>
+  </dep>
+
+  <header>
+    <file name="airspeed_amsys.h"/>
+  </header>
+  <init fun="airspeed_amsys_init()"/>
+  <periodic fun="airspeed_amsys_read_periodic()" freq="60."/>
+  <event fun="AirspeedAmsysEvent()"/>
+
+  <makefile>
+    <configure name="AIRSPEED_AMSYS_I2C_DEV" default="i2c0" case="upper|lower"/>
+    <define name="USE_$(AIRSPEED_AMSYS_I2C_DEV_UPPER)"/>
+    <define name="AIRSPEED_AMSYS_I2C_DEV" value="$(AIRSPEED_AMSYS_I2C_DEV_LOWER)"/>
+    <file name="airspeed_amsys.c"/>
+    <test>
+      <define name="USE_I2C0"/>
+      <define name="DOWNLINK_TRANSPORT" value="pprz_tp"/>
+      <define name="DOWNLINK_DEVICE" value="uart0"/>
+      <define name="USE_UART0"/>
+    </test>
+  </makefile>
+
+</module>

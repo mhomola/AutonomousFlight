@@ -1,0 +1,8 @@
+<!DOCTYPE radio SYSTEM "radio.dtd">
+<radio name="flash5 mode2" data_min="900" data_max="2100" sync_min="5000" sync_max="15000" pulse_type="POSITIVE">
+ <channel function="ROLL" min="1124" neutral="1486" max="1845" average="0" reverse="1"/>
+ <channel function="THROTTLE" min="1120" neutral="1120" max="1845" average="0"/>
+ <channel function="PITCH" max="1851" neutral="1482" min="1128" average="0" reverse="1"/>
+ <channel function="GAIN1" min="1115" neutral="1478" max="1826" average="0"/>
+ <channel function="MODE" min="1116" neutral="1498" max="1878" average="1" reverse="1"/>
+</radio>

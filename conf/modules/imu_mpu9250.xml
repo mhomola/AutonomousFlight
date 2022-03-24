@@ -1,0 +1,42 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="imu_mpu9250" dir="imu" task="sensors">
+  <doc>
+    <description>
+      Test module for the mpu9250 with I2C
+      Report RAW values on telemetry
+    </description>
+    <configure name="IMU_MPU9250_I2C_DEV" value="i2c1" description="I2C device to use (e.g. i2c1)"/>
+    <define name="IMU_MPU9250_ADDR" value="MPU9250_ADDR|MPU9250_ADDR_ALT" description="Use regular or alternate I2C address"/>
+  </doc>
+  <dep>
+    <depends>i2c,imu_common</depends>
+    <provides>imu,mag</provides>
+  </dep>
+  <autoload name="imu_nps"/>
+  <autoload name="imu_sim"/>
+  <header>
+    <file name="imu_mpu9250.h"/>
+  </header>
+  <init fun="imu_mpu9250_init()"/>
+  <periodic fun="imu_mpu9250_periodic()"/>
+  <periodic fun="imu_mpu9250_report()" freq="10" autorun="TRUE"/>
+  <event fun="imu_mpu9250_event()"/>
+  <makefile>
+    <configure name="IMU_MPU9250_I2C_DEV" default="i2c1" case="upper|lower"/>
+    <define name="USE_$(IMU_MPU9250_I2C_DEV_UPPER)"/>
+    <define name="IMU_MPU9250_I2C_DEV" value="$(IMU_MPU9250_I2C_DEV_LOWER)"/>
+    <file name="imu_mpu9250.c"/>
+    <file name="mpu9250.c" dir="peripherals"/>
+    <file name="mpu9250_i2c.c" dir="peripherals"/>
+    <file name="ak8963.c" dir="peripherals"/>
+    <test>
+      <define name="USE_I2C1"/>
+      <define name="IMU_MPU9250_I2C_DEV" value="i2c1"/>
+      <define name="DOWNLINK_TRANSPORT" value="pprz_tp"/>
+      <define name="DOWNLINK_DEVICE" value="uart0"/>
+      <define name="USE_UART0"/>
+    </test>
+  </makefile>
+</module>
+

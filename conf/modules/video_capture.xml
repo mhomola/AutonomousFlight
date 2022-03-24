@@ -1,0 +1,49 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="video_capture" dir="computer_vision">
+  <doc>
+    <description>
+      Capture images from video device on the internal memory (JPEG, full size, best quality). Images can be saved by
+      pressing the strip button, using the GCS settings panel or with the 'video_capture_shoot' function.
+
+      Additional data (GPS location) can be included in the Exif header by including the video_exif module.
+    </description>
+
+    <define name="VIDEO_CAPTURE_CAMERA" value="front_camera|bottom_camera" description="Video device to use"/>
+    <define name="VIDEO_CAPTURE_PATH" value="/data/video/images" description="Location to save images"/>
+    <define name="VIDEO_CAPTURE_JPEG_QUALITY" value="99" description="JPEG quality of images"/>
+    <define name="VIDEO_CAPTURE_FPS" value="0" description="The (maximum) frequency to run the calculations at. If zero, it will max out at the camera frame rate"/>
+  </doc>
+
+  <settings>
+    <dl_settings>
+      <dl_settings name="video">
+        <dl_setting var="video_capture_record_video" min="0" step="1" max="1" shortname="record_video"
+                    module="computer_vision/video_capture">
+          <strip_button name="Start video capture" icon="dcstart.png" value="1" group="cv"/>
+          <strip_button name="Stop video capture" icon="dcstop.png" value="0" group="cv"/>
+        </dl_setting>
+        <dl_setting var="video_capture_take_shot" min="0" step="1" max="1" shortname="take_shot"
+                    module="computer_vision/video_capture">
+          <strip_button name="Save Image" icon="digital-camera.png" value="1" group="cv"/>
+        </dl_setting>
+      </dl_settings>
+    </dl_settings>
+  </settings>
+
+  <dep>
+    <depends>video_thread</depends>
+  </dep>
+
+  <header>
+    <file name="video_capture.h"/>
+  </header>
+
+  <init fun="video_capture_init()"/>
+
+  <makefile target="ap|nps">
+    <file name="video_capture.c"/>
+  </makefile>
+
+</module>
+

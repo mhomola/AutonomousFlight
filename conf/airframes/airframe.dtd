@@ -1,0 +1,120 @@
+<!-- Paparazzi airframe DTD -->
+
+<!ELEMENT airframe (include|servos|commands|rc_commands|auto_rc_commands|ap_only_commands|command_laws|section|modules|firmware|autopilot|heli_curves|description)*>
+<!ELEMENT include EMPTY>
+<!ELEMENT servos (servo)*>
+<!ELEMENT commands (axis)*>
+<!ELEMENT rc_commands (set)*>
+<!ELEMENT auto_rc_commands (set)*>
+<!ELEMENT ap_only_commands (copy)*>
+<!ELEMENT command_laws (let|set|call|ratelimit)*>
+<!ELEMENT heli_curves (curve)*>
+<!ELEMENT section (define|comment)*>
+<!ELEMENT servo EMPTY>
+<!ELEMENT axis EMPTY>
+<!ELEMENT set EMPTY>
+<!ELEMENT call EMPTY>
+<!ELEMENT ratelimit EMPTY>
+<!ELEMENT copy EMPTY>
+<!ELEMENT curve EMPTY>
+<!ELEMENT let EMPTY>
+<!ELEMENT define EMPTY>
+<!ELEMENT modules (module)*>
+<!ELEMENT configure EMPTY>
+<!ELEMENT firmware (target|module|autopilot|configure|define|comment)*>
+<!ELEMENT target (module|autopilot|configure|define|comment)*>
+<!ELEMENT module (configure|define|comment)*>
+<!ELEMENT autopilot EMPTY>
+<!ELEMENT comment (#PCDATA)>
+<!ELEMENT description (#PCDATA)>
+
+<!ATTLIST include
+href CDATA #REQUIRED>
+
+<!ATTLIST firmware
+name CDATA #REQUIRED>
+
+<!ATTLIST autopilot
+name CDATA #REQUIRED
+freq CDATA #IMPLIED>
+
+<!ATTLIST target
+name CDATA #REQUIRED
+board CDATA #REQUIRED>
+
+<!ATTLIST airframe
+name CDATA #IMPLIED>
+
+<!ATTLIST servos
+driver CDATA #IMPLIED>
+
+<!ATTLIST commands>
+<!ATTLIST rc_commands>
+<!ATTLIST ap_only_commands>
+<!ATTLIST command_laws>
+
+<!ATTLIST heli_curves>
+
+<!ATTLIST section
+name CDATA #IMPLIED
+prefix CDATA #IMPLIED>
+
+<!ATTLIST servo
+name CDATA #REQUIRED
+no CDATA #REQUIRED
+min CDATA #REQUIRED
+neutral CDATA #REQUIRED
+max CDATA #REQUIRED>
+
+<!ATTLIST curve
+throttle CDATA #REQUIRED
+rpm CDATA #IMPLIED
+collective CDATA #REQUIRED>
+
+<!ATTLIST axis
+name CDATA #REQUIRED
+failsafe_value CDATA #REQUIRED>
+
+<!ATTLIST set
+value CDATA #REQUIRED
+command CDATA #IMPLIED
+servo CDATA #IMPLIED>
+
+<!ATTLIST call
+fun CDATA #REQUIRED>
+
+<!ATTLIST copy
+command CDATA #REQUIRED>
+
+<!ATTLIST let
+var CDATA #REQUIRED
+value CDATA #REQUIRED>
+
+<!ATTLIST ratelimit
+var CDATA #REQUIRED
+value CDATA #REQUIRED
+rate_min CDATA #REQUIRED
+rate_max CDATA #REQUIRED>
+
+<!ATTLIST define
+name CDATA #REQUIRED
+value CDATA #IMPLIED
+unit CDATA #IMPLIED
+code_unit CDATA #IMPLIED
+integer CDATA #IMPLIED
+type CDATA #IMPLIED
+description CDATA #IMPLIED>
+
+<!ATTLIST configure
+name CDATA #REQUIRED
+value CDATA #REQUIRED
+description CDATA #IMPLIED>
+
+<!ATTLIST modules
+main_freq CDATA #IMPLIED
+target CDATA #IMPLIED>
+
+<!ATTLIST module
+name CDATA #REQUIRED
+type CDATA #IMPLIED
+dir CDATA #IMPLIED>

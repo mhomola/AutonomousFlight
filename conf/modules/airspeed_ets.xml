@@ -1,0 +1,54 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="airspeed_ets" dir="sensors" task="sensors">
+  <doc>
+    <description>
+      Airspeed ETS (I2C).
+      Driver for the EagleTree Systems Airspeed Sensor.
+      Has only been tested with V3 of the sensor hardware.
+
+      Notes:
+      Connect directly to TWOG/Tiny/Lisa I2C port. Multiple sensors can be chained together.
+      Sensor may be in the proprietary mode (default) or in 3rd-party mode. In 3rd-party mode you must define AIRSPEED_ETS_3RD_PARTY_MODE.
+      A eLogger is needed to set sensor to 3rd-party mode, which is supposed to be more reliable than the default mode.
+
+      Sensor module wire assignments:
+      - Red wire: 5V
+      - White wire: Ground
+      - Yellow wire: SDA
+      - Brown wire: SCL
+    </description>
+    <configure name="AIRSPEED_ETS_I2C_DEV" value="i2cX" description="set i2c peripheral (default: i2c0)"/>
+    <define name="AIRSPEED_ETS_OFFSET" value="offset" description="sensor reading offset for sensor in proprietary mode (default: 0)"/>
+    <define name="AIRSPEED_ETS_SCALE" value="scale" description="sensor scale factor for sensor in proprietary mode  (default: 1.8)"/>
+    <define name="AIRSPEED_ETS_START_DELAY" value="delay" description="set initial start delay in seconds"/>
+    <define name="AIRSPEED_ETS_SYNC_SEND" description="flag to transmit the data as it is acquired"/>
+    <define name="USE_AIRSPEED_ETS" value="TRUE|FALSE" description="set airspeed in state interface"/>
+    <define name="AIRSPEED_ETS_3RD_PARTY_MODE"  description="read raw value for sensor in third-party mode"/>
+    <define name="AIRSPEED_ETS_SDLOG" value="TRUE|FALSE" description="start logging to SD card"/>
+  </doc>
+  <dep>
+    <depends>i2c</depends>
+    <provides>airspeed</provides>
+  </dep>
+
+  <header>
+    <file name="airspeed_ets.h"/>
+  </header>
+  <init fun="airspeed_ets_init()"/>
+  <periodic fun="airspeed_ets_read_periodic()" freq="10."/>
+  <event fun="AirspeedEtsEvent()"/>
+
+  <makefile>
+    <configure name="AIRSPEED_ETS_I2C_DEV" default="i2c0" case="upper|lower"/>
+    <define name="USE_$(AIRSPEED_ETS_I2C_DEV_UPPER)"/>
+    <define name="AIRSPEED_ETS_I2C_DEV" value="$(AIRSPEED_ETS_I2C_DEV_LOWER)"/>
+    <file name="airspeed_ets.c"/>
+    <test>
+      <define name="USE_I2C0"/>
+      <define name="USE_AIRSPEED_ETS"/>
+    </test>
+  </makefile>
+
+</module>
+

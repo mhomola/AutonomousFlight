@@ -1,0 +1,20 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="actuators_dummy" dir="actuators" task="actuators">
+  <doc>
+    <description>
+      Dummy actuators driver
+      This module prevents autoloading of actuators by fixedwing firmware
+
+      FIXME: this as no effect anymore
+    </description>
+  </doc>
+  <dep>
+    <provides>actuators</provides>
+  </dep>
+  <header/>
+  <makefile>
+    <configure name="ACTUATORS" value="none"/>
+  </makefile>
+</module>
+

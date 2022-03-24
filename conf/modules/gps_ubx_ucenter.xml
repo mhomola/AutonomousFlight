@@ -1,0 +1,55 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="gps_ubx_ucenter" dir="gps" task="sensors">
+  <doc>
+    <description>
+Ublox GPS autoconfiguration.
+
+Automatically configure any Ublox GPS for paparazzi.
+
+- configures all the messages, and the rates
+- automatic baudrate detection
+
+Warning: you still need to tell the driver, which paparazzi port you use.
+    </description>
+    <define name="GPS_UBX_UCENTER_RATE" value="250" description="Data output rate in ms"/>
+    <define name="GPS_UBX_NAV5_DYNAMICS"
+            value="NAV5_DYN_PORTABLE|NAV5_DYN_FIXED|NAV5_DYN_STATIONARY|NAV5_DYN_PEDESTRIAN|NAV5_DYN_AUTOMOTIVE|NAV5_DYN_SEA|NAV5_DYN_AIRBORNE_1G|NAV5_DYN_AIRBORNE_2G|NAV5_DYN_AIRBORNE_4G"
+            description="Dynamic model used by ublox GPS filter. Default:NAV5_DYN_AIRBORNE_2G"/>
+    <define name="USE_GPS_UBX_RXM_RAW" description="Activate raw measurments (only available on U-Blox T versions)"/>
+    <define name="GPS_UBX_ENABLE_NMEA_DATA_MASK" value="0x00|0xff" description="NMEA is disabled by default (0x00). To enable NMEA and UBX, set MASK to 0xff."/>
+  </doc>
+
+  <settings>
+    <dl_settings NAME="ublox">
+      <dl_settings name="ucenter">
+        <dl_setting MAX="255" MIN="0" STEP="1" module="gps/gps_ubx_ucenter" VAR="gps_ubx_ucenter.sw_ver_h" shortname="sw_h"/>
+        <dl_setting MAX="255" MIN="0" STEP="1" module="gps/gps_ubx_ucenter" VAR="gps_ubx_ucenter.sw_ver_l" shortname="sw_l"/>
+        <dl_setting MAX="255" MIN="0" STEP="1" module="gps/gps_ubx_ucenter" VAR="gps_ubx_ucenter.hw_ver_h" shortname="hw_h"/>
+        <dl_setting MAX="255" MIN="0" STEP="1" module="gps/gps_ubx_ucenter" VAR="gps_ubx_ucenter.hw_ver_l" shortname="hw_l"/>
+        <dl_setting MAX="115200" MIN="4800" STEP="100" module="gps/gps_ubx_ucenter" VAR="gps_ubx_ucenter.baud_init" shortname="inibaud"/>
+        <dl_setting MAX="115200" MIN="4800" STEP="100" module="gps/gps_ubx_ucenter" VAR="gps_ubx_ucenter.baud_run" shortname="baud"/>
+      </dl_settings>
+    </dl_settings>
+  </settings>
+
+  <dep>
+    <depends>gps_ublox</depends>
+  </dep>
+
+  <header>
+    <file name="gps_ubx_ucenter.h"/>
+  </header>
+  <init fun="gps_ubx_ucenter_init()"/>
+  <periodic fun="gps_ubx_ucenter_periodic()" start="gps_ubx_ucenter_init()" freq="4." autorun="TRUE"/>
+  <makefile target="ap|fbw">
+    <file name="gps_ubx_ucenter.c"/>
+    <define name="GPS_UBX_UCENTER"/>
+    <test>
+        <define name="UBX_GPS_LINK" value="uart2"/>
+        <define name="USE_UART2"/>
+    </test>
+  </makefile>
+</module>
+
+

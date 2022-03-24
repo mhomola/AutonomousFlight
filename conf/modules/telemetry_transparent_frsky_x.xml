@@ -1,0 +1,54 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="telemetry_transparent_frsky_x" dir="datalink" task="datalink">
+  <doc>
+    <description>
+      Telemetry using pprzlink protocol over FrSky X SmartPort serial link
+      
+      Downlink messages are sent on dataID 0x5015.
+      Uplink is not implemented yet.
+      
+      Use the sw/tools/opentx-lua/sp2ser.lua script to receive these messages
+      on the TX and forward them to the USB port. The 'datalink' script can
+      read the pprzlink stream as a regular serial port.
+      
+      The data rate is very limited (max ~160 bytes/s). The limitation comes
+      from the FrSky X protocol which can send at most 4 bytes of telemetry
+      every 9ms. Set CC2500_TELEMETRY_SENSORS (from radio_control_cc2500_frsky)
+      to SENSOR_NONE to maximize pprzlink throughput. Use a suitable telemetry
+      conf for this low data rate.
+    </description>
+  </doc>
+  <dep>
+    <depends>datalink_common</depends>
+    <provides>datalink,telemetry</provides>
+  </dep>
+  <autoload name="telemetry" type="nps"/>
+  <autoload name="telemetry" type="sim"/>
+  <header>
+    <file name="pprz_dl.h"/>
+    <file name="frsky_x.h"/>
+  </header>
+  <init fun="datalink_frsky_x_init()"/>
+  <init fun="pprz_dl_init()"/>
+  <event fun="pprz_dl_event()"/>
+  <makefile>
+    <file name="frsky_x.c"/>
+  </makefile>
+  
+  <makefile target="!fbw|sim|nps|hitl">
+    <define name="USE_FRSKY_X_SERIAL"/>
+    <define name="DOWNLINK_DEVICE" value="frsky_x_serial"/>
+    <define name="PPRZ_UART" value="frsky_x_serial"/>
+    <define name="DOWNLINK_TRANSPORT" value="pprz_tp"/>
+    <define name="DATALINK" value="PPRZ"/>
+    <file name="pprz_dl.c"/>
+    <file name="pprz_transport.c" dir="pprzlink/src"/>
+    <file name="frsky_x.c"/>
+    <test>
+      <define name="DOWNLINK_DEVICE" value="frsky_x_serial"/>
+      <define name="USE_FRSKY_X_SERIAL"/>
+    </test>
+  </makefile>
+</module>
+

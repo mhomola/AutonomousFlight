@@ -1,0 +1,11 @@
+<!DOCTYPE radio SYSTEM "radio.dtd">
+<radio name="OSAMT7cap" data_min="900" data_max="2100" sync_min="5500" sync_max="13500" pulse_type="POSITIVE">
+  <channel function="ROLL" min="1100" neutral="1500" max="1930" average="0"/>
+  <channel function="PITCH" min="1100" neutral="1500" max="1930" average="0" reverse="1"/>
+  <channel function="THROTTLE" min="1100" neutral="1100" max="1930" average="0"/>
+  <channel function="YAW" min="1100" neutral="1500" max="1930" average="0"/>
+  <channel function="CALIB" min="1100" neutral="1500" max="1930" average="10"/>
+  <channel function="GAIN1" min="1100" neutral="1500" max="1930" average="10"/>
+  <channel function="MODE" min="1100" neutral="1500" max="1930" average="10"/>
+</radio>
+<!-- Please use only if you now what your doing-->

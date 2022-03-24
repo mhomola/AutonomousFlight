@@ -1,0 +1,16 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="control_energyadaptive" dir="control" task="control">
+  <doc>
+    <description>
+      Energy control for fixed-wing aircraft with adaptive stabilization.
+      Based on:
+      - stabilization_adaptive_fw
+      - guidance_energy
+    </description>
+  </doc>
+  <dep>
+    <depends>stabilization_adaptive_fw,guidance_energy</depends>
+  </dep>
+  <makefile target="ap|sim|nps" firmware="fixedwing"/>
+</module>

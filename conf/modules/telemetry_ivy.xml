@@ -1,0 +1,25 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="telemetry_ivy" dir="datalink" task="datalink">
+  <doc>
+    <description>
+      Telemetry using IVY
+    </description>
+  </doc>
+  <dep>
+    <depends>datalink_common</depends>
+    <provides>datalink,telemetry</provides>
+  </dep>
+  <header>
+    <file name="ivy_dl.h"/>
+  </header>
+  <init fun="ivy_dl_init()"/>
+  <makefile>
+    <define name="DOWNLINK_DEVICE" value="ivy_tp"/>
+    <define name="DOWNLINK_TRANSPORT" value="ivy_tp"/>
+    <file name="ivy_dl.c"/>
+    <file name="ivy_transport.c" dir="pprzlink/src"/>
+    <test/>
+  </makefile>
+</module>
+

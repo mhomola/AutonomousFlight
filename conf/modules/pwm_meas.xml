@@ -1,0 +1,27 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="pwm_meas" dir="core">
+  <doc>
+    <description>
+      PWM measurement.
+
+      PWM input measurement mcu periph access and init wrapper for other modules.
+
+      For STM32:
+      - each board (or airframe file) has to define the PWM input pin and parameters
+      - example can be found in sw/airborne/boards/apogee_1.0.h board file
+    </description>
+    <define name="USE_PWM_INPUT1" value="PWM_PULSE_TYPE_ACTIVE_LOW|PWM_PULSE_TYPE_ACTIVE_HIGH" description="Activate PWM input 1 and select polarity"/>
+    <define name="USE_PWM_INPUT2" value="PWM_PULSE_TYPE_ACTIVE_LOW|PWM_PULSE_TYPE_ACTIVE_HIGH" description="Activate PWM input 2 and select polarity"/>
+  </doc>
+  <header>
+    <file name="pwm_meas.h"/>
+  </header>
+  <init fun="pwm_meas_init()"/>
+  <makefile target="ap">
+    <file name="pwm_meas.c"/>
+    <file name="pwm_input.c" dir="mcu_periph"/>
+    <file_arch name="pwm_input_arch.c" dir="mcu_periph"/>
+    <define name="USE_PWM_INPUT"/> <!-- needed to enable the pwm_input interrupts in mcu_periph/sys_time_arch.c -->
+  </makefile>
+</module>

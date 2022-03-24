@@ -39,7 +39,7 @@
 #endif
 
 #ifndef VELOCITY
-#define VELOCITY 0.3  // << KEEP LOWER THAN 1
+#define VELOCITY 0.4  // << KEEP LOWER THAN 1
 #endif
 
 
@@ -68,7 +68,7 @@ float oa_color_count_frac = 0.18f;
 
 // define and initialise global variables
 enum navigation_state_t navigation_state = SEARCH_FOR_SAFE_HEADING;
-float heading_increment = 5.f;          // heading angle increment [deg]
+float heading_increment = 6.f;          // heading angle increment [deg]
 float maxDistance = 2.;               // max waypoint displacement [m]
 float yaw_command_nav;
 const int16_t max_trajectory_confidence = 5; // number of consecutive negative object detections to be sure we are obstacle free

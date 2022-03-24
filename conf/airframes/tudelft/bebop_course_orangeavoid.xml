@@ -72,7 +72,9 @@
     </module>
     <module name="floor_detection">
       <define name="FLOOR_DETECTION_CAMERA" value="front_camera"/>
+
       <define name="FLOOR_DETECTION_FPS" value="15"/>
+
     </module>
     <module name="orange_avoider">
       <define name="ORANGE_AVOIDER_VISUAL_DETECTION_ID" value="COLOR_OBJECT_DETECTION1_ID"/>

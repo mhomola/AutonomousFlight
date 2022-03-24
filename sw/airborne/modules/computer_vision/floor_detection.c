@@ -26,7 +26,7 @@
 #include "modules/computer_vision/cv.h"
 #include "modules/computer_vision/floor_detection.h"
 #include "modules/computer_vision/floor_detection_funcs.h"
-#include "modules/core/abi.h"
+
 
 #ifndef FLOOR_DETECTION_FPS
 #define FLOOR_DETECTION_FPS 0       ///< Default FPS (zero means run at camera fps)
@@ -39,10 +39,12 @@ float output[30] = {-1};
 struct image_t *floor_detection_func(struct image_t *img, uint8_t camera_id);
 struct image_t *floor_detection_func(struct image_t *img, uint8_t camera_id)
 {
+
   if (img->type == IMAGE_YUV422) {
     // Call OpenCV (C++ from paparazzi C function)
     objectDetection((char *) img->buf, img->w, img->h, output);
   }
+
   return NULL;
 }
 
@@ -52,8 +54,10 @@ void floor_detection_init(void)
 }
 
 void floor_detection_periodic(void)
+
 { 
   // uint8_t id = 1;
   // AbiSendMsgFLOOR_DETECTION(id, output);
+
 }
 

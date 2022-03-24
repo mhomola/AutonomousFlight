@@ -14,59 +14,57 @@ int img_per_row = 20;
 int nr_squares = 68;
 
 
-cv::Mat filter_color(cv::Mat im, ushort y_low, ushort y_high, ushort u_low, ushort u_high, ushort v_low, ushort v_high, ushort resize_factor)
-{
-    cv::Mat image, YUV, croppedImage, FilteredImage;
-    cv::resize(im, image, cv::Size(round(im.cols / resize_factor), round(im.rows / resize_factor)));
-    int resize_value = 0.45*image.rows;
-    croppedImage = image(cv::Range(resize_value, image.rows), cv::Range(0, image.cols));
-    cv::cvtColor(croppedImage, YUV, cv::COLOR_BGR2YUV);
-    int rows = (int) YUV.rows;
-    int cols = (int) YUV.cols;
-    std::vector<vector<int>> Filtered(rows, vector<int>(cols,0));
+// cv::Mat filter_color(cv::Mat im, ushort y_low, ushort y_high, ushort u_low, ushort u_high, ushort v_low, ushort v_high, ushort resize_factor)
+// {
+//     cv::Mat image, YUV, croppedImage, FilteredImage;
+//     cv::resize(im, image, cv::Size(round(im.cols / resize_factor), round(im.rows / resize_factor)));
+//     int resize_value = 0.45*image.rows;
+//     croppedImage = image(cv::Range(resize_value, image.rows), cv::Range(0, image.cols));
+//     cv::cvtColor(croppedImage, YUV, cv::COLOR_BGR2YUV);
+//     int rows = (int) YUV.rows;
+//     int cols = (int) YUV.cols;
+//     std::vector<vector<int>> Filtered(rows, vector<int>(cols,0));
 
-    // std::cout<<rows<<" "<<cols;
+//     // std::cout<<rows<<" "<<cols;
 
-    // for (int i=0; i < YUV.rows; i++)
-    // {
-    //     for (int j=0; j<YUV.cols; j++)
-    //     {
-    //         std::cout<< Filtered[i][j]<<" ";
-    //     } 
-    //     std::cout<<"\n";
-    // }
-    cv::Vec3b color, color_show;
+//     // for (int i=0; i < YUV.rows; i++)
+//     // {
+//     //     for (int j=0; j<YUV.cols; j++)
+//     //     {
+//     //         std::cout<< Filtered[i][j]<<" ";
+//     //     } 
+//     //     std::cout<<"\n";
+//     // }
+//     cv::Vec3b color, color_show;
 
-    for(int y=0; y<cols; y++)
-    {
-        for(int x=0; x<rows; x++)
-        {
-            color = YUV.at<cv::Vec3b>(cv::Point(y,x));
-            if ((color[0] >= y_low) and (color[0] <= y_high) and (color[1] >= u_low) and (color[1] <= u_high) and (color[2] >= v_low) and (color[2] <= v_high))
-            {
-                Filtered[x][y] = 1;
-            }
-        }
-    }
-
-    FilteredImage.create(rows, cols, YUV.type());
-    FilteredImage.setTo(cv::Scalar(0, 0, 0));
-    for(int y=0; y<rows; y++)
-    {
-        for(int x=0; x<cols; x++)
-        {
-            if (Filtered[y][x] == 0)
-            {
-                Vec3b & color_show = FilteredImage.at<cv::Vec3b>(cv::Point(x,y));
-                color_show[2] = 254;
-            }
-        }
-    }
-    // cv::namedWindow("Filtered Image", cv::WINDOW_AUTOSIZE);
-    // cv::imshow("Filtered Image", FilteredImage);
-
-    return FilteredImage;
-}
+//     for(int y=0; y<cols; y++)
+//     {
+//         for(int x=0; x<rows; x++)
+//         {
+//             color = YUV.at<cv::Vec3b>(cv::Point(y,x));
+//             if ((color[0] >= y_low) and (color[0] <= y_high) and (color[1] >= u_low) and (color[1] <= u_high) and (color[2] >= v_low) and (color[2] <= v_high))
+//             {
+//                 Filtered[x][y] = 1;
+//             }
+//         }
+//     }
+//     FilteredImage.create(rows, cols, YUV.type());
+//     FilteredImage.setTo(cv::Scalar(0, 0, 0));
+//     for(int y=0; y<rows; y++)
+//     {
+//         for(int x=0; x<cols; x++)
+//         {
+//             if (Filtered[y][x] == 0)
+//             {
+//                 Vec3b & color_show = FilteredImage.at<cv::Vec3b>(cv::Point(x,y));
+//                 color_show[2] = 254;
+//             }
+//         }
+//     }
+//     // cv::namedWindow("Filtered Image", cv::WINDOW_AUTOSIZE);
+//     // cv::imshow("Filtered Image", FilteredImage);
+//     return FilteredImage;
+// }
 
 bool filter_color_square(cv::Mat sq, ushort y_low, ushort y_high, ushort u_low, ushort u_high, ushort v_low, ushort v_high, ushort resize_factor, float passFactor)
 {
@@ -276,11 +274,37 @@ std::tuple<int,std::vector<float>> objectDetection(cv::Mat im)
     return std::make_tuple(closest_green, angles);
 }
 */
+
+cv::Mat rotate_image(cv::Mat non_rotated_image)
+{
+    cv::Mat new_image;
+    double angle = 90;
+
+    // get rotation matrix for rotating the image around its center in pixel coordinates
+    cv::Point2f center((non_rotated_image.cols-1)/2.0, (non_rotated_image.rows-1)/2.0);
+    cv::Mat rot = cv::getRotationMatrix2D(center, angle, 1.0);
+    // determine bounding rectangle, center not relevant
+    cv::Rect2f bbox = cv::RotatedRect(cv::Point2f(), non_rotated_image.size(), angle).boundingRect2f();
+    // adjust transformation matrix
+    rot.at<double>(0,2) += bbox.width/2.0 - non_rotated_image.cols/2.0;
+    rot.at<double>(1,2) += bbox.height/2.0 - non_rotated_image.rows/2.0;
+
+    cv::warpAffine(non_rotated_image, new_image, rot, bbox.size());
+    // cv::imwrite("rotated_im.png", new_image);
+    // cv::namedWindow("Old Image", cv::WINDOW_AUTOSIZE);
+    // cv::imshow("Old Image", non_rotated_image);
+    // cv::namedWindow("New Image", cv::WINDOW_AUTOSIZE);
+    // cv::imshow("New Image", new_image);
+    // std::cout<<new_image.cols<<" "<<new_image.rows<<"\n";
+    
+    return new_image;
+}
+
+
 void objectDetection(char *im, int rows, int cols, float *output)
 {
-    cv::Mat filtered_image, squares_image;
-
-    cv::Mat image(rows, cols, CV_8UC2, im);
+    cv::Mat old_image(rows, cols, CV_8UC2, im);
+    cv::Mat image = rotate_image(image);
 
     // image = cv::imread("./../Data/cyberzoo_poles/2_original.jpg", 1);
 

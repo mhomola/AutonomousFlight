@@ -80,7 +80,7 @@ uint16_t n_agents[2] = {25, 25};
 #endif
 
 #ifndef ALPHA
-#define ALPHA 1.0   // Change here the method: 1. for no averaging 
+#define ALPHA 0.9  // Change here the method: 1. for no averaging 
 #endif
 
 #ifndef SUBSAMPLING_FACTOR
@@ -166,11 +166,11 @@ PRINT_CONFIG_VAR(OPTICFLOW_THRESHOLD_VEC)
 PRINT_CONFIG_VAR(OPTICFLOW_THRESHOLD_VEC_CAMERA2)
 
 #ifndef OPTICFLOW_PYRAMID_LEVEL
-#define OPTICFLOW_PYRAMID_LEVEL 2
+#define OPTICFLOW_PYRAMID_LEVEL 1
 #endif
 
 #ifndef OPTICFLOW_PYRAMID_LEVEL_CAMERA2
-#define OPTICFLOW_PYRAMID_LEVEL_CAMERA2 2    // >> not this one
+#define OPTICFLOW_PYRAMID_LEVEL_CAMERA2 3    // >> not this one
 #endif
 PRINT_CONFIG_VAR(OPTICFLOW_PYRAMID_LEVEL)
 PRINT_CONFIG_VAR(OPTICFLOW_PYRAMID_LEVEL_CAMERA2)

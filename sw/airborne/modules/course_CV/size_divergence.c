@@ -45,101 +45,20 @@
 #define FLOW_THRESHOLD 5.f
 #endif
 
+#ifndef LARGE_FLOW_ERROR
+#define LARGE_FLOW_ERROR 1E3
+#endif
 
 
-/**
- * Get divergence from optical flow vectors based on line sizes between corners
- * @param[in] vectors    The optical flow vectors
- * @param[in] count      The number of optical flow vectors
- * @param[in] n_samples  The number of line segments that will be taken into account. 0 means all line segments will be considered.
- * @return divergence
- */
-float get_size_divergence(struct flow_t *vectors, int count, int n_samples)
-{
-  float distance_1, distance_2;
-  float divs_sum = 0.f;
-  uint32_t used_samples = 0;
-  float dx, dy;
-  int32_t i, j;
-
-  int32_t max_samples = (count * count - count) / 2;
-
-  if (count < 2) {
-    return 0.f;
-  } else if (count >= max_samples) {
-    n_samples = 0;
-  }
-
-  if (n_samples == 0) {
-    // go through all possible lines:
-    for (i = 0; i < count; i++) {
-      for (j = i + 1; j < count; j++) {
-        // distance in previous image:
-        dx = (float)vectors[i].pos.x - (float)vectors[j].pos.x;
-        dy = (float)vectors[i].pos.y - (float)vectors[j].pos.y;
-        distance_1 = sqrtf(dx * dx + dy * dy);
-
-        if (distance_1 < 1E-5) {
-          continue;
-        }
-
-        // distance in current image:
-        dx = (float)vectors[i].pos.x + (float)vectors[i].flow_x - (float)vectors[j].pos.x - (float)vectors[j].flow_x;
-        dy = (float)vectors[i].pos.y + (float)vectors[i].flow_y - (float)vectors[j].pos.y - (float)vectors[j].flow_y;
-        distance_2 = sqrtf(dx * dx + dy * dy);
-
-        divs_sum += (distance_2 - distance_1) / distance_1;
-        used_samples++;
-      }
-    }
-  } else {
-    // take random samples:
-    for (uint16_t sample = 0; sample < n_samples; sample++) {
-      // take two random indices:
-      i = rand() % count;
-      j = rand() % count;
-      // ensure it is not the same index:
-      while (i == j) {
-        j = rand() % count;
-      }
-
-      // distance in previous image:
-      dx = (float)vectors[i].pos.x - (float)vectors[j].pos.x;
-      dy = (float)vectors[i].pos.y - (float)vectors[j].pos.y;
-      distance_1 = sqrtf(dx * dx + dy * dy);
-
-      if (distance_1 < 1E-5) {
-        continue;
-      }
-
-      // distance in current image:
-      dx = (float)vectors[i].pos.x + (float)vectors[i].flow_x - (float)vectors[j].pos.x - (float)vectors[j].flow_x;
-      dy = (float)vectors[i].pos.y + (float)vectors[i].flow_y - (float)vectors[j].pos.y - (float)vectors[j].flow_y;
-      distance_2 = sqrtf(dx * dx + dy * dy);
-
-      divs_sum += (distance_2 - distance_1) / distance_1;
-      used_samples++;
-    }
-  }
-
-  if (used_samples < 1){
-    return 0.f;
-  }
-  float out = divs_sum / used_samples;
-
-  // if (out > 0.f){
-  //   printf("Divergence size: %d \n", out);
-  // }
-  // return the calculated mean divergence:
-  return out;
-}
+// 
 
 
 /**
  * Get the heading command from the difference in optical flow between left and right hemispheres.
- * @param[in] vectors        The optical flow vectors
- * @pararam[in] count      The number of optical flow vectors 
+ * @param[in] vectors      The optical flow vectors
+ * @param[in] count      The number of optical flow vectors 
  * @param[in] img_wdith    Size fo the current frame. 
+ * @param[in] subpixel_factor    Pixel to sub-pixel conversion factor
  * @return Yaw rate command.
  */
 float get_heading_command(struct flow_t *vectors, int count, int img_size, int subpixel_factor)
@@ -155,17 +74,16 @@ float get_heading_command(struct flow_t *vectors, int count, int img_size, int s
      (float)vectors[i].flow_y * (float)vectors[i].flow_y;
 
     //first check that local_flow_sq is not huge
-    if (local_flow_sq < local_threshold && vectors[i].error < 5E2) {
-
-      // printf("(%d, %d): flow error: %d \n", vectors[i].pos.x, vectors[i].pos.y, vectors[i].error);
-
-      if (vectors[i].pos.y < img_size/2 * subpixel_factor){
-        count_l++;
-        flow_l+= local_flow_sq ; 
-      }
-      else if(vectors[i].pos.y > img_size/2 * subpixel_factor){
-        count_r++;
-        flow_r+= local_flow_sq ; 
+    if (local_flow_sq < local_threshold) {
+        if (vectors[i].error < LARGE_FLOW_ERROR)
+        // printf("(%d, %d): flow error: %d \n", vectors[i].pos.x, vectors[i].pos.y, vectors[i].error);
+      {      
+        if (vectors[i].pos.y < img_size/2 * subpixel_factor){
+          count_l++; flow_l+= local_flow_sq ; 
+        }
+        else if(vectors[i].pos.y > img_size/2 * subpixel_factor){
+          count_r++; flow_r+= local_flow_sq ; 
+        }
       }
     }
     else
@@ -176,13 +94,96 @@ float get_heading_command(struct flow_t *vectors, int count, int img_size, int s
 
   // compute simple yaw/heading change command
   yaw_command = (flow_l - flow_r)/(flow_l + flow_r);
-  // printf(" %d + %d (l/r) samples\n", count_l, count_r);
 
   if (isnan(yaw_command) || (fabs(yaw_command) < YAW_THRESHOLD) || flow_l < 10.0 || flow_r < 10.0)
-    return 10.0;
+    return 0.0;
 
   // printf(">>>>>>>>> l:%f r%f   Yaw command: %f \n\n\n",flow_l, flow_r, yaw_command);
-  fprintf(stderr, ">>>>>>>>> l:%f r%f   Yaw command -- vision: %f \n\n\n",flow_l, flow_r, yaw_command);
+  fprintf(stderr, ">>>>>>>>> l:%f r%f   Vision --Yaw command: %f \n\n\n",flow_l, flow_r, yaw_command);
   return yaw_command;
 
 }
+
+
+/**
+//  * Get divergence from optical flow vectors based on line sizes between corners
+//  * @param[in] vectors    The optical flow vectors
+//  * @param[in] count      The number of optical flow vectors
+//  * @param[in] n_samples  The number of line segments that will be taken into account. 0 means all line segments will be considered.
+//  * @return divergence
+//  */
+// float get_size_divergence(struct flow_t *vectors, int count, int n_samples)
+// {
+//   float distance_1, distance_2;
+//   float divs_sum = 0.f;
+//   uint32_t used_samples = 0;
+//   float dx, dy;
+//   int32_t i, j;
+
+//   int32_t max_samples = (count * count - count) / 2;
+
+//   if (count < 2) {
+//     return 0.f;
+//   } else if (count >= max_samples) {
+//     n_samples = 0;
+//   }
+
+//   if (n_samples == 0) {
+//     // go through all possible lines:
+//     for (i = 0; i < count; i++) {
+//       for (j = i + 1; j < count; j++) {
+//         // distance in previous image:
+//         dx = (float)vectors[i].pos.x - (float)vectors[j].pos.x;
+//         dy = (float)vectors[i].pos.y - (float)vectors[j].pos.y;
+//         distance_1 = sqrtf(dx * dx + dy * dy);
+
+//         if (distance_1 < 1E-5) {
+//           continue;
+//         }
+
+//         // distance in current image:
+//         dx = (float)vectors[i].pos.x + (float)vectors[i].flow_x - (float)vectors[j].pos.x - (float)vectors[j].flow_x;
+//         dy = (float)vectors[i].pos.y + (float)vectors[i].flow_y - (float)vectors[j].pos.y - (float)vectors[j].flow_y;
+//         distance_2 = sqrtf(dx * dx + dy * dy);
+
+//         divs_sum += (distance_2 - distance_1) / distance_1;
+//         used_samples++;
+//       }
+//     }
+//   } else {
+//     // take random samples:
+//     for (uint16_t sample = 0; sample < n_samples; sample++) {
+//       // take two random indices:
+//       i = rand() % count;
+//       j = rand() % count;
+//       // ensure it is not the same index:
+//       while (i == j) {
+//         j = rand() % count;
+//       }
+
+//       // distance in previous image:
+//       dx = (float)vectors[i].pos.x - (float)vectors[j].pos.x;
+//       dy = (float)vectors[i].pos.y - (float)vectors[j].pos.y;
+//       distance_1 = sqrtf(dx * dx + dy * dy);
+
+//       if (distance_1 < 1E-5) {
+//         continue;
+//       }
+
+//       // distance in current image:
+//       dx = (float)vectors[i].pos.x + (float)vectors[i].flow_x - (float)vectors[j].pos.x - (float)vectors[j].flow_x;
+//       dy = (float)vectors[i].pos.y + (float)vectors[i].flow_y - (float)vectors[j].pos.y - (float)vectors[j].flow_y;
+//       distance_2 = sqrtf(dx * dx + dy * dy);
+
+//       divs_sum += (distance_2 - distance_1) / distance_1;
+//       used_samples++;
+//     }
+//   }
+
+//   if (used_samples < 1){
+//     return 0.f;
+//   }
+//   float out = divs_sum / used_samples;
+
+//   return out;
+// }

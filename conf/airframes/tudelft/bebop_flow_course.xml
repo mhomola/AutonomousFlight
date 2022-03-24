@@ -20,6 +20,10 @@
       <define name="COLOR_OBJECT_DETECTOR_CB_MAX1" value="130"/>
       <define name="COLOR_OBJECT_DETECTOR_CR_MIN1" value="150"/>
       <define name="COLOR_OBJECT_DETECTOR_CR_MAX1" value="190"/>
+
+      <define name="OPENCVDEMO_CAMERA" value="front_camera|bottom_camera" description="Video device to use"/>
+      <define name="OPENCVDEMO_FPS" value="0" description="The (maximum) frequency to run the calculations at. If zero, it will max out at the camera frame rate"/>
+
     </target>
     
     <target name="nps" board="pc">
@@ -56,10 +60,24 @@
     <module name="logger_file"/>
 
     <!-- Video/Camera modules -->
+
     <module name="bebop_cam"/>
     <!--module name="bebop_ae_awb">
       <define name="CV_AE_AWB_VERBOSE" value="0" />
     </module-->
+
+    <!-- >>>>> -->
+    <module name="floor_detection">
+      <define name="FLOOR_DETECTION_CAMERA" value="front_camera"/>
+      <define name="FLOOR_DETECTION_FPS" value="15"/>
+    </module>
+
+    <module name="cv_opencvdemo">
+      <define name="OPENCVDEMO_CAMERA" value="front_camera"/>
+      <define name="OPENCVDEMO_FPS" value="20"/>
+    </module>
+    <!-- <<<<<<<< -->
+
     <module name="video_capture">
       <define name="VIDEO_CAPTURE_CAMERA" value="front_camera"/>
       <define name="VIDEO_CAPTURE_FPS" value="10"/>

@@ -35,11 +35,11 @@
 
 
 #ifndef GAIN_YAW
-#define GAIN_YAW 10
+#define GAIN_YAW 20
 #endif
 
 #ifndef VELOCITY
-#define VELOCITY 0.5  // << KEEP LOWER THAN 1
+#define VELOCITY 0.3  // << KEEP LOWER THAN 1
 #endif
 
 
@@ -69,7 +69,7 @@ float oa_color_count_frac = 0.18f;
 // define and initialise global variables
 enum navigation_state_t navigation_state = SEARCH_FOR_SAFE_HEADING;
 float heading_increment = 5.f;          // heading angle increment [deg]
-float maxDistance = 2.25;               // max waypoint displacement [m]
+float maxDistance = 2.;               // max waypoint displacement [m]
 float yaw_command_nav;
 const int16_t max_trajectory_confidence = 5; // number of consecutive negative object detections to be sure we are obstacle free
 
@@ -88,15 +88,6 @@ const int16_t max_trajectory_confidence = 5; // number of consecutive negative o
 #define OPTICAL_FLOW_ID ABI_BROADCAST
 #endif
 
-// static abi_event color_detection_ev;
-// static void color_detection_cb(uint8_t __attribute__((unused)) sender_id,
-//                                int16_t __attribute__((unused)) pixel_x, int16_t __attribute__((unused)) pixel_y,
-//                                int16_t __attribute__((unused)) pixel_width, int16_t __attribute__((unused)) pixel_height,
-//                                int32_t quality, int16_t __attribute__((unused)) extra)
-                      
-// {
-//   color_count = quality;
-// }
 
 
 static abi_event optical_flow_ev;
@@ -154,8 +145,24 @@ void orange_avoider_periodic(void)
   switch (navigation_state){
     case SAFE:
         // Yaw in new direction:
-      fprintf(stderr, "navigation -- yaw command -  = %f \n", yaw_command_nav);
-      increase_nav_heading(yaw_command_nav * GAIN_YAW);
+      // fprintf(stderr, "navigation -- yaw command -  = %f \n", yaw_command_nav);
+
+
+      if (yaw_command_nav < -0.5f)
+        increase_nav_heading( -heading_increment);
+      else if ((-0.5f < yaw_command_nav) && (yaw_command_nav < -0.f))
+        increase_nav_heading(-0.5*heading_increment);
+      else if ((0.5f > yaw_command_nav) && (yaw_command_nav < 0.5f))
+        increase_nav_heading(0.5*heading_increment);
+      else if((0.5f < yaw_command_nav))
+        increase_nav_heading( heading_increment);
+
+      
+      // if (yaw_command_nav < 0.f)
+      //     increase_nav_heading( -heading_increment);
+      // else if (yaw_command_nav > 0.f)
+      //     increase_nav_heading( + heading_increment);
+      
 
       // Move waypoint forward
       moveWaypointForward(WP_TRAJECTORY,  moveDistance);
@@ -179,6 +186,8 @@ void orange_avoider_periodic(void)
         // ensure direction is safe before continuing
         navigation_state = SEARCH_FOR_SAFE_HEADING;
       }
+      // final increment 
+      increase_nav_heading( 6 * heading_increment);
       break;
     default:
       break;

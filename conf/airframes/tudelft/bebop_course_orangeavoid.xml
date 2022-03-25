@@ -74,9 +74,24 @@
       <define name="FLOOR_DETECTION_CAMERA" value="front_camera"/>
       <define name="FLOOR_DETECTION_FPS" value="10"/>
     </module>
+    
+    
     <module name="orange_avoider">
       <define name="ORANGE_AVOIDER_VISUAL_DETECTION_ID" value="COLOR_OBJECT_DETECTION1_ID"/>
     </module>
+    
+    <module name="cv_opticflow_mav_exercise">
+        <define name="OPTICFLOW_CAMERA" value="front_camera"/>
+        <define name="OPTICFLOW_DEROTATION_CORRECTION_FACTOR_X_CAMERA" value="0.8"/> <!--Obtained from a linefit-->
+        <define name="OPTICFLOW_DEROTATION_CORRECTION_FACTOR_Y_CAMERA" value="0.85"/> <!--Obtained from a linefit-->
+        <!-- <define name="OPTICFLOW_MAX_TRACK_CORNERS_CAMERA" value="100"/> -->
+        <define name="OPTICFLOW_FEATURE_MANAGEMENT_CAMERA" value="0"/>
+        <define name="OPTICFLOW_FPS_CAMERA" value="30"/>
+        <define name="OPTICFLOW_SHOW_FLOW_CAMERA" value="1"/>
+    </module> 
+    
+    
+    
     <module name="video_rtp_stream">
       <define name="VIEWVIDEO_CAMERA" value="front_camera"/>
       <define name="VIEWVIDEO_CAMERA2" value="bottom_camera"/>

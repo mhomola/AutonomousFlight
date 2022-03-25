@@ -93,15 +93,15 @@ float get_heading_command(struct flow_t *vectors, int count, int img_size, int s
   count_r = (float)(count_r);
 
   // compute simple yaw/heading change command
-  yaw_command = (flow_l - flow_r)/(flow_l + flow_r);
+  yaw_command = (flow_l + flow_r)/100;
 
   if (isnan(yaw_command) || (fabs(yaw_command) < YAW_THRESHOLD ) || flow_l < 5.0 || flow_r < 5.0)
     return 0.0;
 
   // printf(">>>>>>>>> l:%f r%f   Yaw command: %f \n\n\n",flow_l, flow_r, yaw_command);
   // fprintf(stderr, " >>>>>>>> Vision --Yaw command: %f by l:%f r%f   \n\n\n", yaw_command,flow_l, flow_r);
+  fprintf(stderr, "FUNCTION IS CAAAALLLEEDD -  = %f \n", yaw_command);
   return yaw_command;
-
 }
 
 

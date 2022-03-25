@@ -73,7 +73,9 @@ float maxDistance = 2.;               // max waypoint displacement [m]
 uint8_t rotation_counter;
 float yaw_command_nav;
 const int16_t max_trajectory_confidence = 5; // number of consecutive negative object detections to be sure we are obstacle free
+ float moveDistance;
 
+ 
 /*
  * This next section defines an ABI messaging event (http://wiki.paparazziuav.org/wiki/ABI), necessary
  * any time data calculated in another module needs to be accessed. Including the file where this external
@@ -128,20 +130,7 @@ void orange_avoider_periodic(void)
   if(!autopilot_in_flight()){
     return;
   }
-  // Calculate future position of WP:
-  float moveDistance;
-  
 
-  // if (!InsideObstacleZone(WaypointX(WP_TRAJECTORY),WaypointY(WP_TRAJECTORY))){
-  //   navigation_state = OUT_OF_BOUNDS;
-  // } else if (yaw_command_nav > 1.f){
-  //   // very high yaw commands means that an obstacle is found ->> turn away!
-  //   navigation_state = OBSTACLE_FOUND;
-  //   moveDistance = 2.f;
-  // } else{
-  //   navigation_state = SAFE;
-  //   
-  // }
 
   moveDistance = VELOCITY * (1.f - fabs(yaw_command_nav));
   if (moveDistance > maxDistance){

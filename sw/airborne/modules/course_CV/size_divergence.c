@@ -46,7 +46,7 @@
 #endif
 
 #ifndef LARGE_FLOW_ERROR
-#define LARGE_FLOW_ERROR 1E3
+#define LARGE_FLOW_ERROR 5E3
 #endif
 
 
@@ -99,7 +99,7 @@ float get_heading_command(struct flow_t *vectors, int count, int img_size, int s
     return 0.0;
 
   // printf(">>>>>>>>> l:%f r%f   Yaw command: %f \n\n\n",flow_l, flow_r, yaw_command);
-  fprintf(stderr, " >>>>>>>> Vision --Yaw command: %f by l:%f r%f   \n\n\n", yaw_command,flow_l, flow_r);
+  // fprintf(stderr, " >>>>>>>> Vision --Yaw command: %f by l:%f r%f   \n\n\n", yaw_command,flow_l, flow_r);
   return yaw_command;
 
 }

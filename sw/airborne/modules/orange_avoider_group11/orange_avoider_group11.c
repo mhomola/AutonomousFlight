@@ -151,9 +151,9 @@ void orange_avoider_periodic(void)
         fprintf(stderr, "navigation -- yaw command = %f , move distance = %f \n", yaw_command_nav, moveDistance);
         if (yaw_command_nav < -0.5f)
           increase_nav_heading( -heading_increment);
-        else if ((-0.5f < yaw_command_nav) && (yaw_command_nav < -0.f))
+        else if ((-0.5f < yaw_command_nav) && (yaw_command_nav < -0.1f))
           increase_nav_heading(-0.5*heading_increment);
-        else if ((0.5f > yaw_command_nav) && (yaw_command_nav < 0.5f))
+        else if ((0.1f < yaw_command_nav) && (yaw_command_nav < 0.5f))
           increase_nav_heading(0.5*heading_increment);
         else if((0.5f < yaw_command_nav))
           increase_nav_heading( heading_increment);

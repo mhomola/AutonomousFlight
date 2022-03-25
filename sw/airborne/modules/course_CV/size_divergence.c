@@ -49,6 +49,10 @@
 #define LARGE_FLOW_ERROR 1E3
 #endif
 
+#ifndef NEG2THRESHOLD
+#define NEG2THRESHOLD 100
+#endif
+
 
 // 
 
@@ -94,9 +98,12 @@ float get_heading_command(struct flow_t *vectors, int count, int img_size, int s
 
   // compute simple yaw/heading change command
   yaw_command = (flow_l - flow_r)/(flow_l + flow_r);
-
-  if (isnan(yaw_command) || (fabs(yaw_command) < YAW_THRESHOLD ) || flow_l < 5.0 || flow_r < 5.0)
+  if (flow_l + flow_r > NEG2THRESHOLD) {
+    return -2.0;
+  } else if (isnan(yaw_command) || (fabs(yaw_command) < YAW_THRESHOLD ) || flow_l < 5.0 || flow_r < 5.0) {
     return 0.0;
+  } 
+
 
   // printf(">>>>>>>>> l:%f r%f   Yaw command: %f \n\n\n",flow_l, flow_r, yaw_command);
   fprintf(stderr, " >>>>>>>> Vision --Yaw command: %f by l:%f r%f   \n\n\n", yaw_command,flow_l, flow_r);

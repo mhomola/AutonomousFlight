@@ -78,7 +78,7 @@ uint16_t n_agents[2] = {25, 25};
 #endif
 
 #ifndef ALPHA
-#define ALPHA 0.9  // Change here the method: 1. for no averaging 
+#define ALPHA 0.99  // Change here the method: 1. for no averaging 
 #endif
 
 #ifndef SUBSAMPLING_FACTOR

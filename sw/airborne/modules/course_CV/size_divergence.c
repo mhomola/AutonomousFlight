@@ -93,7 +93,7 @@ float get_heading_command(struct flow_t *vectors, int count, int img_size, int s
   count_r = (float)(count_r);
 
   // compute simple yaw/heading change command
-  yaw_command = (flow_l + flow_r)/100;
+  yaw_command = (flow_l - flow_r)/(flow_l + flow_r);
 
   if (isnan(yaw_command) || (fabs(yaw_command) < YAW_THRESHOLD ) || flow_l < 5.0 || flow_r < 5.0)
     return 0.0;

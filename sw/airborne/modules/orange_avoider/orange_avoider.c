@@ -59,7 +59,8 @@ float oa_color_count_frac = 0.18f;
 enum navigation_state_t navigation_state = SEARCH_FOR_SAFE_HEADING;
 int32_t color_count = 0;                // orange color count from color filter for obstacle detection
 int16_t obstacle_free_confidence = 0;   // a measure of how certain we are that the way ahead is safe.
-float heading_increment = 5.f;          // heading angle increment [deg]
+float heading_increment = 15.f;          // heading angle increment [deg]
+const float heading_increment_yaw = 10.f;       // own variable
 float maxDistance = 2.25;               // max waypoint displacement [m]
 const int16_t max_trajectory_confidence = 5; // number of consecutive negative object detections to be sure we are obstacle free
 float yaw_command_nav;
@@ -134,14 +135,29 @@ void orange_avoider_periodic(void)
   // bound obstacle_free_confidence
   Bound(obstacle_free_confidence, 0, max_trajectory_confidence);
 
-  float moveDistance = fminf(maxDistance, 0.2f * obstacle_free_confidence);
+  float moveDistance = fminf(maxDistance, 0.3f * obstacle_free_confidence);
 
   switch (navigation_state){
     case SAFE:
+      moveWaypointForward(WP_TRAJECTORY,  1.5f * moveDistance);
+
       // Yaw command
-      yaw_command_nav = yaw_command_group11;
+      yaw_command_nav = -yaw_command_group11;
       fprintf(stderr, "navigation -- yaw command -  = %f \n", yaw_command_nav);
-      increase_nav_heading(yaw_command_nav*10);
+
+
+        // Yaw in new direction:
+        fprintf(stderr, "navigation -- yaw command = %f , move distance = %f \n", yaw_command_nav, moveDistance);
+        if (yaw_command_nav < -0.5f)
+          increase_nav_heading( -2.0*heading_increment_yaw);
+        else if ((-0.5f < yaw_command_nav) && (yaw_command_nav < -0.1f))
+          increase_nav_heading(-1.0*heading_increment_yaw);
+        else if ((0.1f < yaw_command_nav) && (yaw_command_nav < 0.5f))
+          increase_nav_heading(1.0*heading_increment_yaw);
+        else if((0.5f < yaw_command_nav && yaw_command_nav < 1.f))
+          increase_nav_heading( 2.0*heading_increment_yaw);
+      
+      // increase_nav_heading(yaw_command_nav*10);
 
       // Move waypoint forward
       moveWaypointForward(WP_TRAJECTORY, 1.5f * moveDistance);
@@ -257,10 +273,10 @@ uint8_t chooseRandomIncrementAvoidance(void)
 {
   // Randomly choose CW or CCW avoiding direction
   if (rand() % 2 == 0) {
-    heading_increment = 5.f;
+    heading_increment = heading_increment;
     VERBOSE_PRINT("Set avoidance increment to: %f\n", heading_increment);
   } else {
-    heading_increment = -5.f;
+    heading_increment = -heading_increment;
     VERBOSE_PRINT("Set avoidance increment to: %f\n", heading_increment);
   }
   return false;

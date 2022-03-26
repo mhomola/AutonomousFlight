@@ -72,21 +72,18 @@ uint16_t n_agents[2] = {25, 25};
 
 
 
-
 #ifndef OPTICFLOW_CORNER_METHOD_CAMERA
 #define OPTICFLOW_CORNER_METHOD_CAMERA GRID    // Change here the method
 #endif
 
+#ifndef SUBSAMPLING_FACTOR
+#define SUBSAMPLING_FACTOR 10   // >> lower value means fewer features to track (decrease for better FPS)
+#endif
+PRINT_CONFIG_VAR(OPTICFLOW_CORNER_METHOD_CAMERA)
+
 #ifndef ALPHA
 #define ALPHA 0.9  // Change here the method: 1. for no averaging 
 #endif
-
-#ifndef SUBSAMPLING_FACTOR
-#define SUBSAMPLING_FACTOR 10   // >> lower value measns fewer features to track (decrease for better FPS)
-#endif
-
-PRINT_CONFIG_VAR(OPTICFLOW_CORNER_METHOD_CAMERA)
-
 
 
 #ifndef OPTICFLOW_MAX_TRACK_CORNERS_CAMERA
@@ -105,41 +102,33 @@ PRINT_CONFIG_VAR(OPTICFLOW_MAX_TRACK_CORNERS_CAMERA)
 #endif
 // PRINT_CONFIG_VAR(OPTICFLOW_WINDOW_SIZE)
 
-
-
 #ifndef OPTICFLOW_SEARCH_DISTANCE_CAMERA
 #define OPTICFLOW_SEARCH_DISTANCE_CAMERA 20
 #endif
 
-
 #ifndef OPTICFLOW_SUBPIXEL_FACTOR_CAMERA
 #define OPTICFLOW_SUBPIXEL_FACTOR_CAMERA 10  // >> not this one
 #endif
-// PRINT_CONFIG_VAR(OPTICFLOW_SUBPIXEL_FACTOR)
-
 
 
 #ifndef OPTICFLOW_RESOLUTION_FACTOR_CAMERA
 #define OPTICFLOW_RESOLUTION_FACTOR_CAMERA 100      // >> not this one
 #endif
-// PRINT_CONFIG_VAR(OPTICFLOW_RESOLUTION_FACTOR)
 
 
 
 #ifndef OPTICFLOW_MAX_ITERATIONS_CAMERA
 #define OPTICFLOW_MAX_ITERATIONS_CAMERA 10
 #endif
-// PRINT_CONFIG_VAR(OPTICFLOW_MAX_ITERATIONS)
 
 
 #ifndef OPTICFLOW_THRESHOLD_VEC_CAMERA
 #define OPTICFLOW_THRESHOLD_VEC_CAMERA 20   // >> not this one
 #endif
-// PRINT_CONFIG_VAR(OPTICFLOW_THRESHOLD_VEC)
 
 
 #ifndef OPTICFLOW_PYRAMID_LEVEL_CAMERA
-#define OPTICFLOW_PYRAMID_LEVEL_CAMERA 3    // >> not this one
+#define OPTICFLOW_PYRAMID_LEVEL_CAMERA 2    // >> not this one
 #endif
 // PRINT_CONFIG_VAR(OPTICFLOW_PYRAMID_LEVEL)
 
@@ -168,8 +157,6 @@ PRINT_CONFIG_VAR(OPTICFLOW_MAX_TRACK_CORNERS_CAMERA)
 #ifndef OPTICFLOW_FAST9_PADDING_CAMERA
 #define OPTICFLOW_FAST9_PADDING_CAMERA 20
 #endif
-PRINT_CONFIG_VAR(OPTICFLOW_FAST9_PADDING)
-
 
 // thresholds FAST9 that are currently not set from the GCS:
 #define FAST9_LOW_THRESHOLD 5
@@ -203,9 +190,8 @@ PRINT_CONFIG_VAR(OPTICFLOW_DEROTATION_CAMERA)
 #endif
 
 
-
 #ifndef OPTICFLOW_MEDIAN_FILTER_CAMERA
-#define OPTICFLOW_MEDIAN_FILTER_CAMERA FALSE
+#define OPTICFLOW_MEDIAN_FILTER_CAMERA TRUE
 #endif
 PRINT_CONFIG_VAR(OPTICFLOW_MEDIAN_FILTER_CAMERA)
 
@@ -219,32 +205,27 @@ PRINT_CONFIG_VAR(OPTICFLOW_MEDIAN_FILTER_CAMERA)
 #ifndef OPTICFLOW_FAST9_REGION_DETECT
 #define OPTICFLOW_FAST9_REGION_DETECT_CAMERA 1
 #endif
-// PRINT_CONFIG_VAR(OPTICFLOW_FAST9_REGION_DETECT)
 
 
 #ifndef OPTICFLOW_FAST9_NUM_REGIONS_CAMERA
 #define OPTICFLOW_FAST9_NUM_REGIONS_CAMERA 9
 #endif
-// PRINT_CONFIG_VAR(OPTICFLOW_FAST9_NUM_REGIONS)
+
 
 
 #ifndef OPTICFLOW_ACTFAST_LONG_STEP_CAMERA
 #define OPTICFLOW_ACTFAST_LONG_STEP_CAMERA 10
 #endif
-PRINT_CONFIG_VAR(OPTICFLOW_ACTFAST_LONG_STEP_CAMERA)
 
 
 #ifndef OPTICFLOW_ACTFAST_SHORT_STEP_CAMERA
 #define OPTICFLOW_ACTFAST_SHORT_STEP_CAMERA 2
 #endif
-PRINT_CONFIG_VAR(OPTICFLOW_ACTFAST_SHORT_STEP_CAMERA)
 
 
 #ifndef OPTICFLOW_ACTFAST_GRADIENT_METHOD_CAMERA
 #define OPTICFLOW_ACTFAST_GRADIENT_METHOD_CAMERA 1
 #endif
-// PRINT_CONFIG_VAR(OPTICFLOW_ACTFAST_GRADIENT_METHOD)
-
 
 
 #ifndef OPTICFLOW_ACTFAST_MIN_GRADIENT_CAMERA
@@ -253,7 +234,6 @@ PRINT_CONFIG_VAR(OPTICFLOW_ACTFAST_SHORT_STEP_CAMERA)
 
 
 // Defaults for ARdrone
-
 #ifndef OPTICFLOW_BODY_TO_CAM_PHI_CAMERA
 #define OPTICFLOW_BODY_TO_CAM_PHI_CAMERA 0
 #endif
@@ -572,11 +552,7 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
   // ******************************************************************************************
   //                                 Flow De-rotation
   // ******************************************************************************************
-  float diff_flow_x = 0.f;
-  float diff_flow_y = 0.f;
-
   if (opticflow->derotation && result->tracked_cnt > 5) {
-
     float rotation_threshold = M_PI / 180.0f;   // rad/deg
     if (fabs(opticflow->img_gray.eulers.phi - opticflow->prev_img_gray.eulers.phi) > rotation_threshold
         || fabs(opticflow->img_gray.eulers.theta - opticflow->prev_img_gray.eulers.theta) > rotation_threshold) {
@@ -593,61 +569,47 @@ bool calc_fast9_lukas_kanade(struct opticflow_t *opticflow, struct image_t *img,
       float theta_diff = opticflow->img_gray.eulers.theta - opticflow->prev_img_gray.eulers.theta;
       float psi_diff = opticflow->img_gray.eulers.psi - opticflow->prev_img_gray.eulers.psi;
 
-      if (strcmp(opticflow->camera->dev_name, bottom_camera.dev_name) == 0) {
-        // bottom cam: just subtract a scaled version of the roll and pitch difference from the global flow vector:
-        diff_flow_x = phi_diff * opticflow->camera->camera_intrinsics.focal_x; // phi_diff works better than (cam_state->rates.p)
-        diff_flow_y = theta_diff * opticflow->camera->camera_intrinsics.focal_y;
-        result->flow_der_x = result->flow_x - diff_flow_x * opticflow->subpixel_factor *
-                             opticflow->derotation_correction_factor_x;
-        result->flow_der_y = result->flow_y - diff_flow_y * opticflow->subpixel_factor *
-                             opticflow->derotation_correction_factor_y;
-      } else {
-        // frontal cam, predict individual flow vectors:
-        struct flow_t *predicted_flow_vectors = predict_flow_vectors(vectors, result->tracked_cnt, phi_diff, theta_diff,
-                                                psi_diff, opticflow);
-        // if (opticflow->show_flow) {
-        //   uint8_t color[4] = {255, 255, 255, 255};
-        //   uint8_t bad_color[4] = {255, 255, 0, 255};
-        //   image_show_flow_color(img, predicted_flow_vectors, result->tracked_cnt, opticflow->subpixel_factor, color, bad_color);
-        // }
+      // frontal cam, predict individual flow vectors:
+      struct flow_t *predicted_flow_vectors = predict_flow_vectors(vectors, result->tracked_cnt, phi_diff, theta_diff,
+                                              psi_diff, opticflow);
+      // if (opticflow->show_flow) {
+      //   uint8_t color[4] = {255, 255, 255, 255};
+      //   uint8_t bad_color[4] = {255, 255, 0, 255};
+      //   image_show_flow_color(img, predicted_flow_vectors, result->tracked_cnt, opticflow->subpixel_factor, color, bad_color);
+      // }
 
-        for (int i = 0; i < result->tracked_cnt; i++) {
-          // subtract the flow:
-          vectors[i].flow_x -= predicted_flow_vectors[i].flow_x;
-          vectors[i].flow_y -= predicted_flow_vectors[i].flow_y;
-        }
-
-
-        // vectors have to be re-sorted after derotation:
-        qsort(vectors, result->tracked_cnt, sizeof(struct flow_t), cmp_flow);
-
-        if (result->tracked_cnt % 2) {
-          // Take the median point
-          result->flow_der_x = vectors[result->tracked_cnt / 2].flow_x;
-          result->flow_der_y = vectors[result->tracked_cnt / 2].flow_y;
-        } else {
-          // Take the average of the 2 median points
-          result->flow_der_x = (vectors[result->tracked_cnt / 2 - 1].flow_x + vectors[result->tracked_cnt / 2].flow_x) / 2.f;
-          result->flow_der_y = (vectors[result->tracked_cnt / 2 - 1].flow_y + vectors[result->tracked_cnt / 2].flow_y) / 2.f;
-        }
+      for (int i = 0; i < result->tracked_cnt; i++) {
+        // subtract the flow:
+        vectors[i].flow_x -= predicted_flow_vectors[i].flow_x;
+        vectors[i].flow_y -= predicted_flow_vectors[i].flow_y;
       }
+
+      // vectors have to be re-sorted after derotation:
+      qsort(vectors, result->tracked_cnt, sizeof(struct flow_t), cmp_flow);
+
+      if (result->tracked_cnt % 2) {
+        // Take the median point
+        result->flow_der_x = vectors[result->tracked_cnt / 2].flow_x;
+        result->flow_der_y = vectors[result->tracked_cnt / 2].flow_y;
+      } else {
+        // Take the average of the 2 median points
+        result->flow_der_x = (vectors[result->tracked_cnt / 2 - 1].flow_x + vectors[result->tracked_cnt / 2].flow_x) / 2.f;
+        result->flow_der_y = (vectors[result->tracked_cnt / 2 - 1].flow_y + vectors[result->tracked_cnt / 2].flow_y) / 2.f;
+        }
+      
     }
   }
   result->camera_id = opticflow->id;
   result->noise_measurement = 0.25;
+
   // *************************************************************************************
   //                              Calculate yaw Command
   // *************************************************************************************
 
-
-    if (strcmp(opticflow->camera->dev_name, front_camera.dev_name) == 0)
+  if (strcmp(opticflow->camera->dev_name, front_camera.dev_name) == 0)
   { 
-
-
     cur_yaw_command = get_heading_command(vectors, result->tracked_cnt, opticflow->prev_img_gray.h, opticflow->subpixel_factor);
     result->yaw_command = opticflow->alpha * cur_yaw_command + (1-opticflow->alpha) * result->yaw_command;
-
-    // yaw_command_group11 = result->yaw_command;
 
   }
 

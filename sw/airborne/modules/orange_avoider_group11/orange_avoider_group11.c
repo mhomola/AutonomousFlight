@@ -39,7 +39,7 @@
 #endif
 
 #ifndef VELOCITY
-#define VELOCITY 0.4  // << KEEP LOWER THAN 1
+#define VELOCITY 0.5  // << KEEP LOWER THAN 1
 #endif
 
 
@@ -67,12 +67,15 @@ enum navigation_state_t {
 float oa_color_count_frac = 0.18f;
 
 // define and initialise global variables
-enum navigation_state_t navigation_state = SEARCH_FOR_SAFE_HEADING;
-float heading_increment = 6.f;          // heading angle increment [deg]
+enum navigation_state_t navigation_state = SAFE;
+float heading_increment = 8.f;          // heading angle increment [deg]
 float maxDistance = 2.;               // max waypoint displacement [m]
+uint8_t rotation_counter;
 float yaw_command_nav;
 const int16_t max_trajectory_confidence = 5; // number of consecutive negative object detections to be sure we are obstacle free
+ float moveDistance;
 
+ 
 /*
  * This next section defines an ABI messaging event (http://wiki.paparazziuav.org/wiki/ABI), necessary
  * any time data calculated in another module needs to be accessed. Including the file where this external
@@ -128,48 +131,64 @@ void orange_avoider_periodic(void)
     return;
   }
 
-  // Calculate future position of WP:
-  float moveDistance = VELOCITY * (1 - fabs(yaw_command_nav));
+
+  moveDistance = VELOCITY * (1.f - fabs(yaw_command_nav));
   if (moveDistance > maxDistance){
     moveDistance = maxDistance;
   }
-  moveWaypointForward(WP_TRAJECTORY, moveDistance);
-  
-  if (!InsideObstacleZone(WaypointX(WP_TRAJECTORY),WaypointY(WP_TRAJECTORY))){
-    navigation_state = OUT_OF_BOUNDS;
-  } else {
-    navigation_state = SAFE;
-  }
-  
-  
+
   switch (navigation_state){
     case SAFE:
-        // Yaw in new direction:
-      // fprintf(stderr, "navigation -- yaw command -  = %f \n", yaw_command_nav);
-
-
-      if (yaw_command_nav < -0.5f)
-        increase_nav_heading( -heading_increment);
-      else if ((-0.5f < yaw_command_nav) && (yaw_command_nav < -0.f))
-        increase_nav_heading(-0.5*heading_increment);
-      else if ((0.5f > yaw_command_nav) && (yaw_command_nav < 0.5f))
-        increase_nav_heading(0.5*heading_increment);
-      else if((0.5f < yaw_command_nav))
-        increase_nav_heading( heading_increment);
-
       
-      // if (yaw_command_nav < 0.f)
-      //     increase_nav_heading( -heading_increment);
-      // else if (yaw_command_nav > 0.f)
-      //     increase_nav_heading( + heading_increment);
-      
+      moveWaypointForward(WP_TRAJECTORY,  1.5f * moveDistance);
 
-      // Move waypoint forward
-      moveWaypointForward(WP_TRAJECTORY,  moveDistance);
       if (!InsideObstacleZone(WaypointX(WP_TRAJECTORY),WaypointY(WP_TRAJECTORY))){
         navigation_state = OUT_OF_BOUNDS;
-      } else {
+      } else if (yaw_command_nav > 1.f){
+        navigation_state = OBSTACLE_FOUND;
+      } else{
+        // Yaw in new direction:
+        fprintf(stderr, "navigation -- yaw command = %f , move distance = %f \n", yaw_command_nav, moveDistance);
+        if (yaw_command_nav < -0.5f)
+          increase_nav_heading( -heading_increment);
+        else if ((-0.5f < yaw_command_nav) && (yaw_command_nav < -0.05f))
+          increase_nav_heading(-0.5*heading_increment);
+        else if ((0.05f < yaw_command_nav) && (yaw_command_nav < 0.5f))
+          increase_nav_heading(0.5*heading_increment);
+        else if((0.5f < yaw_command_nav))
+          increase_nav_heading( heading_increment);
+  
+        // if (yaw_command_nav < 0.f)
+        //     increase_nav_heading( -heading_increment);
+        // else if (yaw_command_nav > 0.f)
+        //     increase_nav_heading( + heading_increment);
+        
+          // Move waypoint forward
         moveWaypointForward(WP_GOAL, moveDistance);
+      }
+      break;
+
+    case OBSTACLE_FOUND:
+      fprintf(stderr, "obstacle found \n");
+      // stop
+      waypoint_move_here_2d(WP_GOAL);
+      waypoint_move_here_2d(WP_TRAJECTORY);
+
+      // set counter for future rotations
+     rotation_counter = 20;
+
+     navigation_state = SEARCH_FOR_SAFE_HEADING;
+    break;
+
+    case SEARCH_FOR_SAFE_HEADING:
+      printf(" turn around \n");
+      // slowly rotate
+      rotation_counter--;
+      increase_nav_heading(heading_increment);
+
+      // make sure we have a couple of good readings before declaring the way safe
+      if (rotation_counter == 0){
+        navigation_state = SAFE;
       }
       break;
 
@@ -177,14 +196,12 @@ void orange_avoider_periodic(void)
       increase_nav_heading(heading_increment);
       moveWaypointForward(WP_TRAJECTORY, 1.5f);
 
-      printf("OUT_OF_BOUNDS_LOOP\n");
+      printf("______ OUT_OF_BOUNDS_LOOP\n");
 
       if (InsideObstacleZone(WaypointX(WP_TRAJECTORY),WaypointY(WP_TRAJECTORY))){
         // add offset to head back into arena
         increase_nav_heading(heading_increment);
-
-        // ensure direction is safe before continuing
-        navigation_state = SEARCH_FOR_SAFE_HEADING;
+        navigation_state = SAFE;
       }
       // final increment 
       increase_nav_heading( 6 * heading_increment);

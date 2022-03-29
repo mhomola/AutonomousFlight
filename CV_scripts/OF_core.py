@@ -53,15 +53,16 @@ def determine_dense_OF(prev_bgr : np.ndarray, bgr : np.ndarray, graphics : bool 
 
     # convert the images to grayscale:
     prev_gray = cv2.cvtColor(prev_bgr, cv2.COLOR_BGR2GRAY)
-    cur_gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
-    height, width = prev_bgr.shape[:2]
+    cur_gray  = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
 
-    height = height// subsampling
-    width = width// subsampling
+
     # Create the old matrix to feed to LK, instead of goodFeaturesToTrack
-    points_old = np.nonzero(prev_gray[::subsampling,::subsampling])[::-1]
+    points_old = np.nonzero(prev_gray[0::subsampling,0::subsampling])[::-1]
     points_old = tuple(zip(*points_old))
     points_old = np.vstack(points_old).reshape(-1, 1, 2).astype("float32")
+    height, width = points_old.shape[:2]
+    # height = height // subsampling 
+    # width  = width // subsampling  
     
 
     # Parameters for lucas kanade optical flow

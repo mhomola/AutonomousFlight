@@ -14,7 +14,6 @@ import utils
 image_folder = os.getcwd() + '/../Data/cyberzoo_poles/20190121-135009'
 FoV = 180  # deg
 
-
 def filter_color(im, y_low=50, y_high=200, u_low=120, u_high=130, v_low=120, v_high=130, resize_factor=3):
     """"
     This is a piece of code inspired by the Binder example code for filtering the ground color from an image.

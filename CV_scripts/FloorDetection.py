@@ -22,11 +22,12 @@ def filter_color(im, y_low=50, y_high=200, u_low=120, u_high=130, v_low=120, v_h
     The output is a filtered image.
     """
 
-    im = cv2.resize(im, (int(im.shape[1] / resize_factor), int(im.shape[0] / resize_factor)))
-    imred = im[int(im.shape[0] * 0.45):im.shape[0], :, :]
+    im = cv2.resize(im, (int(im.shape[1] / resize_factor), int(im.shape[0] / resize_factor)))   # Image to be considered
+    imred = im[int(im.shape[0] * 0.45):im.shape[0], :, :]                                       # Cropping the image
     YUV = cv2.cvtColor(imred, cv2.COLOR_BGR2YUV)
     Filtered = np.zeros([YUV.shape[0], YUV.shape[1]])
 
+    # YUV filtering
     for y in range(YUV.shape[0]):
         for x in range(YUV.shape[1]):
             if (y_low <= YUV[y, x, 0] <= y_high and
@@ -57,10 +58,11 @@ def filter_color_square(sq, y_low=50, y_high=200, u_low=120, u_high=130, v_low=1
     with the following meaning: True = squared passed filtration, False = square didn't pass filtration
     """
 
-    sq = cv2.resize(sq, (int(sq.shape[1] / resize_factor), int(sq.shape[0] / resize_factor)))
+    sq = cv2.resize(sq, (int(sq.shape[1] / resize_factor), int(sq.shape[0] / resize_factor))) # Square section of the image to be considered
     YUV = cv2.cvtColor(sq, cv2.COLOR_BGR2YUV)
     Filtered = np.zeros([YUV.shape[0], YUV.shape[1]])
 
+    # YUV filtering
     for y in range(YUV.shape[0]):
         for x in range(YUV.shape[1]):
             if (y_low <= YUV[y, x, 0] <= y_high and
@@ -68,8 +70,8 @@ def filter_color_square(sq, y_low=50, y_high=200, u_low=120, u_high=130, v_low=1
                     v_low <= YUV[y, x, 2] <= v_high):
                 Filtered[y, x] = 1
 
-    avgsum = np.sum(Filtered) / np.size(Filtered)
-    return avgsum >= passFactor
+    avgsum = np.sum(Filtered) / np.size(Filtered)   # Checking how many % of the pixels in the square belong within the YUV bounds
+    return avgsum >= passFactor                     # Checking whether the % of pixels belonging to the YUV bounds exceeds the required pass factor
 
 
 def go_decision(Filtered):
@@ -80,9 +82,9 @@ def go_decision(Filtered):
     """
 
     sumRight = np.sum(Filtered[int(Filtered.shape[0] / 2):Filtered.shape[0],
-                      int(Filtered.shape[1] / 2):Filtered.shape[1]])
+                      int(Filtered.shape[1] / 2):Filtered.shape[1]])            # Summation of the green squares on the right
     sumLeft = np.sum(Filtered[int(Filtered.shape[0] / 2):Filtered.shape[0],
-                     0:np.sum(int(Filtered.shape[1] / 2))])
+                     0:np.sum(int(Filtered.shape[1] / 2))])                     # Summation of the green squares on the left
 
     if sumRight < sumLeft:
         return False
@@ -99,11 +101,11 @@ def gen_squares(image_d1, image_d2):
     of the pixel location and size of the "patches" within an image.
     """
 
-    row_num = 4
-    sq_size = int(image_d2 / 40)
-    img_per_row = 20
+    row_num = 4                     # Number of rows
+    sq_size = int(image_d2 / 40)    # Size of a square (in pixels)
+    img_per_row = 20                # Number of squares in the bottom row
 
-    dimensions = []
+    dimensions = []                 # Array to store the position and size of the squares
 
     for i in range(row_num):
         base_dim1_t = image_d1 - 2 * (i + 1) * sq_size
@@ -159,7 +161,7 @@ def square_mesh(dims, image):
 
         img = image[int(dims[i][0]):int(dims[i][0] + size), int(dims[i][1]):int(dims[i][1] + size)]
         go_zone.append(filter_color_square(sq=img, y_low=70, y_high=90, u_low=100, u_high=130, v_low=100, v_high=135) or
-                       is_carpet(dims[i], image))
+                       is_carpet(dims[i], image)) # Checking the color of the squares
 
         if go_zone[i]:  # Coloring is performed here
             image[int(dims[i][0]):int(dims[i][0] + size), int(dims[i][1]):int(dims[i][1] + size), :] = [0, 255, 0]
@@ -174,25 +176,49 @@ def square_mesh(dims, image):
 def getAngle(go_zone_state,first_row_len, sq_size, sq_margin, screen_width, sq_spacing):
 
     """"
-    Function for angle detection of obstacles, which returns the angles
+    Function for angle detection of obstacles, which returns the angles at which the obstacles are detected.
+    The idea is that it goes through the columns of the square grid that contain at least 3 squares. If at least two of
+    bottom 3 squares are red, this is considered to be an obstacle. The angle is estimated based on the knowledge
+    of the position of the squares within the image and the field of view of the image. It is assumed that the angles
+    between the squares are linearly spaced. This might not be 100% accurate, but it is sufficient for the navigation
+    of the drone.
     """
-
     angles = []
     for i in range(first_row_len-4):
         if (int(go_zone_state[2+i])+int(go_zone_state[2+i+first_row_len-1])+int(go_zone_state[2+i+2*first_row_len-4])) <= 1:
-            angles.append(-90+((sq_margin+sq_size/2)+sq_spacing*(2+i))*180/screen_width)
+            angles.append(-np.pi/2+((sq_margin+sq_size/2)+sq_spacing*(2+i))*np.pi/screen_width) # Angle estimate calculation
 
     return angles
 
 def get_green_row(go_zone_state, first_row_len):
 
-    if go_zone_state[-1:-first_row_len]:
+    """"
+    This algorithm iterates through the rows of the squares grid and it checks whether a row is full of green squares.
+    The algorithm evaluates each row to examine whether it contains only green squares or not.
+    The further the row containing only green squares is from the bottom of the image, the more confidence can be put
+    into the motion of the drone, as no obstacles are detected nearby. This means, for example, that the drone can speed
+    up and thus cover more distance in the limited time.
+
+    The rows are checked from the top to the bottom. If no red squares are detected in the row, the id of this row is
+    output and no further rows are considered. The reason for skipping the rest of the rows is that all the obstacles
+    in Cyberzoo are vertical, therefore, if an obstacle is not detected in a top row, it is not likely it will be
+    detected in a bottom row.
+
+    The ids are asssigned as follows:
+
+    Top row: 0
+    2nd row from top: 1
+    3rd row from top: 2
+    Bottom row: 3
+    """
+
+    if go_zone_state[-1:-first_row_len]:                            # Top row
         return 0
-    elif go_zone_state[-(first_row_len+1):-(2*first_row_len+2)]:
+    elif go_zone_state[-(first_row_len+1):-(2*first_row_len+2)]:    # 2nd row from top
         return 1
-    elif go_zone_state[-(2*first_row_len+3):-(2*first_row_len+4)]:
+    elif go_zone_state[-(2*first_row_len+3):-(2*first_row_len+4)]:  # 3rd row from top
         return 2
-    return 3
+    return 3                                                        # Bottom top
 
 
 def main():
@@ -234,7 +260,10 @@ def main():
     plt.figure()
     RGB = cv2.cvtColor(meshed_image[0], cv2.COLOR_BGR2RGB)
     plt.imshow(RGB)
-    plt.title('Original image')
+    plt.xlabel('Pixels in x-direction [-]')
+    plt.ylabel('Pixels in y-direction [-]')
+    plt.title('Filtered image')
+    plt.rcParams.update({'font.size': 32})
     plt.show()
 
 if __name__ == '__main__':

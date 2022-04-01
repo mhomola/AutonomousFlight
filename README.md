@@ -1,7 +1,7 @@
 
 # AutonomousFlight GROUP 11
 
-WE KINDA BROKE OUR GIT. SORRY ABOUT THAT. SOMEONE REWROTE THE GIT HISTORY OF OUR MAIN BRANCH TO INCLUDE THE PAPARAZZI MAIN. (THIS SHOULD HAVE ALL STAYED ON PAPAPRAZZI/MAIN)
+
 
 All our files are all under:
 >sw/airborne/modules:
@@ -11,7 +11,6 @@ All our files are all under:
 - course_CV
 
   - size_divergence.c
-  - 
   - opticflow_calculator.c
 
 - dynamic_window_navigation
@@ -22,6 +21,7 @@ All our files are all under:
 
 The obstacle avoidence analysis code can be found on the CV_dev branch
 
+WE KINDA BROKE OUR GIT. SORRY ABOUT THAT. SOMEONE REWROTE THE GIT HISTORY OF OUR MAIN BRANCH TO INCLUDE THE PAPARAZZI MAIN. (THIS SHOULD HAVE ALL STAYED ON PAPAPRAZZI/MAIN)
 
 # MAIN README
 

@@ -10,14 +10,15 @@ All our files are all under:
 
 - course_CV
 
-  -- size_divergence.c
-  -- opticflow_calculator.c
+  - size_divergence.c
+  - 
+  - opticflow_calculator.c
 
 - dynamic_window_navigation
 
 - computer_vision
 
-  -- floor_detecion.x
+  - floor_detecion.x
 
 The obstacle avoidence analysis code can be found on the CV_dev branch
 

@@ -14,6 +14,12 @@ modules:
 
 -dynamic_window_navigation
 
+-computer_vision
+
+--floor_detecion.x
+
+The obstacle avoidence analysis code can be found on the CV_dev branch
+
 =======
 # MAIN README
 

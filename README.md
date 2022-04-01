@@ -1,16 +1,17 @@
-<<<<<<< HEAD
-AutonomousFlight GROUP 11
+
+# AutonomousFlight GROUP 11
 
 WE KINDA BROKE OUR GIT. SORRY ABOUT THAT. SOMEONE REWROTE THE GIT HISTORY OF OUR MAIN BRANCH TO INCLUDE THE PAPARAZZI MAIN. (THIS SHOULD HAVE ALL STAYED ON PAPAPRAZZI/MAIN)
 
-The our files are all under:
-modules:
+All our files are all under:
+>sw/airborne/modules:
 
 -orange_avoider_group11
 
 -course_CV
 
 --size_divergence.c
+--opticflow_calculator.c
 
 -dynamic_window_navigation
 
@@ -20,11 +21,10 @@ modules:
 
 The obstacle avoidence analysis code can be found on the CV_dev branch
 
-=======
+
 # MAIN README
 
-Paparazzi UAS
-=============
+
 
 [![Build Status](https://travis-ci.org/paparazzi/paparazzi.png?branch=master)](https://travis-ci.org/paparazzi/paparazzi) [![Gitter chat](https://badges.gitter.im/paparazzi/discuss.svg)](https://gitter.im/paparazzi/discuss)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/811c4398588f435fa8bc926f53d40e9f)](https://app.codacy.com/app/gautierhattenberger/paparazzi?utm_source=github.com&utm_medium=referral&utm_content=paparazzi/paparazzi&utm_campaign=Badge_Grade_Dashboard)
@@ -98,4 +98,4 @@ Flight
 ------
 
 1.  From the Paparazzi Center, select the flight session and ... do the same as in simulation !
->>>>>>> f610d160cf8049a576d7de326ad0e12504d92d63
+

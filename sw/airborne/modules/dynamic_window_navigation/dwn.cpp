@@ -103,10 +103,13 @@ void update_dwn(float x, float y, float angle, float goal_x, float goal_y){
     auto [best_u, best_trajectory] = calc_control_and_trajectory(x_vector, dw_update, config, goal, ob_lst);
 }
 
+
+//get function used to get the best speed
 float get_speed(){
     return best_u(0);
 }
 
+//get function used to get the best yaw rate
 float get_yawrate(){
     return best_u(1);
 }
@@ -114,6 +117,7 @@ float get_yawrate(){
 
 void dwn_wrapper_init();
 
+//init function 
 void dwn_wrapper_init() {
     ob_lst <<   1.f, 1.f,
                 1.5f, 1.5f,
@@ -132,7 +136,7 @@ float gt_spd(){
 float gt_ywrt(){
     return DWN_wrapper.get_yawrate();
 }*/
-
+//This is an implementation of the linspace python linspace function hardcoded to have resolution number of points
 Eigen::Matrix<float, 1, RESOLUTION> linspace(float start, float stop) {
     Eigen::Matrix<float, 1, RESOLUTION> values;
     int i = 0;
@@ -142,6 +146,7 @@ Eigen::Matrix<float, 1, RESOLUTION> linspace(float start, float stop) {
     return values;
 }
 
+//This is an implementation of the arange function from python. It uses the dynamic memory from std::vector.
 template<typename T>
 std::vector<T> arange(T start, T stop, T step) {
     std::vector<T> values;
@@ -162,11 +167,11 @@ struct u_traj dwa_control(x_vect& x, const struct Config& config, const Eigen::V
 // initial state [x(m), y(m), yaw(rad), v(m/s), omega(rad/s)]
 //X0 x pos
 //X1 y pos
-//X2 flight path in rad from horizontal // maybe? look at motion
+//X2 flight path in rad from horizontal
 //X3/U0 velocity
 //X4/U1 angular rate
 x_vect motion(x_vect& x, const Eigen::Vector2f& u, const float dt) {
-
+    //integrate forward
     x(2) += u(1) * dt;
     x(0) += u(0) * cos(x(2)) * dt;
     x(1) += u(0) * sin(x(2)) * dt;
@@ -197,6 +202,8 @@ dw_vect calc_dynamic_window(x_vect& x,const struct Config& config){
 
 x_vect predict_trajectory(const x_vect& x_init, float v, float y, const struct Config& config){
 		// predict trajectory with an input
+        // This function takes a speed and yaw rate (v and y) and then passes them into the motion equation and performs a forward integration
+        // The function returns the final coordinates.
         x_vect      x;
 		x_vect      trajectory;
         trajectory  = x_init;
@@ -211,6 +218,8 @@ x_vect predict_trajectory(const x_vect& x_init, float v, float y, const struct C
 
 struct u_traj calc_control_and_trajectory(const x_vect& x, const Eigen::Vector4f& dw, const struct Config& config, const Eigen::Vector2f& goal, const obj_mat& ob) {
     //calculation final input with dynamic window
+    //This function calls predict trajecotry and then evaluates the the cost functions
+    //returns the best control inputs and then best final location from the search space
 
     x_vect  x_init          = x;
     double min_cost         = INFINITY;
@@ -256,15 +265,19 @@ struct u_traj calc_control_and_trajectory(const x_vect& x, const Eigen::Vector4f
 
 float calc_obstacle_cost(const x_vect& final_state,const obj_mat& ob, const struct Config& config) {
 		//calc obstacle cost inf: collision
+        //This function calculates the cost due to the the closest object
         obj_arr dx;
         obj_arr dy;
 
+        //find vectors to the objects
         for (int ob_num = 0; ob_num != MAXOBJECTS; ++ob_num){
             dx(ob_num) = ob(ob_num, 0) - final_state(0);
             dy(ob_num) = ob(ob_num, 1) - final_state(1);
         }     
+        //Use relative distance to create vector length
         obj_arr r = (dx.pow(2)+dy.pow(2)).sqrt();
 
+        //if you hit an object cost needs to be infinite as this is infeasible option.
         for (int ob_num = 0; ob_num != MAXOBJECTS; ++ob_num){
             if (r(ob_num) <= config.robot_radius){
                     return INFINITY;
@@ -281,13 +294,14 @@ float calc_obstacle_cost(const x_vect& final_state,const obj_mat& ob, const stru
         //Do some fancy vector math to closest point to any of the square walls
         //TODO add cost to going near wall
 
-
+        //If feasible return the largest 1/r and use that to determine the cost
 		float min_r = r.minCoeff();
 		return (1.0/min_r);		
 }
 
 float calc_to_goal_cost(const x_vect& final_state, const Eigen::Vector2f& goal){
     //calc to goal cost with angle difference
+    //This can be significantly improved with vector math
 
     float dx            = goal(0) - final_state(0);
     float dy            = goal(1) - final_state(1);
@@ -297,6 +311,7 @@ float calc_to_goal_cost(const x_vect& final_state, const Eigen::Vector2f& goal){
     return cost;
 }
 
+//This is an incomplete helper function to estimate the locations of objects based on the object detection code.
 Eigen::Vector2f obs_pos(float heading_angle, int floor_pixels, float psi)
 {
   (void)floor_pixels;

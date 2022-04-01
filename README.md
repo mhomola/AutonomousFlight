@@ -1,5 +1,15 @@
 <<<<<<< HEAD
-AutonomousFlight
+AutonomousFlight GROUP 11
+
+WE KINDA BROKE OUR GIT. SORRY ABOUT THAT. SOMEONE REWROTE THE GIT HISTORY OF OUR MAIN BRANCH TO INCLUDE THE PAPARAZZI MAIN. (THIS SHOULD HAVE ALL STAYED ON PAPAPRAZZI/MAIN)
+
+The our files are all under:
+modules:
+-orange_avoider_group11
+-course_CV
+--size_divergence.c
+-dynamic_window_navigation
+
 =======
 # MAIN README
 

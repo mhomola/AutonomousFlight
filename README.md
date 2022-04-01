@@ -5,9 +5,13 @@ WE KINDA BROKE OUR GIT. SORRY ABOUT THAT. SOMEONE REWROTE THE GIT HISTORY OF OUR
 
 The our files are all under:
 modules:
+
 -orange_avoider_group11
+
 -course_CV
+
 --size_divergence.c
+
 -dynamic_window_navigation
 
 =======

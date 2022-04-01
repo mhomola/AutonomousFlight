@@ -6,18 +6,18 @@ WE KINDA BROKE OUR GIT. SORRY ABOUT THAT. SOMEONE REWROTE THE GIT HISTORY OF OUR
 All our files are all under:
 >sw/airborne/modules:
 
--orange_avoider_group11
+- orange_avoider_group11
 
--course_CV
+- course_CV
 
---size_divergence.c
---opticflow_calculator.c
+  -- size_divergence.c
+  -- opticflow_calculator.c
 
--dynamic_window_navigation
+- dynamic_window_navigation
 
--computer_vision
+- computer_vision
 
---floor_detecion.x
+  -- floor_detecion.x
 
 The obstacle avoidence analysis code can be found on the CV_dev branch
 

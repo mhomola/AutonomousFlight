@@ -1,10 +1,10 @@
 
 # AutonomousFlight GROUP 11
+This remote was used for code development and testing throughout the entire project. Iti is based on the paparazzi/tudelft remote and it uses the exact same folder structure.
 
 
-
-All our files are all under:
->sw/airborne/modules:
+All our _C/Cpp_ files are all under:
+>sw/airborne/modules
 
 - orange_avoider_group11
 
@@ -19,9 +19,16 @@ All our files are all under:
 
   - floor_detecion.x
 
-The obstacle avoidence analysis code can be found on the CV_dev branch
+The *Python* code for *obstacle avoidence ROC analysis* and *optical flow sensitivity analysis* can be found on the CV_dev branch. They are kep separtae for better integration during hardware testing.
 
-WE KINDA BROKE OUR GIT. SORRY ABOUT THAT. SOMEONE REWROTE THE GIT HISTORY OF OUR MAIN BRANCH TO INCLUDE THE PAPARAZZI MAIN. (THIS SHOULD HAVE ALL STAYED ON PAPAPRAZZI/MAIN)
+
+**Heads-up!** To print more informative messages in the Paparazzi Ground station, one file in telemetry was adjsuted. That file is not automatically tracked byt git but it is tracked in our project. Hence, all our changes are up-to-date. If that still produces a compiler error, feel free to disable the message. 
+
+
+
+
+
+**DISCLAIMER** WE KINDA BROKE OUR GIT HISTORY. SORRY ABOUT THAT. SOMEONE REWROTE THE GIT HISTORY OF OUR MAIN BRANCH TO INCLUDE THE PAPARAZZI MAIN. (THIS SHOULD HAVE ALL STAYED ON PAPAPRAZZI/MAIN)
 
 # MAIN README
 

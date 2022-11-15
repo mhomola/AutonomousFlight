@@ -1,5 +1,5 @@
 
-# Autonomous vision-based Flight 
+# Autonomous Vision-based Flight 
 
 This remote was used for code development and testing throughout the entire project. Iti is based on the paparazzi/tudelft remote and it uses the exact same folder structure.
 

@@ -28,7 +28,7 @@ The *Python* code for *obstacle avoidence ROC analysis* and *optical flow sensit
 
 
 
-# MAIN README
+# Paparazzi README
 
 
 

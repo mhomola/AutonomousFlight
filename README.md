@@ -1,5 +1,6 @@
 
-# AutonomousFlight GROUP 11
+# Autonomous vision-based Flight 
+
 This remote was used for code development and testing throughout the entire project. Iti is based on the paparazzi/tudelft remote and it uses the exact same folder structure.
 
 
@@ -26,9 +27,6 @@ The *Python* code for *obstacle avoidence ROC analysis* and *optical flow sensit
 
 
 
-
-
-**DISCLAIMER** WE KINDA BROKE OUR GIT HISTORY. SORRY ABOUT THAT. SOMEONE REWROTE THE GIT HISTORY OF OUR MAIN BRANCH TO INCLUDE THE PAPARAZZI MAIN. (THIS SHOULD HAVE ALL STAYED ON PAPAPRAZZI/MAIN)
 
 # MAIN README
 
